@@ -13,7 +13,19 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      colors: {
+        "neutral-text": 'var(--neutralText)',
+        "neutral-bg": 'var(--neutralBg)',
+        "primary-text": 'var(--primaryText)',
+        "primary-bg": 'var(--primaryBg)',
+        "primary": 'var(--primary)',
+        "other-bg": 'var(--otherBg)',
+        "other-text": 'var(--otherText)'
+      }
     },
+    borderRadius: {
+      DEFAULT: '7px'
+    }
   },
   plugins: [],
 };
