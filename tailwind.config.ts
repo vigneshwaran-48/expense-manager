@@ -14,18 +14,16 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        "neutral-text": 'var(--neutralText)',
-        "neutral-bg": 'var(--neutralBg)',
-        "primary-text": 'var(--primaryText)',
-        "primary-bg": 'var(--primaryBg)',
-        "primary": 'var(--primary)',
-        "other-bg": 'var(--otherBg)',
-        "other-text": 'var(--otherText)'
+        "color-text": 'var(--text-color)',
+        "dark-bg": 'var(--background-color)',
+        "light-bg": 'var(--light-background-color)',
+        "other-bg": 'var(--other-background-color)',
+        "other-text": 'var(--other-text-color)'
       }
     },
     borderRadius: {
       DEFAULT: '7px'
-    }
+    },
   },
   plugins: [],
 };

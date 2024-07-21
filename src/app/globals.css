@@ -4,16 +4,22 @@
 
 @layer base {
   :root {
-    --color-light-background-primary: #e0f2fc;
     --color-light-background-dark: #3337a6;
     --color-light-background-light: #eef9ff;
 
-    --color-dark-background-primary: #e0f2fc;
-    --color-dark-background-dark: #3337a6;
-    --color-dark-background-light: #eef9ff;
+    --color-dark-background-dark: #000000;
+    --color-dark-background-light: #1B1B1B;
 
     --color-other-background: #59aac5;
     --color-other-text: white;
+
+    --sidebar-width: 200px;
+  }
+}
+
+@layer utilities {
+  .rounded-full {
+    border-radius: 50%;
   }
 }
 
@@ -24,11 +30,9 @@
 }
 
 .theme-green {
-  --color-light-background-primary: #e0f2fc;
   --color-light-background-dark: #3337a6;
   --color-light-background-light: #eef9ff;
 
-  --color-dark-background-primary: #e0f2fc;
   --color-dark-background-dark: #3337a6;
   --color-dark-background-light: #eef9ff;
 
@@ -37,11 +41,9 @@
 }
 
 .theme-red {
-  --color-light-background-primary: #e0f2fc;
   --color-light-background-dark: #3337a6;
   --color-light-background-light: #eef9ff;
 
-  --color-dark-background-primary: #e0f2fc;
   --color-dark-background-dark: #3337a6;
   --color-dark-background-light: #eef9ff;
 
@@ -50,11 +52,9 @@
 }
 
 .theme-blue {
-  --color-light-background-primary: #e0f2fc;
   --color-light-background-dark: #3337a6;
   --color-light-background-light: #eef9ff;
 
-  --color-dark-background-primary: #e0f2fc;
   --color-dark-background-dark: #3337a6;
   --color-dark-background-light: #eef9ff;
 
@@ -63,23 +63,19 @@
 }
 
 .mode-light {
-  --neutralBg: var(--color-light-background-light);
-  --neutralText: var(--color-light-background-dark);
-  --primaryBg: var(--color-light-background-primary);
-  --primaryText: var(--color-light-background-dark);
-  --primary: var(--color-light-background-dark);
-  --otherBg: var(--color-other-background);
-  --otherText: var(--color-other-text);
+  --text-color: black;
+  --background-color: var(--color-light-background-dark);
+  --light-background-color: var(--color-light-background-light);
+  --other-background-color: var(--color-other-background);
+  --other-text-color: var(--color-other-text);
 }
 
 .mode-dark {
-  --neutralBg: var(--color-dark-background-light);
-  --neutralText: var(--color-dark-background-dark);
-  --primaryBg: var(--color-dark-background-primary);
-  --primaryText: var(--color-dark-background-dark);
-  --primary: var(--color-dark-background-dark);
-  --otherBg: var(--color-other-background);
-  --otherText: var(--color-other-text);
+  --text-color: white;
+  --background-color: var(--color-dark-background-dark);
+  --light-background-color: var(--color-dark-background-light);
+  --other-background-color: var(--color-other-background);
+  --other-text-color: var(--color-other-text);
 }
 
 .hide-scrollbar::-webkit-scrollbar {
