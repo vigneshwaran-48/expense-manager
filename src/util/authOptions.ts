@@ -34,9 +34,6 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         async signIn({ user, account, profile }) {
 
-            console.log("Came into callback!");
-
-            console.log(profile)
             const id = profile?.sub;
 
             const userResponse = await fetch(`${getServerBase()}/api/user/${id}`, {

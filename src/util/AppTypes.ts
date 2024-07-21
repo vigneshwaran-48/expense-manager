@@ -11,6 +11,10 @@ export type User = {
     isLoggedIn?: boolean
 }
 
+export type AppState = {
+    isSideNavOpen: boolean
+}
+
 export type APIRoutes = {
     get: string,
     create: string,

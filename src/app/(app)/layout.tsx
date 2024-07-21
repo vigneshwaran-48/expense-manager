@@ -5,6 +5,8 @@ import { Poppins } from "next/font/google";
 import StoreProvider from "../providers/StoreProvider";
 import Sidebar from "./components/Sidebar";
 import UserProvider from "../providers/UserProvider";
+import HamburgerIcon from "../components/HamburgerIcon";
+import Body from "./components/Body";
 
 export const metadata: Metadata = {
   title: "Create Account",
@@ -39,13 +41,13 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
         />
         <link rel="manifest" href="/favicon_io/site.webmanifest" />
       </head>
-      <body className="w-full h-full flex mode-dark bg-dark-bg text-color-text p-2 justify-around sm:p-4">
+      <body className="w-full h-full flex mode-dark bg-dark-bg text-color-text p-2 justify-around sm:p-4 relative">
         <StoreProvider>
           <UserProvider>
             <Sidebar />
-            <main className="w-full h-full bg-light-bg rounded md:w-[calc(100%-var(--sidebar-width))]">
-              {children}
-            </main>
+            <Body>
+              { children }
+            </Body>
           </UserProvider>
         </StoreProvider>
       </body>
