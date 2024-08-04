@@ -81,3 +81,16 @@
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.button {
+  border: none;
+  padding: 7px;
+  border-radius: 7px;
+  font-size: 18px;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.button:active {
+  transform: scale(0.9);
+}

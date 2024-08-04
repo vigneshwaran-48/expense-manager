@@ -5,12 +5,11 @@ import { Poppins } from "next/font/google";
 import StoreProvider from "../providers/StoreProvider";
 import Sidebar from "./components/Sidebar";
 import UserProvider from "../providers/UserProvider";
-import HamburgerIcon from "../components/HamburgerIcon";
 import Body from "./components/Body";
 
 export const metadata: Metadata = {
-  title: "Create Account",
-  description: "Create account in CareLink",
+  title: "Expense Manager",
+  description: "Expense Manager home",
 };
 
 const poppins = Poppins({

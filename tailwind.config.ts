@@ -23,7 +23,7 @@ const config: Config = {
     },
     borderRadius: {
       DEFAULT: '7px'
-    },
+    }
   },
   plugins: [],
 };

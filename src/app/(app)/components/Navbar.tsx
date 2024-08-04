@@ -34,9 +34,9 @@ const Navbar = () => {
           <NavLink
             activeClassName={`bg-other-bg text-other-text hover:bg-other-bg`}
             className={`rounded transition-all duration-500 my-1 w-full p-2 inline-block hover:bg-dark-bg`}
-            href="/families"
+            href="/family"
           >
-            Families
+            Family
           </NavLink>
         </li>
         <li onClick={() => dispatch(setSideNav(false))}>
