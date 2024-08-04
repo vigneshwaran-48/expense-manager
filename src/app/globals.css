@@ -21,6 +21,18 @@
   .rounded-full {
     border-radius: 50%;
   }
+  .button {
+    border: none;
+    padding: 7px;
+    border-radius: 7px;
+    font-size: 18px;
+    transition: 0.5s;
+    cursor: pointer;
+  }
+  
+  .button:active {
+    transform: scale(0.9);
+  }
 }
 
 * {
@@ -82,15 +94,3 @@
   display: none;
 }
 
-.button {
-  border: none;
-  padding: 7px;
-  border-radius: 7px;
-  font-size: 18px;
-  transition: 0.5s;
-  cursor: pointer;
-}
-
-.button:active {
-  transform: scale(0.9);
-}
