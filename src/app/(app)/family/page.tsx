@@ -1,7 +1,7 @@
 import { getUserFamily } from "@/app/actions/family";
 import React from "react";
 import Dashboard from "./components/Dashboard";
-import JoinFamily from "./components/JoinFamily";
+import NoFamily from "./components/NoFamily";
 import Title from "../components/Title";
 
 export const generateMetadata = async () => {
@@ -28,7 +28,7 @@ const page = async () => {
   return (
     <div className="w-full h-full">
       <Title title={title} />
-      {hasFamily ? <Dashboard family={response.family} /> : <JoinFamily />}
+      {hasFamily ? <Dashboard family={response.family} /> : <NoFamily />}
     </div>
   );
 };

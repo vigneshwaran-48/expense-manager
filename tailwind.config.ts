@@ -19,6 +19,10 @@ const config: Config = {
         "light-bg": 'var(--light-background-color)',
         "other-bg": 'var(--other-background-color)',
         "other-text": 'var(--other-text-color)'
+      },
+      boxShadow: {
+        "custom-dark": "0 1px 2px rgba(0, 0, 0, 0.15)",
+        "custom-light": "0 1px 2px rgba(0, 0, 0, 0.08)",
       }
     },
     borderRadius: {
