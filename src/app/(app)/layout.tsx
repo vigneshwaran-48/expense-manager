@@ -2,10 +2,14 @@ import React from "react";
 import { Metadata } from "next";
 import "../globals.css";
 import { Poppins } from "next/font/google";
+import StoreProvider from "../providers/StoreProvider";
+import Sidebar from "./components/Sidebar";
+import UserProvider from "../providers/UserProvider";
+import Body from "./components/Body";
 
 export const metadata: Metadata = {
-  title: "Create Account",
-  description: "Create account in CareLink",
+  title: "Expense Manager",
+  description: "Expense Manager home",
 };
 
 const poppins = Poppins({
@@ -14,7 +18,6 @@ const poppins = Poppins({
 });
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
-
   return (
     <html lang="en" className={`w-full h-full ${poppins.className}`}>
       <head>
@@ -37,8 +40,15 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
         />
         <link rel="manifest" href="/favicon_io/site.webmanifest" />
       </head>
-      <body className="w-full h-full mode-light bg-neutral-bg">
-        { children }
+      <body className="w-full h-full flex mode-dark bg-dark-bg text-color-text p-2 justify-around sm:p-4 relative">
+        <StoreProvider>
+          <UserProvider>
+            <Sidebar />
+            <Body>
+              { children }
+            </Body>
+          </UserProvider>
+        </StoreProvider>
       </body>
     </html>
   );

@@ -12,10 +12,10 @@ export const authOptions: NextAuthOptions = {
             name: "VappsAuthorization",
             type: "oauth",
             version: "2.0",
-            authorization: { params: { scope: "openid ExpenseManager.User.ALL" } },
+            authorization: { params: { scope: process.env.VAPPS_SCOPES } },
             idToken: true,
             checks: ["state"],
-            wellKnown: "http://auth-server:9000/.well-known/oauth-authorization-server",
+            wellKnown: `${process.env.VAPPS_AUTHORIZATION_SERVER}/.well-known/oauth-authorization-server`,
             profile(profile, tokens) {
             return {
                     id: profile.sub,
@@ -34,13 +34,11 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         async signIn({ user, account, profile }) {
 
-            console.log("Came into callback!");
-
             const id = profile?.sub;
 
             const userResponse = await fetch(`${getServerBase()}/api/user/${id}`, {
                 headers: {
-                    "Authorization": `Bearer ${account?.id_token}`
+                    "Authorization": `Bearer ${account?.access_token}`
                 }
             });
             if (userResponse.ok) {
@@ -63,8 +61,6 @@ export const authOptions: NextAuthOptions = {
                 age: -1
             }
 
-            console.log(account?.access_token)
-
             const response = await fetch(`${getServerBase()}/api/user`, {
                 method: "POST",
                 headers: {
@@ -84,7 +80,7 @@ export const authOptions: NextAuthOptions = {
         },
         async jwt({ token, account }) {
             if (account) {
-                token.access_token = account.id_token;
+                token.access_token = account.access_token;
             }
             return token;
         },
