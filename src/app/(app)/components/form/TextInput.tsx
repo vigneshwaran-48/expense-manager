@@ -8,7 +8,9 @@ interface Props {
   id: string;
   className?: string;
   placeholder?: string;
-  inputClassName?: string
+  inputClassName?: string;
+  error?: boolean;
+  errorMessage?: string;
 }
 
 const TextInput = ({
@@ -19,10 +21,15 @@ const TextInput = ({
   onChange,
   className = "",
   placeholder = "Enter a Text",
-  inputClassName = ""
+  inputClassName = "",
+  error = false,
+  errorMessage = "Invalid Input",
 }: Props) => {
   return (
-    <label htmlFor={id} className={`flex flex-col w-fit rounded m-2 ${className}`}>
+    <label
+      htmlFor={id}
+      className={`flex flex-col w-fit rounded m-2 ${className}`}
+    >
       <p>{displayName}</p>
       <input
         id={id}
@@ -32,6 +39,13 @@ const TextInput = ({
         placeholder={placeholder}
         className={`w-full border-b border-gray-400 outline-none p-2 text-[18px] my-2 ${inputClassName}`}
       />
+      {error ? (
+        <span className="text-right text-red-500 text-[14px]">
+          {errorMessage}
+        </span>
+      ) : (
+        <span className="text-[14px] text-transparent">placeholder</span>
+      )}
     </label>
   );
 };

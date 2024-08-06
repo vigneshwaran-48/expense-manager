@@ -1,7 +1,9 @@
 "use server";
 
+import { Family } from "@/util/AppTypes";
 import { sendRequest } from "@/util/RequestUtil";
 import { getFamilyRoutes } from "@/util/ResourceServer";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export const getUserFamily = async () => {
@@ -39,4 +41,23 @@ export const searchFamily = async (query: string, page: number) => {
     redirect("/auth/signin");
   }
   return data.result;
+};
+
+export const createFamily = async (family: Family) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: routes.create,
+    method: "POST",
+    includeBody: true,
+    body: JSON.stringify(family),
+    contentType: "application/json",
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath("/families/search");
+  return data;
 };

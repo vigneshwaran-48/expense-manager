@@ -18,7 +18,7 @@ const page = async () => {
   }
 
   return (
-    <div>
+    <div className="w-full h-full">
         <Title title="Create Family" />
         <FamilyForm />
     </div>

@@ -9,6 +9,8 @@ interface Props {
   className?: string;
   placeholder?: string;
   inputClassName?: string;
+  error?: boolean;
+  errorMessage?: string;
 }
 
 const TextAreaInput = ({
@@ -20,6 +22,8 @@ const TextAreaInput = ({
   className = "",
   placeholder = "Enter a Text",
   inputClassName = "",
+  error = false,
+  errorMessage = "Invalid Input",
 }: Props) => {
   return (
     <label
@@ -33,8 +37,15 @@ const TextAreaInput = ({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className={`w-full border-b border-gray-400 outline-none p-2 text-[18px] my-2 hide-scrollbar ${inputClassName}`}
+        className={`w-full border-b min-h-[100px] border-gray-400 outline-none p-2 text-[18px] my-2 hide-scrollbar ${inputClassName}`}
       />
+      {error ? (
+        <span className="text-right text-red-500 text-[14px]">
+          {errorMessage}
+        </span>
+      ) : (
+        <span className="text-[14px] text-transparent">placeholder</span>
+      )}
     </label>
   );
 };

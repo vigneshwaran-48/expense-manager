@@ -1,6 +1,6 @@
 "use client";
 
-import SearchIcon from "@/app/components/SearchIcon";
+import SearchIcon from "@/app/components/icon/SearchIcon";
 import React from "react";
 
 interface Props {
