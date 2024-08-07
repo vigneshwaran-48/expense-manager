@@ -4,7 +4,7 @@ export type Family = {
     name: string,
     description?: string,
     visibility: "PUBLIC" | "PRIVATE",
-    createdBy: User,
+    createdBy?: User,
     createdTime?: string,
     image: string,
     joinType: "ANYONE" | "INVITE_ONLY"

@@ -6,6 +6,7 @@ import StoreProvider from "../providers/StoreProvider";
 import Sidebar from "./components/Sidebar";
 import UserProvider from "../providers/UserProvider";
 import Body from "./components/Body";
+import ToastContainer from "./components/toast/ToastContainer";
 
 export const metadata: Metadata = {
   title: "Expense Manager",
@@ -44,6 +45,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
         <StoreProvider>
           <UserProvider>
             <Sidebar />
+            <ToastContainer />
             <Body>
               { children }
             </Body>

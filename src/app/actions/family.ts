@@ -59,5 +59,6 @@ export const createFamily = async (family: Family) => {
     redirect("/auth/signin");
   }
   revalidatePath("/families/search");
+  revalidatePath("/family");
   return data;
 };
