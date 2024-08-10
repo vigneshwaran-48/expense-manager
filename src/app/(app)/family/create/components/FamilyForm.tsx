@@ -6,10 +6,12 @@ import RadioGroup from "@/app/(app)/components/form/RadioGroup";
 import TextAreaInput from "@/app/(app)/components/form/TextAreaInput";
 import TextInput from "@/app/(app)/components/form/TextInput";
 import { createFamily } from "@/app/actions/family";
+import { uploadImage } from "@/app/actions/static";
 import { addToast, ToastType } from "@/lib/features/toast/toastSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import { Family } from "@/util/AppTypes";
 import { getUniqueId } from "@/util/getUniqueId";
+import { getStaticResourceRoutes } from "@/util/ResourceServer";
 import { redirect } from "next/navigation";
 import React, { useState } from "react";
 
@@ -29,6 +31,8 @@ const FamilyForm = () => {
   });
 
   const [errors, setErrors] = useState<ErrorField[]>([]);
+
+  const [uploadingImage, setUploadingImage] = useState<boolean>(false);
 
   const visibilityOptions: RadioButtonModel[] = [
     {
@@ -74,6 +78,31 @@ const FamilyForm = () => {
     setFamily((prevFamily) => ({ ...prevFamily, [name]: value }));
   };
 
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
+    const form = new FormData();
+    form.append("resource", e.target.files[0]);
+    setUploadingImage(true);
+    const resourceResponse = await uploadImage(form);
+    console.log(resourceResponse);
+    if (resourceResponse.status !== 200 && resourceResponse.status !== 201) {
+      dispatch(
+        addToast({
+          id: getUniqueId(),
+          type: ToastType.ERROR,
+          message: resourceResponse.error,
+        })
+      );
+      return;
+    }
+    const image = getStaticResourceRoutes().getOne(resourceResponse.resourceId);
+    console.log(image);
+    setFamily((prevFamily) => ({ ...prevFamily, image }));
+    setUploadingImage(false);
+  };
+
   const handleSubmit = async () => {
     const response = await createFamily(family);
     console.log(response);
@@ -107,9 +136,10 @@ const FamilyForm = () => {
       <ImageInput
         id="family-image-id"
         name="image"
-        value="/images/family-profile.png"
+        value={family.image || "/images/family-profile.png"}
         displayName="Family Image"
-        onChange={(e) => {}}
+        onChange={handleImageChange}
+        loading={uploadingImage}
         className="my-6"
       />
       <TextInput

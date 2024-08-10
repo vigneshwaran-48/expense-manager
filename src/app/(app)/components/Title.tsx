@@ -2,10 +2,13 @@
 
 import { setTitle } from "@/lib/features/app/appSlice";
 import { useAppDispatch } from "@/lib/hooks";
+import { useEffect } from "react";
 
 const Title = ({ title }: { title: string }) => {
   const dispatch = useAppDispatch();
-  dispatch(setTitle(title));
+  useEffect(() => {
+    dispatch(setTitle(title));
+  }, []);
   return <></>;
 };
 
