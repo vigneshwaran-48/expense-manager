@@ -27,6 +27,20 @@ export const getFamilyRoutes = () => {
     update: (id: string) => `${serverBase}/api/family/${id}`,
     delete: (id: string | number) => `${serverBase}/api/family/${id}`,
   };
-  
+
+  return routes;
+};
+
+export const getStaticResourceRoutes = () => {
+  const serverBase = getServerBase();
+
+  const routes: APIRoutes = {
+    get: `${serverBase}/api/static`,
+    getOne: (id: string | number) => `${serverBase}/api/static/${id}`,
+    create: `${serverBase}/api/static`,
+    update: (id: string) => `${serverBase}/api/static/${id}`,
+    delete: (id: string | number) => `${serverBase}/api/static/${id}`,
+  };
+
   return routes;
 };

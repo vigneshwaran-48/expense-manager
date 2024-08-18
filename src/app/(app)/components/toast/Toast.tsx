@@ -1,3 +1,5 @@
+"use client";
+
 import ErrorIcon from "@/app/components/icon/ErrorIcon";
 import TickIcon from "@/app/components/icon/TickIcon";
 import WarningIcon from "@/app/components/icon/WarningIcon";

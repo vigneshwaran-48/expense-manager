@@ -14,13 +14,13 @@ const page = async () => {
   const response = await getUserFamily();
 
   if (response.status === 200) {
-    redirect(`/family/${response.family.id}`);
+    redirect(`/family`);
   }
 
   return (
     <div className="w-full h-full">
-        <Title title="Create Family" />
-        <FamilyForm />
+      <Title title="Create Family" />
+      <FamilyForm />
     </div>
   );
 };

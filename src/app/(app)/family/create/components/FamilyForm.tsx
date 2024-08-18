@@ -6,10 +6,13 @@ import RadioGroup from "@/app/(app)/components/form/RadioGroup";
 import TextAreaInput from "@/app/(app)/components/form/TextAreaInput";
 import TextInput from "@/app/(app)/components/form/TextInput";
 import { createFamily } from "@/app/actions/family";
+import { uploadImage } from "@/app/actions/static";
 import { addToast, ToastType } from "@/lib/features/toast/toastSlice";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppDispatch } from "@/lib/hooks";
 import { Family } from "@/util/AppTypes";
 import { getUniqueId } from "@/util/getUniqueId";
+import { getStaticResourceRoutes } from "@/util/ResourceServer";
+import { redirect } from "next/navigation";
 import React, { useState } from "react";
 
 interface ErrorField {
@@ -18,19 +21,18 @@ interface ErrorField {
 }
 
 const FamilyForm = () => {
-  const user = useAppSelector((state) => state.userSlice);
-
   const dispatch = useAppDispatch();
 
   const [family, setFamily] = useState<Family>({
     name: "",
-    createdBy: user,
     image: "",
     visibility: "PUBLIC",
     joinType: "ANYONE",
   });
 
   const [errors, setErrors] = useState<ErrorField[]>([]);
+
+  const [uploadingImage, setUploadingImage] = useState<boolean>(false);
 
   const visibilityOptions: RadioButtonModel[] = [
     {
@@ -76,9 +78,34 @@ const FamilyForm = () => {
     setFamily((prevFamily) => ({ ...prevFamily, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
+    const form = new FormData();
+    form.append("resource", e.target.files[0]);
+    setUploadingImage(true);
+    const resourceResponse = await uploadImage(form);
+    console.log(resourceResponse);
+    if (resourceResponse.status !== 200 && resourceResponse.status !== 201) {
+      dispatch(
+        addToast({
+          id: getUniqueId(),
+          type: ToastType.ERROR,
+          message: resourceResponse.error,
+        })
+      );
+      return;
+    }
+    const image = getStaticResourceRoutes().getOne(resourceResponse.resourceId);
+    console.log(image);
+    setFamily((prevFamily) => ({ ...prevFamily, image }));
+    setUploadingImage(false);
+  };
+
+  const handleSubmit = async () => {
     const response = await createFamily(family);
+    console.log(response);
     if (response.status === 200) {
       dispatch(
         addToast({
@@ -95,7 +122,9 @@ const FamilyForm = () => {
           message: response.error,
         })
       );
+      return;
     }
+    redirect("/family");
   };
 
   const getError = (field: string) => {
@@ -103,16 +132,14 @@ const FamilyForm = () => {
   };
 
   return (
-    <form
-      className="md:pl-8 max-w-[400px] w-full h-full overflow-y-scroll hide-scrollbar"
-      onSubmit={handleSubmit}
-    >
+    <div className="md:pl-8 max-w-[400px] w-full h-full overflow-y-scroll hide-scrollbar">
       <ImageInput
         id="family-image-id"
         name="image"
-        value="/images/family-profile.png"
+        value={family.image || "/images/family-profile.png"}
         displayName="Family Image"
-        onChange={(e) => {}}
+        onChange={handleImageChange}
+        loading={uploadingImage}
         className="my-6"
       />
       <TextInput
@@ -152,9 +179,15 @@ const FamilyForm = () => {
         className="my-6"
       />
       <div className="w-full text-right">
-        <button className="button bg-other-bg text-other-text">Create</button>
+        <button
+          className="button bg-other-bg text-other-text"
+          type="button"
+          onClick={handleSubmit}
+        >
+          Create
+        </button>
       </div>
-    </form>
+    </div>
   );
 };
 
