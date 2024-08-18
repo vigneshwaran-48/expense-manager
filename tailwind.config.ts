@@ -14,20 +14,21 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        "color-text": 'var(--text-color)',
-        "dark-bg": 'var(--background-color)',
-        "light-bg": 'var(--light-background-color)',
-        "other-bg": 'var(--other-background-color)',
-        "other-text": 'var(--other-text-color)'
+        "color-text": "var(--dark-text-color)",
+        "light-color-text": "var(--light-text-color)",
+        "dark-bg": "var(--background-color)",
+        "light-bg": "var(--light-background-color)",
+        "other-bg": "var(--other-background-color)",
+        "other-text": "var(--other-text-color)",
       },
       boxShadow: {
         "custom-dark": "0 1px 2px rgba(0, 0, 0, 0.15)",
         "custom-light": "0 1px 2px rgba(0, 0, 0, 0.08)",
-      }
+      },
     },
     borderRadius: {
-      DEFAULT: '7px'
-    }
+      DEFAULT: "7px",
+    },
   },
   plugins: [],
 };

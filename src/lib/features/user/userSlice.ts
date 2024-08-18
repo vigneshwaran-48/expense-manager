@@ -3,10 +3,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 const initialState: User = {
     id: "user-001",
-    name: "Alice",
-    firstName: "Alice",
-    lastName: "A",
-    email: "alice@gmail.com",
+    name: "User",
+    firstName: "User",
+    lastName: "U",
+    email: "user@gmail.com",
     image: "",
     age: 18,
     showLoginPopup: false
