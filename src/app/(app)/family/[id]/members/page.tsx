@@ -1,5 +1,6 @@
 import { getFamilyMembers } from "@/app/actions/family";
 import React from "react";
+import Member from "./components/Member";
 
 interface Props {
   params: { id: string };
@@ -10,19 +11,24 @@ const page = async ({ params: { id } }: Props) => {
 
   console.log(members);
 
+  const memberElems = members.map((member) => (
+    <Member member={member} key={member.id} />
+  ));
+
   return (
-    <div className="w-full h-full py-4 px-2 flex justify-center">
-      <div className="bg-dark-bg text-light-color-text flex justify-between w-full h-full rounded p-2 max-w-[1130px] overflow-x-scroll hide-scrollbar">
-        <p className="flex-grow px-2 min-w-[140px] max-w-[250px] md:min-w-[200px] flex-shrink-0">
-          Name
-        </p>
-        <p className="px-2 min-w-[70px] md:min-w-[200px] flex-shrink-0">
-          Date Joined
-        </p>
-        <p className="px-2 min-w-[70px] md:min-w-[200px] flex-shrink-0">
-          Last Active
-        </p>
-        <p className="px-2 min-w-[70px] md:min-w-[200px] flex-shrink-0">Role</p>
+    <div className="w-full h-full py-4 sm:px-2 flex justify-center">
+      <div className="bg-dark-bg text-light-color-text w-full h-full rounded p-2 overflow-x-scroll hide-scrollbar">
+        <table className="border-collapse w-full">
+          <thead>
+            <tr className="text-left">
+              <th className="w-[250px] lg:w-[300px]">Name</th>
+              <th className="hidden lg:table-cell">Date Joined</th>
+              <th className="hidden sm:table-cell">Last Accessed</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>{memberElems}</tbody>
+        </table>
       </div>
     </div>
   );

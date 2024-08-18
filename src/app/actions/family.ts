@@ -79,3 +79,20 @@ export const getFamilyMembers = async (id: string) => {
   }
   return data.members as FamilyMember[];
 };
+
+export const getFamilyById = async (id: string) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(id)}`,
+    method: "GET",
+    includeBody: false,
+    checkAuthentication: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  return data.family as Family;
+};
