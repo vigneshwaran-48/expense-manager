@@ -1,8 +1,8 @@
 import { getUserFamily } from "@/app/actions/family";
 import React from "react";
-import Dashboard from "./components/Dashboard";
 import NoFamily from "./components/NoFamily";
 import Title from "../components/Title";
+import { redirect } from "next/navigation";
 
 export const generateMetadata = async () => {
   const response = await getUserFamily();
@@ -27,10 +27,14 @@ const page = async () => {
 
   console.log(`Title => ${title}`);
 
+  if (hasFamily) {
+    redirect(`/family/${response.family.id}`);
+  }
+
   return (
     <div className="w-full h-full">
       <Title title={title} />
-      {hasFamily ? <Dashboard family={response.family} /> : <NoFamily />}
+      <NoFamily />
     </div>
   );
 };

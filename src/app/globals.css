@@ -7,8 +7,14 @@
     --color-light-background-dark: #3337a6;
     --color-light-background-light: #eef9ff;
 
+    --color-light-light-text: black;
+    --color-dark-light-text: white;
+
     --color-dark-background-dark: #000000;
     --color-dark-background-light: #1B1B1B;
+
+    --color-light-dark-text: #888888;
+    --color-dark-dark-text: white;
 
     --color-other-background: #59aac5;
     --color-other-text: white;
@@ -75,7 +81,8 @@
 }
 
 .mode-light {
-  --text-color: black;
+  --light-text-color: var(--color-light-light-text);
+  --dark-text-color: var(--color-light-dark-text);
   --background-color: var(--color-light-background-dark);
   --light-background-color: var(--color-light-background-light);
   --other-background-color: var(--color-other-background);
@@ -83,7 +90,8 @@
 }
 
 .mode-dark {
-  --text-color: white;
+  --light-text-color: var(--color-light-dark-text);
+  --dark-text-color: var(--color-dark-dark-text);
   --background-color: var(--color-dark-background-dark);
   --light-background-color: var(--color-dark-background-light);
   --other-background-color: var(--color-other-background);

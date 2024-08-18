@@ -1,6 +1,6 @@
 "use server";
 
-import { Family } from "@/util/AppTypes";
+import { Family, FamilyMember } from "@/util/AppTypes";
 import { sendRequest } from "@/util/RequestUtil";
 import { getFamilyRoutes } from "@/util/ResourceServer";
 import { revalidatePath } from "next/cache";
@@ -61,4 +61,21 @@ export const createFamily = async (family: Family) => {
   revalidatePath("/families/search");
   revalidatePath("/family");
   return data;
+};
+
+export const getFamilyMembers = async (id: string) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(id)}/member`,
+    method: "GET",
+    includeBody: false,
+    checkAuthentication: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  return data.members as FamilyMember[];
 };
