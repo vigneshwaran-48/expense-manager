@@ -1,4 +1,3 @@
-import Dropdown from "@/app/(app)/components/form/Dropdown";
 import TrashIcon from "@/app/components/icon/TrashIcon";
 import { FamilyMember } from "@/util/AppTypes";
 import Image from "next/image";
@@ -12,10 +11,10 @@ const Member = ({ member }: { member: FamilyMember }) => {
         <div className="flex items-center">
           <Image
             src={member.member.image || "/person.jpg"}
-            width={35}
-            height={35}
+            width={30}
+            height={30}
             alt={`${member.member.name}'s image`}
-            className="rounded-full w-[35px] h-[35px] mr-2"
+            className="rounded-full sm:w-[35px] sm:h-[35px] mr-2"
           />
           <div className="flex flex-col">
             <h4 className="text-[14px] sm:text-[16px] font-medium text-color-text">
@@ -28,7 +27,11 @@ const Member = ({ member }: { member: FamilyMember }) => {
       <td className="hidden lg:table-cell py-2">May 02, 2024</td>
       <td className="hidden sm:table-cell py-2">Aug 11, 2024</td>
       <td>
-        <RoleDropdown role={member.role} />
+        <RoleDropdown
+          role={member.role}
+          memberId={member.member.id}
+          familyId={member.family.id as string}
+        />
       </td>
       <td className="px-2 py-2">
         <TrashIcon className="text-red-500" />

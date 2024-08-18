@@ -1,12 +1,25 @@
 "use client";
 
 import Dropdown from "@/app/(app)/components/form/Dropdown";
+import { changeMemberRole } from "@/app/actions/family";
+import { addToast, ToastType } from "@/lib/features/toast/toastSlice";
+import { useAppDispatch } from "@/lib/hooks";
 import { Role } from "@/util/AppTypes";
+import { getUniqueId } from "@/util/getUniqueId";
 import React, { useEffect, useState } from "react";
 
-const RoleDropdown = ({ role }: { role: Role }) => {
+const RoleDropdown = ({
+  role,
+  familyId,
+  memberId,
+}: {
+  role: Role;
+  familyId: string;
+  memberId: string;
+}) => {
   const [currentRole, setCurrentRole] = useState<Role>(role);
   const [pending, setPending] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setCurrentRole(role);
@@ -30,11 +43,18 @@ const RoleDropdown = ({ role }: { role: Role }) => {
     },
   ];
 
-  const handleRoleChange = (role: Role) => {
+  const handleRoleChange = async (role: Role) => {
     setCurrentRole(role);
     setPending(true);
-    // Update user role
-    
+    await changeMemberRole(familyId, memberId, currentRole);
+    dispatch(
+      addToast({
+        id: getUniqueId(),
+        type: ToastType.SUCCESS,
+        message: "Changed member role!",
+      })
+    );
+    setPending(false);
   };
 
   return (
