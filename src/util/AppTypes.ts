@@ -21,11 +21,11 @@ export type Family = {
 export type User = {
   id: string;
   name: string;
-  firstName: string;
-  lastName: string;
-  age: number;
+  firstName?: string;
+  lastName?: string;
+  age?: number;
   email: string;
-  image: string;
+  image?: string;
   showLoginPopup?: boolean;
   isLoggedIn?: boolean;
 };

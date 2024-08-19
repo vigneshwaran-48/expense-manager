@@ -114,3 +114,19 @@ export const changeMemberRole = async (
   revalidatePath(`/family/${familyId}/members`);
   return data;
 };
+
+export const getMemberOfFamily = async (familyId: string, memberId: string) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(familyId)}/member/${memberId}`,
+    method: "GET",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  return data.member as FamilyMember;
+};
