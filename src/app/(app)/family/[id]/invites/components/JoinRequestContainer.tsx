@@ -1,6 +1,7 @@
 import { JoinRequest } from "@/util/AppTypes";
 import Image from "next/image";
 import React from "react";
+import AcceptRequestButton from "./AcceptRequestButton";
 
 const JoinRequestContainer = ({ requests }: { requests: JoinRequest[] }) => {
   const requestElems = requests.map((request) => {
@@ -30,39 +31,45 @@ const JoinRequestContainer = ({ requests }: { requests: JoinRequest[] }) => {
           {`${requestTime.getDate()}/${requestTime.getMonth()}/${requestTime.getFullYear()}`}
         </td>
         <td className="p-2">
-          <button className="px-2 py-1 rounded bg-other-bg text-other-text">Accept</button>
+          <AcceptRequestButton
+            familyId={request.family.id as string}
+            requestId={request.id}
+          />
         </td>
         <td className="p-2">
-          <button className="px-2 py-1 rounded bg-red-500 text-white">Reject</button>
+          <button className="px-2 py-1 rounded bg-red-500 text-white">
+            Reject
+          </button>
         </td>
       </tr>
     );
   });
 
   return (
-    <div className="flex flex-col w-full p-2 h-1/2">
+    <div className="flex flex-col w-full p-2 h-1/2 max-w-[1200px] m-auto">
       <h1 className="text-xl font-bold py-2">Join Requests</h1>
-      <div className="flex w-full h-[calc(100%-30px)] items-center">
-        <p className="w-[200px] p-2 hidden lg:block">
-          View the join requests people made to your family. Accept or Reject it
-        </p>
-        <div className="h-full overflow-y-scroll hide-scrollbar flex items-center">
-          <table className="border-collapse bg-dark-bg text-light-color-text">
+      <div className="flex w-full h-[calc(100%-30px)] items-center justify-between">
+        <div className="h-full items-start">
+          <p className="mt-7 w-[200px] p-2 hidden lg:block">
+            View the join requests people made to your family. Accept or Reject
+            it
+          </p>
+        </div>
+        <div className="h-full overflow-y-scroll hide-scrollbar flex ">
+          <table className="border-collapse bg-dark-bg text-light-color-text h-fit">
             <thead className="sticky top-0 bg-dark-bg">
               <tr className="text-left sticky top-0">
-                <th className="w-[250px] lg:w-[300px] p-2 sticky top-0">Name</th>
-                <th className="p-2 sticky top-0 hidden sm:table-cell">Requested Time</th>
+                <th className="w-[250px] lg:w-[300px] p-2 sticky top-0">
+                  Name
+                </th>
+                <th className="p-2 sticky top-0 hidden sm:table-cell">
+                  Requested Time
+                </th>
                 <th className="p-2 sticky top-0">Accept</th>
                 <th className="p-2 sticky top-0">Reject</th>
               </tr>
             </thead>
-            <tbody>
-              {requestElems}
-              {requestElems}
-              {requestElems}
-              {requestElems}
-              {requestElems}
-            </tbody>
+            <tbody>{requestElems}</tbody>
           </table>
         </div>
       </div>

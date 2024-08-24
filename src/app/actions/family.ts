@@ -163,3 +163,43 @@ export const requestForJoining = async (familyId: string) => {
   revalidatePath("/family/search");
   return data;
 };
+
+export const acceptJoinRequest = async (
+  familyId: string,
+  requestId: string
+) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(familyId)}/request/${requestId}/accept`,
+    method: "POST",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath(`/family/${familyId}/invites`);
+  return data;
+};
+
+export const rejectJoinRequest = async (
+  familyId: string,
+  requestId: string
+) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(familyId)}/request/${requestId}/reject`,
+    method: "POST",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath(`/family/${familyId}/invites`);
+  return data;
+};

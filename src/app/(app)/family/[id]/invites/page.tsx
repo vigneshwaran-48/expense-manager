@@ -9,8 +9,6 @@ interface Props {
 const page = async ({ params: { id } }: Props) => {
   const joinRequests = await getFamilyJoinRequests(id);
 
-  console.log(joinRequests);
-
   return (
     <div className="w-full h-full">
       <JoinRequestContainer requests={joinRequests} />
