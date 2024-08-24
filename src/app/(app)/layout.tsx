@@ -10,7 +10,7 @@ import ToastContainer from "./components/toast/ToastContainer";
 
 export const metadata: Metadata = {
   title: "Expense Manager",
-  description: "Expense Manager home",
+  description: "Expense Manager home",                       
 };
 
 const poppins = Poppins({

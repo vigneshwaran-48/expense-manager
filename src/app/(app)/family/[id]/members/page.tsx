@@ -9,8 +9,6 @@ interface Props {
 const page = async ({ params: { id } }: Props) => {
   const members = await getFamilyMembers(id);
 
-  console.log(members);
-
   const memberElems = members.map((member) => (
     <Member member={member} key={member.id} />
   ));

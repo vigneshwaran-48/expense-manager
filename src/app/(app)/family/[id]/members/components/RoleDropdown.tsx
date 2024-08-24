@@ -46,14 +46,27 @@ const RoleDropdown = ({
   const handleRoleChange = async (role: Role) => {
     setCurrentRole(role);
     setPending(true);
-    await changeMemberRole(familyId, memberId, currentRole);
-    dispatch(
-      addToast({
-        id: getUniqueId(),
-        type: ToastType.SUCCESS,
-        message: "Changed member role!",
-      })
-    );
+    const data = await changeMemberRole(familyId, memberId, role);
+    console.log(data);
+    if (data.status === 200) {
+      dispatch(
+        addToast({
+          id: getUniqueId(),
+          type: ToastType.SUCCESS,
+          message: "Changed member role!",
+        })
+      );
+    } else {
+      dispatch(
+        addToast({
+          id: getUniqueId(),
+          type: ToastType.ERROR,
+          message: data.error,
+        })
+      );
+      // The currentRole value would be the previous value at this stage. It won't be updated to the new role.
+      setCurrentRole(currentRole);
+    }
     setPending(false);
   };
 

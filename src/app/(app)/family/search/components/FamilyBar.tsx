@@ -1,8 +1,9 @@
-import { Family } from "@/util/AppTypes";
+import { Family, FamilySearch } from "@/util/AppTypes";
 import Image from "next/image";
 import React from "react";
+import JoinButton from "./JoinButton";
 
-const FamilyBar = ({ family }: { family: Family }) => {
+const FamilyBar = ({ family }: { family: FamilySearch }) => {
   return (
     <div className="w-full flex justify-between items-center p-4 mb-4 hover:bg-dark-bg rounded transition duration-500">
       <Image
@@ -16,7 +17,7 @@ const FamilyBar = ({ family }: { family: Family }) => {
         <h3 className="text-xl font-bold">{family.name}</h3>
         <p>{family.description}</p>
       </div>
-      <button className="button bg-other-bg text-other-text text-[16px] h-fit">Join</button>
+      <JoinButton id={family.id as string} isRequestExists={family.joinRequestExists} />
     </div>
   );
 };

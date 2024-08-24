@@ -1,6 +1,6 @@
 "use server";
 
-import { Family, FamilyMember } from "@/util/AppTypes";
+import { Family, FamilyMember, JoinRequest } from "@/util/AppTypes";
 import { sendRequest } from "@/util/RequestUtil";
 import { getFamilyRoutes } from "@/util/ResourceServer";
 import { revalidatePath } from "next/cache";
@@ -112,5 +112,94 @@ export const changeMemberRole = async (
   }
   revalidatePath(`/family/${familyId}`);
   revalidatePath(`/family/${familyId}/members`);
+  return data;
+};
+
+export const getMemberOfFamily = async (familyId: string, memberId: string) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(familyId)}/member/${memberId}`,
+    method: "GET",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  return data.member as FamilyMember;
+};
+
+export const getFamilyJoinRequests = async (familyId: string) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(familyId)}/request`,
+    method: "GET",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  return data.requests as JoinRequest[];
+};
+
+export const requestForJoining = async (familyId: string) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(familyId)}/request`,
+    method: "POST",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath("/family/search");
+  return data;
+};
+
+export const acceptJoinRequest = async (
+  familyId: string,
+  requestId: string
+) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(familyId)}/request/${requestId}/accept`,
+    method: "POST",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath(`/family/${familyId}/invites`);
+  return data;
+};
+
+export const rejectJoinRequest = async (
+  familyId: string,
+  requestId: string
+) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(familyId)}/request/${requestId}/reject`,
+    method: "POST",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath(`/family/${familyId}/invites`);
   return data;
 };
