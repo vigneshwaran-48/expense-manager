@@ -1,3 +1,23 @@
+
+export type FamilySearch = {
+  id?: string;
+  name: string;
+  description?: string;
+  visibility: "PUBLIC" | "PRIVATE";
+  createdBy?: User;
+  createdTime?: string;
+  image: string;
+  joinType: "ANYONE" | "INVITE_ONLY";
+  joinRequestExists: boolean
+};
+
+export type JoinRequest = {
+  id: string,
+  requestUser: User,
+  family: Family,
+  requestedTime: string
+}
+
 export type FamilyMember = {
   id?: string;
   member: User;

@@ -1,5 +1,5 @@
 import { searchFamily } from "@/app/actions/family";
-import { Family } from "@/util/AppTypes";
+import { FamilySearch } from "@/util/AppTypes";
 import React from "react";
 import FamilyBar from "./FamilyBar";
 
@@ -11,7 +11,9 @@ const FamilyResults = async ({
   page: number;
 }) => {
   const results = await searchFamily(query, page);
-  const families: Family[] = results.results;
+  const families: FamilySearch[] = results.results;
+
+  console.log(results);
 
   const familyElems = families.map((family) => (
     <FamilyBar key={family.id} family={family} />
