@@ -11,7 +11,7 @@ const RevokeInvitationButton = ({ invitationId, familyId }: { invitationId: stri
 
     const dispatch = useAppDispatch();
   
-    const handleAcceptRequest = async () => {
+    const handleRevokeInvitation = async () => {
       setLoading(true);
       const response = await revokeInvitation(invitationId, familyId);
       if (response.status === 200) {
@@ -36,7 +36,7 @@ const RevokeInvitationButton = ({ invitationId, familyId }: { invitationId: stri
   
     return (
       <button
-        onClick={handleAcceptRequest}
+        onClick={handleRevokeInvitation}
         className={`px-2 py-1 rounded bg-red-500 text-white ${
           loading ? "bg-light-bg text-light-color-text" : ""
         }`}

@@ -30,6 +30,7 @@ const InviteMemberContainer = ({ show }: { show: boolean }) => {
               name="userQuery"
               value={userQuery}
               onChange={handleUserQueryChange}
+              placeholder="Alice"
               className="w-full outline-none border-none rounded p-2 bg-light-bg text-color-text"
             />
           </label>

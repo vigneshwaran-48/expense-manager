@@ -3,6 +3,7 @@ import { FamilyMember, Role } from "@/util/AppTypes";
 import Image from "next/image";
 import React from "react";
 import RoleDropdown from "./RoleDropdown";
+import DeleteButton from "./DeleteButton";
 
 const Member = ({
   member,
@@ -51,7 +52,10 @@ const Member = ({
       )}
 
       <td className="px-2 py-2">
-        <TrashIcon className="text-red-500" />
+        <DeleteButton
+          familyId={member.family.id as string}
+          memberId={member.member.id}
+        />
       </td>
     </tr>
   );
