@@ -1,35 +1,38 @@
-import { JoinRequest, Role } from "@/util/AppTypes";
+import { Invitation, Role } from "@/util/AppTypes";
 import Image from "next/image";
 import React from "react";
-import AcceptRequestButton from "./button/AcceptRequestButton";
-import RejectRequestButton from "./button/RejectRequestButton";
+import ResendRequestButton from "./button/ResendInvitationButton";
+import RevokeInvitationButton from "./button/RevokeInvitationButton";
+import InviteMemberContainer from "./InviteMemberContainer";
 
-const JoinRequestContainer = ({
-  requests,
+const InvitesContainer = ({
+  invitations,
   currentUserRole,
+  familyId,
 }: {
-  requests: JoinRequest[];
+  invitations: Invitation[];
   currentUserRole: Role;
+  familyId: string;
 }) => {
-  const requestElems = requests.map((request) => {
-    const requestTime = new Date(request.requestedTime);
+  const invitationElems = invitations.map((invitation) => {
+    const sentTime = new Date(invitation.sentTime);
     return (
-      <tr key={request.id}>
+      <tr key={invitation.id}>
         <td className="w-[250px] p-2">
           <div className="flex items-center">
             <Image
-              src={request.requestUser.image || "/person.jpg"}
+              src={invitation.recipient.image || "/person.jpg"}
               width={30}
               height={30}
-              alt={`${request.requestUser.name}'s image`}
+              alt={`${invitation.recipient.name}'s image`}
               className="rounded-full sm:w-[35px] sm:h-[35px] mr-2"
             />
             <div className="flex flex-col">
               <h4 className="text-[14px] sm:text-[16px] font-medium text-color-text">
-                {request.requestUser.name}
+                {invitation.recipient.name}
               </h4>
               <p className="text-[12px] hidden md:block">
-                {request.requestUser.email}
+                {invitation.recipient.email}
               </p>
             </div>
           </div>
@@ -39,20 +42,20 @@ const JoinRequestContainer = ({
             currentUserRole === "LEADER" ? "hidden sm:table-cell" : ""
           }`}
         >
-          {`${requestTime.getDate()}/${requestTime.getMonth()}/${requestTime.getFullYear()}`}
+          {`${sentTime.getDate()}/${sentTime.getMonth()}/${sentTime.getFullYear()}`}
         </td>
         {currentUserRole === "LEADER" ? (
           <>
             <td className="p-2">
-              <AcceptRequestButton
-                familyId={request.family.id as string}
-                requestId={request.id}
+              <ResendRequestButton
+                invitationId={invitation.id}
+                familyId={familyId}
               />
             </td>
             <td className="p-2">
-              <RejectRequestButton
-                familyId={request.family.id as string}
-                requestId={request.id}
+              <RevokeInvitationButton
+                invitationId={invitation.id}
+                familyId={familyId}
               />
             </td>
           </>
@@ -65,17 +68,23 @@ const JoinRequestContainer = ({
 
   return (
     <div className="flex flex-col w-full p-2 h-1/2 max-w-[1200px] m-auto">
-      <h1 className="text-xl font-bold py-2">Join Requests</h1>
+      <InviteMemberContainer show={false} />
+      <h1 className="text-xl font-bold py-2">Invites Sent</h1>
       <div
         className={`flex w-full h-[calc(100%-30px)] items-center justify-center lg:justify-between`}
       >
         <div className="h-full items-start">
           <p className="mt-7 w-[200px] p-2 hidden lg:block">
-            View the join requests people made to your family
-            {currentUserRole === "LEADER" ? "Accept or Reject it." : "."}
+            View the invites you family sent
+            {currentUserRole === "LEADER"
+              ? "You can revoke or resend it."
+              : "."}
           </p>
+          <button className="px-4 py-1 rounded bg-other-bg text-other-text m-2">
+            Invite
+          </button>
         </div>
-        <div className="h-full overflow-y-scroll hide-scrollbar flex ">
+        <div className="h-full overflow-y-scroll hide-scrollbar flex">
           <table className="border-collapse bg-dark-bg text-light-color-text h-fit">
             <thead className="sticky top-0 bg-dark-bg">
               <tr className="text-left sticky top-0">
@@ -87,19 +96,19 @@ const JoinRequestContainer = ({
                     currentUserRole === "LEADER" ? "hidden sm:table-cell" : ""
                   }`}
                 >
-                  Requested Time
+                  Sent Time
                 </th>
                 {currentUserRole === "LEADER" ? (
                   <>
-                    <th className="p-2 sticky top-0">Accept</th>
-                    <th className="p-2 sticky top-0">Reject</th>
+                    <th className="p-2 sticky top-0">Resend</th>
+                    <th className="p-2 sticky top-0">Revoke</th>
                   </>
                 ) : (
                   ""
                 )}
               </tr>
             </thead>
-            <tbody>{requestElems}</tbody>
+            <tbody>{invitationElems}</tbody>
           </table>
         </div>
       </div>
@@ -107,4 +116,4 @@ const JoinRequestContainer = ({
   );
 };
 
-export default JoinRequestContainer;
+export default InvitesContainer;

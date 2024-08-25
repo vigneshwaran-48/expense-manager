@@ -1,10 +1,17 @@
 import TrashIcon from "@/app/components/icon/TrashIcon";
-import { FamilyMember } from "@/util/AppTypes";
+import { FamilyMember, Role } from "@/util/AppTypes";
 import Image from "next/image";
 import React from "react";
 import RoleDropdown from "./RoleDropdown";
+import DeleteButton from "./DeleteButton";
 
-const Member = ({ member }: { member: FamilyMember }) => {
+const Member = ({
+  member,
+  currentUserRole,
+}: {
+  member: FamilyMember;
+  currentUserRole: Role;
+}) => {
   return (
     <tr>
       <td className="w-[250px] py-2">
@@ -25,16 +32,30 @@ const Member = ({ member }: { member: FamilyMember }) => {
         </div>
       </td>
       <td className="hidden lg:table-cell py-2">May 02, 2024</td>
-      <td className="hidden sm:table-cell py-2">Aug 11, 2024</td>
-      <td>
-        <RoleDropdown
-          role={member.role}
-          memberId={member.member.id}
-          familyId={member.family.id as string}
-        />
+      <td
+        className={`${
+          currentUserRole === "LEADER" ? "hidden sm:table-cell" : ""
+        }  py-2`}
+      >
+        Aug 11, 2024
       </td>
+      {currentUserRole === "LEADER" ? (
+        <td>
+          <RoleDropdown
+            role={member.role}
+            memberId={member.member.id}
+            familyId={member.family.id as string}
+          />
+        </td>
+      ) : (
+        ""
+      )}
+
       <td className="px-2 py-2">
-        <TrashIcon className="text-red-500" />
+        <DeleteButton
+          familyId={member.family.id as string}
+          memberId={member.member.id}
+        />
       </td>
     </tr>
   );
