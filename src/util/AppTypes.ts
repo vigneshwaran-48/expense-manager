@@ -1,3 +1,15 @@
+export type Invitation = {
+  id: string;
+  title: string;
+  content: string;
+  properties: any;
+  recipient: User;
+  from: User;
+  type: InvitationType;
+  sentTime: string;
+};
+
+export type InvitationType = "FAMILY_INVITE";
 
 export type FamilySearch = {
   id?: string;
@@ -8,15 +20,15 @@ export type FamilySearch = {
   createdTime?: string;
   image: string;
   joinType: "ANYONE" | "INVITE_ONLY";
-  joinRequestExists: boolean
+  joinRequestExists: boolean;
 };
 
 export type JoinRequest = {
-  id: string,
-  requestUser: User,
-  family: Family,
-  requestedTime: string
-}
+  id: string;
+  requestUser: User;
+  family: Family;
+  requestedTime: string;
+};
 
 export type FamilyMember = {
   id?: string;

@@ -44,3 +44,17 @@ export const getStaticResourceRoutes = () => {
 
   return routes;
 };
+
+export const getInvitationResourceRoutes = () => {
+  const serverBase = getServerBase();
+
+  const routes: APIRoutes = {
+    get: `${serverBase}/api/invitation`,
+    getOne: (id: string | number) => `${serverBase}/api/invitation/${id}`,
+    create: `${serverBase}/api/invitation`,
+    update: (id: string) => `${serverBase}/api/invitation/${id}`,
+    delete: (id: string | number) => `${serverBase}/api/invitation/${id}`,
+  };
+
+  return routes;
+};

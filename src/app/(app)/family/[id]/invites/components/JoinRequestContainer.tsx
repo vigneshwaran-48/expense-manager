@@ -1,7 +1,8 @@
 import { JoinRequest, Role } from "@/util/AppTypes";
 import Image from "next/image";
 import React from "react";
-import AcceptRequestButton from "./AcceptRequestButton";
+import AcceptRequestButton from "./button/AcceptRequestButton";
+import RejectRequestButton from "./button/RejectRequestButton";
 
 const JoinRequestContainer = ({
   requests,
@@ -49,9 +50,10 @@ const JoinRequestContainer = ({
               />
             </td>
             <td className="p-2">
-              <button className="px-2 py-1 rounded bg-red-500 text-white">
-                Reject
-              </button>
+              <RejectRequestButton
+                familyId={request.family.id as string}
+                requestId={request.id}
+              />
             </td>
           </>
         ) : (
@@ -69,9 +71,8 @@ const JoinRequestContainer = ({
       >
         <div className="h-full items-start">
           <p className="mt-7 w-[200px] p-2 hidden lg:block">
-            View the join requests people made to your family.{" "}
-            {currentUserRole === "LEADER" ? "Accept or Reject" : ""}
-            it
+            View the join requests people made to your family
+            {currentUserRole === "LEADER" ? "Accept or Reject it." : "."}
           </p>
         </div>
         <div className="h-full overflow-y-scroll hide-scrollbar flex ">

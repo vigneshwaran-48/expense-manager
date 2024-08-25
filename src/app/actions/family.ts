@@ -1,6 +1,6 @@
 "use server";
 
-import { Family, FamilyMember, JoinRequest, Role } from "@/util/AppTypes";
+import { Family, FamilyMember, Invitation, JoinRequest, Role } from "@/util/AppTypes";
 import { sendRequest } from "@/util/RequestUtil";
 import { getFamilyRoutes } from "@/util/ResourceServer";
 import { revalidatePath } from "next/cache";
@@ -219,3 +219,19 @@ export const getUserRoleInFamily = async (familyId: string) => {
   }
   return data.role as Role;
 };
+
+export const getAllInvitationsOfFamily = async (familyId: string) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(familyId)}/invite`,
+    method: "GET",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  return data.invitations as Invitation[];
+}
