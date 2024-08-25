@@ -1,9 +1,15 @@
-import { JoinRequest } from "@/util/AppTypes";
+import { JoinRequest, Role } from "@/util/AppTypes";
 import Image from "next/image";
 import React from "react";
 import AcceptRequestButton from "./AcceptRequestButton";
 
-const JoinRequestContainer = ({ requests }: { requests: JoinRequest[] }) => {
+const JoinRequestContainer = ({
+  requests,
+  currentUserRole,
+}: {
+  requests: JoinRequest[];
+  currentUserRole: Role;
+}) => {
   const requestElems = requests.map((request) => {
     const requestTime = new Date(request.requestedTime);
     return (
@@ -27,20 +33,30 @@ const JoinRequestContainer = ({ requests }: { requests: JoinRequest[] }) => {
             </div>
           </div>
         </td>
-        <td className="p-2  hidden sm:table-cell">
+        <td
+          className={`p-2 sticky top-0 ${
+            currentUserRole === "LEADER" ? "hidden sm:table-cell" : ""
+          }`}
+        >
           {`${requestTime.getDate()}/${requestTime.getMonth()}/${requestTime.getFullYear()}`}
         </td>
-        <td className="p-2">
-          <AcceptRequestButton
-            familyId={request.family.id as string}
-            requestId={request.id}
-          />
-        </td>
-        <td className="p-2">
-          <button className="px-2 py-1 rounded bg-red-500 text-white">
-            Reject
-          </button>
-        </td>
+        {currentUserRole === "LEADER" ? (
+          <>
+            <td className="p-2">
+              <AcceptRequestButton
+                familyId={request.family.id as string}
+                requestId={request.id}
+              />
+            </td>
+            <td className="p-2">
+              <button className="px-2 py-1 rounded bg-red-500 text-white">
+                Reject
+              </button>
+            </td>
+          </>
+        ) : (
+          ""
+        )}
       </tr>
     );
   });
@@ -48,10 +64,13 @@ const JoinRequestContainer = ({ requests }: { requests: JoinRequest[] }) => {
   return (
     <div className="flex flex-col w-full p-2 h-1/2 max-w-[1200px] m-auto">
       <h1 className="text-xl font-bold py-2">Join Requests</h1>
-      <div className="flex w-full h-[calc(100%-30px)] items-center justify-between">
+      <div
+        className={`flex w-full h-[calc(100%-30px)] items-center justify-center lg:justify-between`}
+      >
         <div className="h-full items-start">
           <p className="mt-7 w-[200px] p-2 hidden lg:block">
-            View the join requests people made to your family. Accept or Reject
+            View the join requests people made to your family.{" "}
+            {currentUserRole === "LEADER" ? "Accept or Reject" : ""}
             it
           </p>
         </div>
@@ -62,11 +81,21 @@ const JoinRequestContainer = ({ requests }: { requests: JoinRequest[] }) => {
                 <th className="w-[250px] lg:w-[300px] p-2 sticky top-0">
                   Name
                 </th>
-                <th className="p-2 sticky top-0 hidden sm:table-cell">
+                <th
+                  className={`p-2 sticky top-0 ${
+                    currentUserRole === "LEADER" ? "hidden sm:table-cell" : ""
+                  }`}
+                >
                   Requested Time
                 </th>
-                <th className="p-2 sticky top-0">Accept</th>
-                <th className="p-2 sticky top-0">Reject</th>
+                {currentUserRole === "LEADER" ? (
+                  <>
+                    <th className="p-2 sticky top-0">Accept</th>
+                    <th className="p-2 sticky top-0">Reject</th>
+                  </>
+                ) : (
+                  ""
+                )}
               </tr>
             </thead>
             <tbody>{requestElems}</tbody>
