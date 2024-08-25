@@ -3,15 +3,16 @@ import Image from "next/image";
 import React from "react";
 import ResendRequestButton from "./button/ResendInvitationButton";
 import RevokeInvitationButton from "./button/RevokeInvitationButton";
+import InviteMemberContainer from "./InviteMemberContainer";
 
 const InvitesContainer = ({
   invitations,
   currentUserRole,
-  familyId
+  familyId,
 }: {
   invitations: Invitation[];
   currentUserRole: Role;
-  familyId: string
+  familyId: string;
 }) => {
   const invitationElems = invitations.map((invitation) => {
     const sentTime = new Date(invitation.sentTime);
@@ -46,10 +47,16 @@ const InvitesContainer = ({
         {currentUserRole === "LEADER" ? (
           <>
             <td className="p-2">
-              <ResendRequestButton invitationId={invitation.id} familyId={familyId} />
+              <ResendRequestButton
+                invitationId={invitation.id}
+                familyId={familyId}
+              />
             </td>
             <td className="p-2">
-              <RevokeInvitationButton invitationId={invitation.id} familyId={familyId} />
+              <RevokeInvitationButton
+                invitationId={invitation.id}
+                familyId={familyId}
+              />
             </td>
           </>
         ) : (
@@ -61,6 +68,7 @@ const InvitesContainer = ({
 
   return (
     <div className="flex flex-col w-full p-2 h-1/2 max-w-[1200px] m-auto">
+      <InviteMemberContainer show={true} />
       <h1 className="text-xl font-bold py-2">Invites Sent</h1>
       <div
         className={`flex w-full h-[calc(100%-30px)] items-center justify-center lg:justify-between`}
@@ -72,8 +80,11 @@ const InvitesContainer = ({
               ? "You can revoke or resend it."
               : "."}
           </p>
+          <button className="px-4 py-1 rounded bg-other-bg text-other-text m-2">
+            Invite
+          </button>
         </div>
-        <div className="h-full overflow-y-scroll hide-scrollbar flex ">
+        <div className="h-full overflow-y-scroll hide-scrollbar flex">
           <table className="border-collapse bg-dark-bg text-light-color-text h-fit">
             <thead className="sticky top-0 bg-dark-bg">
               <tr className="text-left sticky top-0">

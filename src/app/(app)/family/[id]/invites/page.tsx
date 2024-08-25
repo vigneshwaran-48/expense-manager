@@ -25,14 +25,14 @@ const page = async ({ params: { id } }: Props) => {
 
   return (
     <div className="w-full h-full flex flex-col">
-      <JoinRequestContainer
-        requests={joinRequests}
-        currentUserRole={curentUserRole}
-      />
       <InvitesContainer
         invitations={invitations}
         currentUserRole={curentUserRole}
         familyId={id}
+      />
+      <JoinRequestContainer
+        requests={joinRequests}
+        currentUserRole={curentUserRole}
       />
     </div>
   );
