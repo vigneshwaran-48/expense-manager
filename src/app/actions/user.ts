@@ -31,11 +31,12 @@ export const getProfile = async () => {
   throw new Error("Error while fetching users details");
 };
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (includeFamilyMembers = true) => {
+  console.log(`Test => ${includeFamilyMembers}`)
   const routes = getUserRoutes();
 
   const response = await sendRequest({
-    url: `${routes.get}`,
+    url: `${routes.get}?includeFamilyMember=${includeFamilyMembers}`,
     method: "GET",
     includeBody: false,
     checkAuthentication: false,
@@ -45,6 +46,5 @@ export const getAllUsers = async () => {
   if (response.status === 401) {
     redirect("/auth/signin");
   }
-  console.log(data);
   return data.users as User[];
 };

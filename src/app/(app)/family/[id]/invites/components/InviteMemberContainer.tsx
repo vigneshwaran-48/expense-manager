@@ -21,7 +21,7 @@ const InviteMemberContainer = () => {
 
   useEffect(() => {
     (async () => {
-      const users = await getAllUsers();
+      const users = await getAllUsers(false);
       dispatch(setUsers(users));
     })();
   }, []);
