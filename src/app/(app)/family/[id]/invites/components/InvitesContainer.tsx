@@ -4,6 +4,7 @@ import React from "react";
 import ResendRequestButton from "./button/ResendInvitationButton";
 import RevokeInvitationButton from "./button/RevokeInvitationButton";
 import InviteMemberContainer from "./InviteMemberContainer";
+import InviteMemberButton from "./InviteMemberButton";
 
 const InvitesContainer = ({
   invitations,
@@ -68,7 +69,7 @@ const InvitesContainer = ({
 
   return (
     <div className="flex flex-col w-full p-2 h-1/2 max-w-[1200px] m-auto">
-      <InviteMemberContainer show={false} />
+      <InviteMemberContainer />
       <h1 className="text-xl font-bold py-2">Invites Sent</h1>
       <div
         className={`flex w-full h-[calc(100%-30px)] items-center justify-center lg:justify-between`}
@@ -80,9 +81,7 @@ const InvitesContainer = ({
               ? "You can revoke or resend it."
               : "."}
           </p>
-          <button className="px-4 py-1 rounded bg-other-bg text-other-text m-2">
-            Invite
-          </button>
+          <InviteMemberButton />
         </div>
         <div className="h-full overflow-y-scroll hide-scrollbar flex">
           <table className="border-collapse bg-dark-bg text-light-color-text h-fit">

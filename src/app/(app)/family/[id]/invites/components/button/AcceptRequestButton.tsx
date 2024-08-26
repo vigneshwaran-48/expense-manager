@@ -43,8 +43,10 @@ const AcceptRequestButton = ({
   return (
     <button
       onClick={handleAcceptRequest}
-      className={`px-2 py-1 rounded bg-other-bg text-other-text ${
-        loading ? "bg-light-bg text-light-color-text" : ""
+      className={`px-2 py-1 rounded  ${
+        loading
+          ? "bg-light-bg text-light-color-text"
+          : "bg-other-bg text-other-text"
       }`}
       disabled={loading}
     >
