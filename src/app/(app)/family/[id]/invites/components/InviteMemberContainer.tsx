@@ -17,22 +17,31 @@ const InviteMemberContainer = () => {
     (state) => state.inviteMemberSlice
   );
   const [userQuery, setUserQuery] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    (async () => {
-      const users = await getAllUsers(false);
-      dispatch(setUsers(users));
-    })();
+    fetchUsers(userQuery);
   }, []);
+
+  const fetchUsers = async (query: string) => {
+    setLoading(true);
+    const users = await getAllUsers(false, query);
+    console.log(userQuery);
+    console.log(users);
+    dispatch(setUsers(users));
+    setLoading(false);
+  };
 
   const handleUserQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserQuery(e.target.value);
+    fetchUsers(e.target.value);
   };
 
   const userElems = users
     .filter(
       (user) =>
+        userQuery.trim() === "" ||
         user.name.toLowerCase().includes(userQuery.toLowerCase()) ||
         user.email.includes(userQuery) ||
         user.id === userQuery
@@ -127,7 +136,7 @@ const InviteMemberContainer = () => {
         <div className="p-2 flex flex-col">
           <p className="py-2 text-light-color-text">Members</p>
           <div className="h-[250px] flex flex-col overflow-y-scroll hide-scrollbar">
-            {userElems}
+            {!loading ? userElems : <MembersSkeleton />}
           </div>
         </div>
         <div className="p-2 flex flex-col">
@@ -138,6 +147,41 @@ const InviteMemberContainer = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const MembersSkeleton = () => {
+  return (
+    <>
+      <div className="flex items-center p-2 mb-2 hover:bg-light-bg rounded cursor-pointer group">
+        <div className="w-[40px] h-[40px] rounded-full bg-light-bg group-hover:bg-dark-bg"></div>
+        <div className="flex flex-col w-full justify-center ml-2">
+          <p className="font-medium px-4 my-2 py-1 w-[40%] bg-light-bg group-hover:bg-dark-bg"></p>
+          <p className="text-[14px] px-4 py-1 text-light-color-text w-[35%] bg-light-bg group-hover:bg-dark-bg"></p>
+        </div>
+      </div>
+      <div className="flex items-center p-2 mb-2 hover:bg-light-bg rounded cursor-pointer group">
+        <div className="w-[40px] h-[40px] rounded-full bg-light-bg group-hover:bg-dark-bg"></div>
+        <div className="flex flex-col w-full justify-center ml-2">
+          <p className="font-medium px-4 my-2 py-1 w-[40%] bg-light-bg group-hover:bg-dark-bg"></p>
+          <p className="text-[14px] px-4 py-1 text-light-color-text w-[35%] bg-light-bg group-hover:bg-dark-bg"></p>
+        </div>
+      </div>
+      <div className="flex items-center p-2 mb-2 hover:bg-light-bg rounded cursor-pointer group">
+        <div className="w-[40px] h-[40px] rounded-full bg-light-bg group-hover:bg-dark-bg"></div>
+        <div className="flex flex-col w-full justify-center ml-2">
+          <p className="font-medium px-4 my-2 py-1 w-[40%] bg-light-bg group-hover:bg-dark-bg"></p>
+          <p className="text-[14px] px-4 py-1 text-light-color-text w-[35%] bg-light-bg group-hover:bg-dark-bg"></p>
+        </div>
+      </div>
+      <div className="flex items-center p-2 mb-2 hover:bg-light-bg rounded cursor-pointer group">
+        <div className="w-[40px] h-[40px] rounded-full bg-light-bg group-hover:bg-dark-bg"></div>
+        <div className="flex flex-col w-full justify-center ml-2">
+          <p className="font-medium px-4 my-2 py-1 w-[40%] bg-light-bg group-hover:bg-dark-bg"></p>
+          <p className="text-[14px] px-4 py-1 text-light-color-text w-[35%] bg-light-bg group-hover:bg-dark-bg"></p>
+        </div>
+      </div>
+    </>
   );
 };
 
