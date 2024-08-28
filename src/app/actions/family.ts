@@ -258,3 +258,24 @@ export const removeMember = async (familyId: string, memberId: string) => {
   revalidatePath(`/family/${familyId}/members`);
   return data;
 };
+
+export const inviteMember = async (
+  familyId: string,
+  memberId: string,
+  role: Role
+) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(familyId)}/member/${memberId}/invite?role=${role}`,
+    method: "POST",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath(`/family/${familyId}/invites`);
+  return data;
+};

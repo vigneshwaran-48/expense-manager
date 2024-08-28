@@ -57,6 +57,7 @@ const InvitesContainer = ({
               <RevokeInvitationButton
                 invitationId={invitation.id}
                 familyId={familyId}
+                user={invitation.recipient}
               />
             </td>
           </>
@@ -69,7 +70,7 @@ const InvitesContainer = ({
 
   return (
     <div className="flex flex-col w-full p-2 h-1/2 max-w-[1200px] m-auto">
-      <InviteMemberContainer />
+      <InviteMemberContainer familyId={familyId} />
       <h1 className="text-xl font-bold py-2">Invites Sent</h1>
       <div
         className={`flex w-full h-[calc(100%-30px)] items-center justify-center lg:justify-between`}

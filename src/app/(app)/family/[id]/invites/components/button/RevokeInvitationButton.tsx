@@ -1,17 +1,21 @@
 "use client";
 
 import { revokeInvitation } from "@/app/actions/invitation";
+import { addUser } from "@/lib/features/invite/inviteMemberSlice";
 import { addToast, ToastType } from "@/lib/features/toast/toastSlice";
 import { useAppDispatch } from "@/lib/hooks";
+import { User } from "@/util/AppTypes";
 import { getUniqueId } from "@/util/getUniqueId";
 import React, { useState } from "react";
 
 const RevokeInvitationButton = ({
   invitationId,
   familyId,
+  user,
 }: {
   invitationId: string;
   familyId: string;
+  user: User;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -38,6 +42,7 @@ const RevokeInvitationButton = ({
       );
     }
     setLoading(false);
+    dispatch(addUser(user));
   };
 
   return (

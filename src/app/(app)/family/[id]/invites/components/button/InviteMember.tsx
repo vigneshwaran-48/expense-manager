@@ -1,25 +1,24 @@
-"use client";
-
-import { resendInvitation } from "@/app/actions/invitation";
+import { inviteMember } from "@/app/actions/family";
+import { removeUser } from "@/lib/features/invite/inviteMemberSlice";
 import { addToast, ToastType } from "@/lib/features/toast/toastSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import { getUniqueId } from "@/util/getUniqueId";
 import React, { useState } from "react";
 
-const ResendInvitationButton = ({
-  invitationId,
+const InviteMember = ({
+  memberId,
   familyId,
 }: {
-  invitationId: string;
+  memberId: string;
   familyId: string;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
 
-  const handleResendInvitation = async () => {
+  const handleAcceptRequest = async () => {
     setLoading(true);
-    const response = await resendInvitation(invitationId, familyId);
+    const response = await inviteMember(familyId, memberId, "MEMBER");
     if (response.status === 200) {
       dispatch(
         addToast({
@@ -37,20 +36,23 @@ const ResendInvitationButton = ({
         })
       );
     }
+    dispatch(removeUser(memberId));
     setLoading(false);
   };
 
   return (
     <button
-      onClick={handleResendInvitation}
+      onClick={handleAcceptRequest}
       className={`px-2 py-1 rounded  ${
-        loading ? "bg-light-bg text-light-color-text" : "bg-other-bg text-other-text"
+        loading
+          ? "bg-light-bg text-light-color-text"
+          : "bg-other-bg text-other-text"
       }`}
       disabled={loading}
     >
-      Resend
+      {loading ? "Inviting ..." : "Invite"}
     </button>
   );
 };
 
-export default ResendInvitationButton;
+export default InviteMember;
