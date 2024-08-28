@@ -84,32 +84,45 @@ const InvitesContainer = ({
           </p>
           <InviteMemberButton />
         </div>
-        <div className="h-full overflow-y-scroll hide-scrollbar flex">
-          <table className="border-collapse bg-dark-bg text-light-color-text h-fit">
-            <thead className="sticky top-0 bg-dark-bg">
-              <tr className="text-left sticky top-0">
-                <th className="w-[250px] lg:w-[300px] p-2 sticky top-0">
-                  Name
-                </th>
-                <th
-                  className={`p-2 sticky top-0 ${
-                    currentUserRole === "LEADER" ? "hidden sm:table-cell" : ""
-                  }`}
-                >
-                  Sent Time
-                </th>
-                {currentUserRole === "LEADER" ? (
-                  <>
-                    <th className="p-2 sticky top-0">Resend</th>
-                    <th className="p-2 sticky top-0">Revoke</th>
-                  </>
-                ) : (
-                  ""
-                )}
-              </tr>
-            </thead>
-            <tbody>{invitationElems}</tbody>
-          </table>
+        <div className={`h-full overflow-y-scroll hide-scrollbar flex ${invitations.length <= 0 ? "w-[calc(100%-200px)]" : ""}`}>
+          {invitations.length > 0 ? (
+            <table className="border-collapse bg-dark-bg text-light-color-text h-fit">
+              <thead className="sticky top-0 bg-dark-bg">
+                <tr className="text-left sticky top-0">
+                  <th className="w-[250px] lg:w-[300px] p-2 sticky top-0">
+                    Name
+                  </th>
+                  <th
+                    className={`p-2 sticky top-0 ${
+                      currentUserRole === "LEADER" ? "hidden sm:table-cell" : ""
+                    }`}
+                  >
+                    Sent Time
+                  </th>
+                  {currentUserRole === "LEADER" ? (
+                    <>
+                      <th className="p-2 sticky top-0">Resend</th>
+                      <th className="p-2 sticky top-0">Revoke</th>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </tr>
+              </thead>
+              <tbody>{invitationElems}</tbody>
+            </table>
+          ) : (
+            <div className="w-full h-full flex flex-col justify-center items-center">
+              <Image
+                src="/images/empty-invites.png"
+                alt="No pending invites available"
+                height={100}
+                width={100}
+                className="h-[250px] w-[250px]"
+              />
+              <p className="text-xl font-bold">No pending invites here</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
