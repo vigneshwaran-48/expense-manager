@@ -22,7 +22,9 @@ const InvitesContainer = ({
         <td className="w-[250px] p-2">
           <div className="flex items-center">
             <Image
-              src={invitation.recipient.image || "/person.jpg"}
+              src={invitation.recipient.image && invitation.recipient.image.startsWith("http")
+                ? invitation.recipient.image
+                : "/images/person.jpg"}
               width={30}
               height={30}
               alt={`${invitation.recipient.name}'s image`}
@@ -71,12 +73,17 @@ const InvitesContainer = ({
   return (
     <div className="flex flex-col w-full p-2 h-1/2 max-w-[1200px] m-auto">
       <InviteMemberContainer familyId={familyId} />
-      <h1 className="text-xl font-bold py-2">Invites Sent</h1>
+      <div className="w-full flex justify-between">
+        <h1 className="text-xl font-bold py-2">Invites Sent</h1>
+        <span className="lg:hidden">
+        <InviteMemberButton />
+        </span>
+      </div>
       <div
         className={`flex w-full h-[calc(100%-30px)] items-center justify-center lg:justify-between`}
       >
-        <div className="h-full items-start">
-          <p className="mt-7 w-[200px] p-2 hidden lg:block">
+        <div className="h-full items-start hidden lg:block">
+          <p className="mt-7 w-[200px] p-2">
             View the invites you family sent
             {currentUserRole === "LEADER"
               ? "You can revoke or resend it."
@@ -84,7 +91,11 @@ const InvitesContainer = ({
           </p>
           <InviteMemberButton />
         </div>
-        <div className={`h-full overflow-y-scroll hide-scrollbar flex ${invitations.length <= 0 ? "w-[calc(100%-200px)]" : ""}`}>
+        <div
+          className={`h-full overflow-y-scroll hide-scrollbar flex ${
+            invitations.length <= 0 ? "sm:w-[calc(100%-200px)] w-full" : ""
+          }`}
+        >
           {invitations.length > 0 ? (
             <table className="border-collapse bg-dark-bg text-light-color-text h-fit">
               <thead className="sticky top-0 bg-dark-bg">
@@ -113,14 +124,14 @@ const InvitesContainer = ({
             </table>
           ) : (
             <div className="w-full h-full flex flex-col justify-center items-center">
-              <Image
+              <img
                 src="/images/empty-invites.png"
                 alt="No pending invites available"
                 height={100}
                 width={100}
-                className="h-[250px] w-[250px]"
+                className="h-[150px] w-[150px] md:h-[250px] md:w-[250px]"
               />
-              <p className="text-xl font-bold">No pending invites here</p>
+              <p className="text-xl font-boldc">No pending invites here</p>
             </div>
           )}
         </div>

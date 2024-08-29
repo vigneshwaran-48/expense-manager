@@ -62,7 +62,12 @@ const InviteMemberContainer = ({ familyId }: { familyId: string }) => {
           />
           <div className="flex flex-col flex-1">
             <p className="font-medium">{user.name}</p>
-            <p className="text-[14px] text-light-color-text">{user.email}</p>
+            <p className="text-[12px] text-light-color-text md:hidden">
+              {user.email.length > 25 ? user.email.slice(0, 20) + ".." : user.email}
+            </p>
+            <p className="text-[14px] text-light-color-text hidden md:block">
+              {user.email}
+            </p>
           </div>
           <InviteMember familyId={familyId} memberId={user.id} />
         </div>
