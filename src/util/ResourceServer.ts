@@ -58,3 +58,17 @@ export const getInvitationResourceRoutes = () => {
 
   return routes;
 };
+
+export const getCategoryRoutes = () => {
+  const serverBase = getServerBase();
+
+  const routes: APIRoutes = {
+    get: `${serverBase}/api/category`,
+    getOne: (id: string | number) => `${serverBase}/api/category/${id}`,
+    create: `${serverBase}/api/category`,
+    update: (id: string) => `${serverBase}/api/category/${id}`,
+    delete: (id: string | number) => `${serverBase}/api/category/${id}`,
+  };
+
+  return routes;
+};

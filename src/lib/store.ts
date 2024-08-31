@@ -4,6 +4,7 @@ import appSlice from "./features/app/appSlice";
 import toastSlice from "./features/toast/toastSlice";
 import familySlice from "./features/family/familySlice";
 import inviteMemberSlice from "./features/invite/inviteMemberSlice";
+import categorySlice from "./features/category/categorySlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -12,7 +13,8 @@ export const makeStore = () => {
       appSlice,
       toastSlice,
       familySlice,
-      inviteMemberSlice
+      inviteMemberSlice,
+      categorySlice,
     },
   });
 };

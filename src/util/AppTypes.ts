@@ -1,3 +1,15 @@
+export type Category = {
+  id?: string;
+  name: string;
+  description: string;
+  image: string;
+  createdBy?: User;
+  ownerId?: string;
+  type: CategoryType;
+};
+
+export type CategoryType = "PERSONAL" | "FAMILY";
+
 export type Invitation = {
   id: string;
   title: string;

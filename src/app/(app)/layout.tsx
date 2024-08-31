@@ -4,13 +4,14 @@ import "../globals.css";
 import { Poppins } from "next/font/google";
 import StoreProvider from "../providers/StoreProvider";
 import Sidebar from "./components/Sidebar";
-import UserProvider from "../providers/UserProvider";
+import DataProvider from "../providers/DataProvider";
 import Body from "./components/Body";
 import ToastContainer from "./components/toast/ToastContainer";
+import CategoryCreationPage from "./categories/components/CategoryCreationPage";
 
 export const metadata: Metadata = {
   title: "Expense Manager",
-  description: "Expense Manager home",                       
+  description: "Expense Manager home",
 };
 
 const poppins = Poppins({
@@ -43,13 +44,12 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
       </head>
       <body className="w-full h-full flex mode-dark bg-dark-bg text-color-text p-2 justify-around sm:p-4 relative">
         <StoreProvider>
-          <UserProvider>
+          <DataProvider>
             <Sidebar />
             <ToastContainer />
-            <Body>
-              { children }
-            </Body>
-          </UserProvider>
+            <CategoryCreationPage />
+            <Body>{children}</Body>
+          </DataProvider>
         </StoreProvider>
       </body>
     </html>

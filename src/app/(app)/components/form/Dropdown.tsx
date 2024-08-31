@@ -8,6 +8,7 @@ interface Props {
   selectedOption: string;
   onChange: (option: Option) => void;
   pending?: boolean;
+  className?: string;
 }
 
 interface Option {
@@ -21,6 +22,7 @@ const Dropdown = ({
   selectedOption,
   onChange,
   pending = false,
+  className = "",
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
@@ -61,7 +63,7 @@ const Dropdown = ({
 
   return (
     <div
-      className={`relative flex items-center py-2 pr-2 ${
+      className={`relative flex items-center py-2 pr-2 ${className} ${
         pending ? "cursor-wait" : "cursor-pointer"
       }`}
       onClick={() => !pending && setOpen(!open)}

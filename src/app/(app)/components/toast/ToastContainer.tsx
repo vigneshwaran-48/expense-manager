@@ -12,7 +12,7 @@ const ToastContainer = () => {
   ));
 
   return (
-    <div className="hide-scrollbar fixed flex flex-col top-0 right-0 max-w-[300px] w-full items-center p-2 overflow-y-scroll z-30">
+    <div className="hide-scrollbar fixed flex flex-col top-0 right-0 max-w-[300px] w-full items-center p-2 overflow-y-scroll z-50">
       {toastElems}
     </div>
   );
