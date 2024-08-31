@@ -2,6 +2,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
 import Spinner from "./loader/Spinner";
+import { getImageResource } from "../actions/static";
 
 const SecureImage = ({
   url,
@@ -37,17 +38,10 @@ const SecureImage = ({
     }
     setLoading(true);
     (async () => {
-      const session = await getSession();
-      fetch(url, {
-        headers: {
-          Authorization: `Bearer ${Object.create(session).access_token}`,
-        },
-      })
-        .then(getBase64Image)
-        .then((imgString) => {
-          setSrc(imgString);
-          setLoading(false);
-        });
+      const splitted = url.split("/")[5];
+      const imageStr = await getImageResource(splitted);
+      setSrc(imageStr);
+      setLoading(false);
     })();
   }, []);
 
