@@ -53,6 +53,7 @@ const ImageInput = ({
           onChange={onChange}
           className="hidden"
           disabled={disabled}
+          accept="image/jpg,image/jpeg,image/png,"
         />
       )}
 

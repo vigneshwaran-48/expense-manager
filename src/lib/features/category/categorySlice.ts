@@ -36,6 +36,7 @@ const categoriesSlice = createSlice({
   initialState,
   reducers: {
     setCategories: (state, action: PayloadAction<Category[]>) => {
+      state.categories.length = 0;
       state.categories.push(...action.payload);
     },
     removeCategory: (state, action: PayloadAction<string>) => {
@@ -79,6 +80,9 @@ const categoriesSlice = createSlice({
     setCreating: (state, action: PayloadAction<boolean>) => {
       state.creationPage.creating = action.payload;
     },
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload;
+    },
   },
 });
 
@@ -95,5 +99,6 @@ export const {
   setType,
   resetCreationPage,
   setCreating,
+  setSearchQuery,
 } = categoriesSlice.actions;
 export default categoriesSlice.reducer;

@@ -1,15 +1,14 @@
-import Category from "@/app/(app)/categories/components/Category";
+import CategoriesContainer from "@/app/(app)/categories/components/CategoriesContainer";
+import CategoryProvider from "@/app/(app)/categories/components/CategoryProvider";
+import { getAllCategories } from "@/app/actions/category";
 import React from "react";
 
 const page = async () => {
-
+  const categories = await getAllCategories();
   return (
-    <div className="p-2 w-full h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 extra-lg:grid-cols-4 justify-items-center overflow-y-scroll hide-scrollbar">
-      <Category />
-      <Category />
-      <Category />
-      <Category />
-      <Category />
+    <div className="w-full h-full">
+      <CategoryProvider categories={categories} />
+      <CategoriesContainer excludePersonal />
     </div>
   );
 };

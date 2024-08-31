@@ -42,3 +42,21 @@ export const createCategory = async (category: Category) => {
   revalidatePath(`/family/[id]/categories`, "page");
   return data;
 };
+
+export const deleteCategory = async (id: string) => {
+  const routes = getCategoryRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(id)}`,
+    method: "DELETE",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath(`/categories`);
+  revalidatePath(`/family/[id]/categories`, "page");
+  return data;
+};

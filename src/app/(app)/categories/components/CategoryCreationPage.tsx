@@ -52,7 +52,6 @@ const CategoryCreationPage = () => {
     form.append("resource", e.target.files[0]);
     dispatch(setUploadinImage(true));
     const resourceResponse = await uploadImage(form);
-    console.log(resourceResponse);
     if (resourceResponse.status !== 200 && resourceResponse.status !== 201) {
       dispatch(
         addToast({
@@ -70,9 +69,6 @@ const CategoryCreationPage = () => {
 
   const handleSubmit = async () => {
     dispatch(setCreating(true));
-    await new Promise((resolve) => {
-        setTimeout(resolve, 3000);
-    })
     const category: Category = {
       name: creationPage.name,
       description: creationPage.description,
@@ -173,7 +169,7 @@ const CategoryCreationPage = () => {
             onClick={handleSubmit}
             disabled={creationPage.creating}
           >
-            Create
+            {creationPage.creating ? "Creating ..." : "Create"}
           </button>
         </div>
       </div>
