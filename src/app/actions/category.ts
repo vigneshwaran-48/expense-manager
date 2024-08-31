@@ -1,6 +1,6 @@
 "use server";
 
-import { Category, CategoryType } from "@/util/AppTypes";
+import { Category } from "@/util/AppTypes";
 import { sendRequest } from "@/util/RequestUtil";
 import { getCategoryRoutes } from "@/util/ResourceServer";
 import { revalidatePath } from "next/cache";

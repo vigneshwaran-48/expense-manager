@@ -79,6 +79,7 @@ const CategoryCreationPage = () => {
       category.ownerId = familySlice.family.id;
     }
     const response = await createCategory(category);
+    dispatch(setCreating(false));
     if (response.status === 200) {
       dispatch(
         addToast({

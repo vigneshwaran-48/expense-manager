@@ -35,7 +35,7 @@ export const getResource = async (id: string) => {
 export const getImageResource = async (id: string) => {
   const routes = getStaticResourceRoutes();
 
-  const response = await sendRequest({
+  const response: Response = await sendRequest({
     url: routes.getOne(id),
     method: "GET",
     includeBody: false,
@@ -43,14 +43,12 @@ export const getImageResource = async (id: string) => {
     checkAuthentication: false,
   });
 
-  const blob = await response.blob();
+  const arrayBuffer = await response.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
 
-  const reader = new FileReader();
+  const base64 = buffer.toString("base64");
 
-  await new Promise((resolve, reject) => {
-    reader.onload = resolve;
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-  return reader.result;
+  const mimeType =
+    response.headers.get("content-type") || "application/octet-stream";
+  return `data:${mimeType};base64,${base64}`;
 };
