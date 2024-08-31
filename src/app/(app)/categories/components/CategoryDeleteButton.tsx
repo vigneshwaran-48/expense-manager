@@ -16,6 +16,7 @@ const CategoryDeleteButton = ({ id }: { id: string }) => {
   const handleDeleteCategory = async () => {
     setPending(true);
     const response = await deleteCategory(id);
+    setPending(false);
     if (response.status === 200) {
       dispatch(
         addToast({
@@ -35,7 +36,6 @@ const CategoryDeleteButton = ({ id }: { id: string }) => {
       return;
     }
     dispatch(removeCategory(id));
-    setPending(false);
   };
 
   return (
