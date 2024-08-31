@@ -4,6 +4,7 @@ import React from "react";
 import ResendRequestButton from "./button/ResendInvitationButton";
 import RevokeInvitationButton from "./button/RevokeInvitationButton";
 import InviteMemberContainer from "./InviteMemberContainer";
+import InviteMemberButton from "./InviteMemberButton";
 
 const InvitesContainer = ({
   invitations,
@@ -21,7 +22,9 @@ const InvitesContainer = ({
         <td className="w-[250px] p-2">
           <div className="flex items-center">
             <Image
-              src={invitation.recipient.image || "/person.jpg"}
+              src={invitation.recipient.image && invitation.recipient.image.startsWith("http")
+                ? invitation.recipient.image
+                : "/images/person.jpg"}
               width={30}
               height={30}
               alt={`${invitation.recipient.name}'s image`}
@@ -56,6 +59,7 @@ const InvitesContainer = ({
               <RevokeInvitationButton
                 invitationId={invitation.id}
                 familyId={familyId}
+                user={invitation.recipient}
               />
             </td>
           </>
@@ -68,48 +72,68 @@ const InvitesContainer = ({
 
   return (
     <div className="flex flex-col w-full p-2 h-1/2 max-w-[1200px] m-auto">
-      <InviteMemberContainer show={false} />
-      <h1 className="text-xl font-bold py-2">Invites Sent</h1>
+      <InviteMemberContainer familyId={familyId} />
+      <div className="w-full flex justify-between">
+        <h1 className="text-xl font-bold py-2">Invites Sent</h1>
+        <span className="lg:hidden">
+        <InviteMemberButton />
+        </span>
+      </div>
       <div
         className={`flex w-full h-[calc(100%-30px)] items-center justify-center lg:justify-between`}
       >
-        <div className="h-full items-start">
-          <p className="mt-7 w-[200px] p-2 hidden lg:block">
+        <div className="h-full items-start hidden lg:block">
+          <p className="mt-7 w-[200px] p-2">
             View the invites you family sent
             {currentUserRole === "LEADER"
               ? "You can revoke or resend it."
               : "."}
           </p>
-          <button className="px-4 py-1 rounded bg-other-bg text-other-text m-2">
-            Invite
-          </button>
+          <InviteMemberButton />
         </div>
-        <div className="h-full overflow-y-scroll hide-scrollbar flex">
-          <table className="border-collapse bg-dark-bg text-light-color-text h-fit">
-            <thead className="sticky top-0 bg-dark-bg">
-              <tr className="text-left sticky top-0">
-                <th className="w-[250px] lg:w-[300px] p-2 sticky top-0">
-                  Name
-                </th>
-                <th
-                  className={`p-2 sticky top-0 ${
-                    currentUserRole === "LEADER" ? "hidden sm:table-cell" : ""
-                  }`}
-                >
-                  Sent Time
-                </th>
-                {currentUserRole === "LEADER" ? (
-                  <>
-                    <th className="p-2 sticky top-0">Resend</th>
-                    <th className="p-2 sticky top-0">Revoke</th>
-                  </>
-                ) : (
-                  ""
-                )}
-              </tr>
-            </thead>
-            <tbody>{invitationElems}</tbody>
-          </table>
+        <div
+          className={`h-full overflow-y-scroll hide-scrollbar flex ${
+            invitations.length <= 0 ? "sm:w-[calc(100%-200px)] w-full" : ""
+          }`}
+        >
+          {invitations.length > 0 ? (
+            <table className="border-collapse bg-dark-bg text-light-color-text h-fit">
+              <thead className="sticky top-0 bg-dark-bg">
+                <tr className="text-left sticky top-0">
+                  <th className="w-[250px] lg:w-[300px] p-2 sticky top-0">
+                    Name
+                  </th>
+                  <th
+                    className={`p-2 sticky top-0 ${
+                      currentUserRole === "LEADER" ? "hidden sm:table-cell" : ""
+                    }`}
+                  >
+                    Sent Time
+                  </th>
+                  {currentUserRole === "LEADER" ? (
+                    <>
+                      <th className="p-2 sticky top-0">Resend</th>
+                      <th className="p-2 sticky top-0">Revoke</th>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </tr>
+              </thead>
+              <tbody>{invitationElems}</tbody>
+            </table>
+          ) : (
+            <div className="w-full h-full flex flex-col justify-center items-center">
+              <img
+                src="/images/empty-invites.png"
+                alt="No pending invites available"
+                height={100}
+                width={100}
+                className="h-[150px] w-[150px] md:h-[250px] md:w-[250px]"
+              />
+              <p className="text-xl font-boldc">No pending invites here</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

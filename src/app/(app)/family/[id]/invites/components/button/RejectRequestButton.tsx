@@ -1,6 +1,8 @@
 "use client";
 
 import { rejectJoinRequest } from "@/app/actions/family";
+import { getAllUsers } from "@/app/actions/user";
+import { addUser, setUsers } from "@/lib/features/invite/inviteMemberSlice";
 import { addToast, ToastType } from "@/lib/features/toast/toastSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import { getUniqueId } from "@/util/getUniqueId";
@@ -43,8 +45,8 @@ const RejectRequestButton = ({
   return (
     <button
       onClick={handleAcceptRequest}
-      className={`px-2 py-1 rounded bg-red-500 text-white ${
-        loading ? "bg-light-bg text-light-color-text" : ""
+      className={`px-2 py-1 rounded  ${
+        loading ? "bg-light-bg text-light-color-text" : "bg-red-500 text-white"
       }`}
       disabled={loading}
     >

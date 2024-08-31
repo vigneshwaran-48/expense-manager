@@ -1,17 +1,16 @@
-"use client";
-
-import { acceptJoinRequest } from "@/app/actions/family";
+import { inviteMember } from "@/app/actions/family";
+import { removeUser } from "@/lib/features/invite/inviteMemberSlice";
 import { addToast, ToastType } from "@/lib/features/toast/toastSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import { getUniqueId } from "@/util/getUniqueId";
 import React, { useState } from "react";
 
-const AcceptRequestButton = ({
+const InviteMember = ({
+  memberId,
   familyId,
-  requestId,
 }: {
+  memberId: string;
   familyId: string;
-  requestId: string;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -19,7 +18,7 @@ const AcceptRequestButton = ({
 
   const handleAcceptRequest = async () => {
     setLoading(true);
-    const response = await acceptJoinRequest(familyId, requestId);
+    const response = await inviteMember(familyId, memberId, "MEMBER");
     if (response.status === 200) {
       dispatch(
         addToast({
@@ -37,6 +36,7 @@ const AcceptRequestButton = ({
         })
       );
     }
+    dispatch(removeUser(memberId));
     setLoading(false);
   };
 
@@ -50,9 +50,9 @@ const AcceptRequestButton = ({
       }`}
       disabled={loading}
     >
-      Accept
+      {loading ? "Inviting ..." : "Invite"}
     </button>
   );
 };
 
-export default AcceptRequestButton;
+export default InviteMember;

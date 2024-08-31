@@ -18,7 +18,12 @@ const JoinRequestContainer = ({
         <td className="w-[250px] p-2">
           <div className="flex items-center">
             <Image
-              src={request.requestUser.image || "/person.jpg"}
+              src={
+                request.requestUser.image &&
+                request.requestUser.image.startsWith("http")
+                  ? request.requestUser.image
+                  : "/images/person.jpg"
+              }
               width={30}
               height={30}
               alt={`${request.requestUser.name}'s image`}
@@ -75,32 +80,49 @@ const JoinRequestContainer = ({
             {currentUserRole === "LEADER" ? "Accept or Reject it." : "."}
           </p>
         </div>
-        <div className="h-full overflow-y-scroll hide-scrollbar flex ">
-          <table className="border-collapse bg-dark-bg text-light-color-text h-fit">
-            <thead className="sticky top-0 bg-dark-bg">
-              <tr className="text-left sticky top-0">
-                <th className="w-[250px] lg:w-[300px] p-2 sticky top-0">
-                  Name
-                </th>
-                <th
-                  className={`p-2 sticky top-0 ${
-                    currentUserRole === "LEADER" ? "hidden sm:table-cell" : ""
-                  }`}
-                >
-                  Requested Time
-                </th>
-                {currentUserRole === "LEADER" ? (
-                  <>
-                    <th className="p-2 sticky top-0">Accept</th>
-                    <th className="p-2 sticky top-0">Reject</th>
-                  </>
-                ) : (
-                  ""
-                )}
-              </tr>
-            </thead>
-            <tbody>{requestElems}</tbody>
-          </table>
+        <div
+          className={`w-full h-full overflow-y-scroll hide-scrollbar flex ${
+            requests.length <= 0 ? "w-[calc(100%-200px)]" : ""
+          }`}
+        >
+          {requests.length > 0 ? (
+            <table className="border-collapse bg-dark-bg text-light-color-text h-fit">
+              <thead className="sticky top-0 bg-dark-bg">
+                <tr className="text-left sticky top-0">
+                  <th className="w-[250px] lg:w-[300px] p-2 sticky top-0">
+                    Name
+                  </th>
+                  <th
+                    className={`p-2 sticky top-0 ${
+                      currentUserRole === "LEADER" ? "hidden sm:table-cell" : ""
+                    }`}
+                  >
+                    Requested Time
+                  </th>
+                  {currentUserRole === "LEADER" ? (
+                    <>
+                      <th className="p-2 sticky top-0">Accept</th>
+                      <th className="p-2 sticky top-0">Reject</th>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </tr>
+              </thead>
+              <tbody>{requestElems}</tbody>
+            </table>
+          ) : (
+            <div className="w-full h-full flex flex-col justify-center items-center">
+              <img
+                src="/images/empty-invites.png"
+                alt="No pending invites available"
+                height={100}
+                width={100}
+                className="h-[150px] w-[150px] md:h-[250px] md:w-[250px]"
+              />
+              <p className="text-xl font-boldc">No requests here</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

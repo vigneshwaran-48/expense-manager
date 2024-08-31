@@ -11,6 +11,7 @@ interface Props {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   loading?: boolean;
+  disabled?: boolean;
 }
 
 const ImageInput = ({
@@ -21,6 +22,7 @@ const ImageInput = ({
   onChange,
   className = "",
   loading = false,
+  disabled = false,
 }: Props) => {
   return (
     <div className={`w-full m-2 ${className}`}>
@@ -50,6 +52,8 @@ const ImageInput = ({
           name={name}
           onChange={onChange}
           className="hidden"
+          disabled={disabled}
+          accept="image/jpg,image/jpeg,image/png,"
         />
       )}
 

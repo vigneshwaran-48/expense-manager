@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface FamilySlice {
   family: Family;
   role: Role;
+  loaded: boolean;
 }
 
 const initialState: FamilySlice = {
@@ -23,6 +24,7 @@ const initialState: FamilySlice = {
     description: "",
   },
   role: "LEADER",
+  loaded: false,
 };
 
 const familySlice = createSlice({
@@ -32,6 +34,7 @@ const familySlice = createSlice({
     setFamily: (state, action: PayloadAction<FamilySlice>) => {
       state.family = action.payload.family;
       state.role = action.payload.role;
+      state.loaded = action.payload.loaded;
     },
   },
 });

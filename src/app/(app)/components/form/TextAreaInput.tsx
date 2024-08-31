@@ -11,6 +11,7 @@ interface Props {
   inputClassName?: string;
   error?: boolean;
   errorMessage?: string;
+  disabled?: boolean
 }
 
 const TextAreaInput = ({
@@ -24,6 +25,7 @@ const TextAreaInput = ({
   inputClassName = "",
   error = false,
   errorMessage = "Invalid Input",
+  disabled = false
 }: Props) => {
   return (
     <label
@@ -37,6 +39,7 @@ const TextAreaInput = ({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
+        disabled={disabled}
         className={`w-full border-b min-h-[100px] border-gray-400 outline-none p-2 text-[18px] my-2 hide-scrollbar ${inputClassName}`}
       />
       {error ? (

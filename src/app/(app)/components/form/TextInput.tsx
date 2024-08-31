@@ -11,6 +11,7 @@ interface Props {
   inputClassName?: string;
   error?: boolean;
   errorMessage?: string;
+  disabled?: boolean;
 }
 
 const TextInput = ({
@@ -24,6 +25,7 @@ const TextInput = ({
   inputClassName = "",
   error = false,
   errorMessage = "Invalid Input",
+  disabled = false,
 }: Props) => {
   return (
     <label
@@ -38,6 +40,7 @@ const TextInput = ({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className={`w-full border-b border-gray-400 outline-none p-2 text-[18px] my-2 ${inputClassName}`}
+        disabled={disabled}
       />
       {error ? (
         <span className="text-right text-red-500 text-[14px]">
