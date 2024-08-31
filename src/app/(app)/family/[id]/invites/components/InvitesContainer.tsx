@@ -93,7 +93,7 @@ const InvitesContainer = ({
         </div>
         <div
           className={`h-full overflow-y-scroll hide-scrollbar flex ${
-            invitations.length <= 0 ? "sm:w-[calc(100%-200px)] w-full" : ""
+            invitations.length <= 0 ? "sm:w-[calc(100%-200px)] w-full" : "justify-center"
           }`}
         >
           {invitations.length > 0 ? (

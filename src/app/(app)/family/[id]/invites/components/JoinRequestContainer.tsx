@@ -82,7 +82,7 @@ const JoinRequestContainer = ({
         </div>
         <div
           className={`w-full h-full overflow-y-scroll hide-scrollbar flex ${
-            requests.length <= 0 ? "w-[calc(100%-200px)]" : ""
+            requests.length <= 0 ? "w-[calc(100%-200px)]" : "justify-center"
           }`}
         >
           {requests.length > 0 ? (

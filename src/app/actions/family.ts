@@ -64,6 +64,7 @@ export const createFamily = async (family: Family) => {
   }
   revalidatePath("/families/search");
   revalidatePath("/family");
+  revalidatePath("/");
   return data;
 };
 
