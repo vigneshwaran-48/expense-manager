@@ -11,7 +11,7 @@ interface Props {
   inputClassName?: string;
   error?: boolean;
   errorMessage?: string;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 const TextInput = ({
