@@ -14,6 +14,7 @@ const CategorySearchBar = () => {
       name="categoryQuery"
       onChange={(query) => dispatch(setSearchQuery(query))}
       defaultValue={query}
+      className="border-gray-500"
     />
   );
 };
