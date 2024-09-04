@@ -78,7 +78,7 @@ const Dropdown = ({
       </div>
       {!pending && <AngleDown />}
       <ul
-        className={`flex flex-col absolute top-[105%] z-30 transition duration-500 bg-light-bg border border-light-bg overflow-hidden origin-top left-0 ${
+        className={`flex flex-col h-fit max-h-[200px] overflow-y-scroll hide-scrollbar absolute top-[105%] z-30 transition duration-500 bg-light-bg border border-light-bg overflow-hidden origin-top left-0 ${
           open ? "" : "scale-y-0"
         }`}
       >

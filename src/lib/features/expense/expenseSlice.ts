@@ -14,7 +14,7 @@ const initialState = {
   creationForm: {
     subject: "",
     description: "",
-    date: "",
+    date: "2024-07-02",
     total: 0,
     category: {} as Category,
     currency: "INR"
