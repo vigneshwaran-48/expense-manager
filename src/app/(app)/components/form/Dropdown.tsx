@@ -9,6 +9,8 @@ interface Props {
   onChange: (option: Option) => void;
   pending?: boolean;
   className?: string;
+  ulBackground?: string,
+  listHoverBg?: string
 }
 
 interface Option {
@@ -23,6 +25,8 @@ const Dropdown = ({
   onChange,
   pending = false,
   className = "",
+  ulBackground = "bg-light-bg",
+  listHoverBg = "hover:bg-dark-bg"
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
@@ -51,7 +55,7 @@ const Dropdown = ({
       id={option.id}
       key={option.id}
       onClick={() => onChange(option)}
-      className="p-2 hover:bg-dark-bg cursor-pointer"
+      className={`p-2 hover:bg-dark-bg cursor-pointer ${listHoverBg}`}
     >
       {option.displayName}
     </li>
@@ -78,7 +82,7 @@ const Dropdown = ({
       </div>
       {!pending && <AngleDown />}
       <ul
-        className={`flex flex-col h-fit max-h-[200px] overflow-y-scroll hide-scrollbar absolute top-[105%] z-30 transition duration-500 bg-light-bg border border-light-bg overflow-hidden origin-top left-0 ${
+        className={`${ulBackground} flex flex-col h-fit max-h-[200px] overflow-y-scroll hide-scrollbar absolute top-[105%] z-30 transition duration-500 border border-light-bg overflow-hidden origin-top left-0 ${
           open ? "" : "scale-y-0"
         }`}
       >
