@@ -9,7 +9,7 @@ interface Props {
   onChange: (option: Option) => void;
   pending?: boolean;
   className?: string;
-  ulBackground?: string,
+  ulClass?: string,
   listHoverBg?: string
 }
 
@@ -25,7 +25,7 @@ const Dropdown = ({
   onChange,
   pending = false,
   className = "",
-  ulBackground = "bg-light-bg",
+  ulClass = "bg-light-bg",
   listHoverBg = "hover:bg-dark-bg"
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
@@ -50,7 +50,7 @@ const Dropdown = ({
     };
   }, []);
 
-  const optionElems = options.map((option) => (
+  const optionElems = options.filter(option => option.id !== selectedOption).map((option) => (
     <li
       id={option.id}
       key={option.id}
@@ -67,24 +67,21 @@ const Dropdown = ({
 
   return (
     <div
-      className={`relative flex items-center py-2 pr-2 ${className} ${
-        pending ? "cursor-wait" : "cursor-pointer"
-      }`}
+      className={`relative flex items-center py-2 pr-2 ${className} ${pending ? "cursor-wait" : "cursor-pointer"
+        }`}
       onClick={() => !pending && setOpen(!open)}
       ref={dropDownRef}
     >
       <div
-        className={`pr-2 text-color-text ${
-          pending ? "text-light-color-text" : ""
-        }`}
+        className={`pr-2 text-color-text ${pending ? "text-light-color-text" : ""
+          }`}
       >
         {selectedDisplayName}
       </div>
       {!pending && <AngleDown />}
       <ul
-        className={`${ulBackground} flex flex-col h-fit max-h-[200px] overflow-y-scroll hide-scrollbar absolute top-[105%] z-30 transition duration-500 border border-light-bg overflow-hidden origin-top left-0 ${
-          open ? "" : "scale-y-0"
-        }`}
+        className={`flex flex-col h-fit max-h-[200px] w-full overflow-y-scroll hide-scrollbar absolute top-[105%] z-30 transition duration-500 border border-light-bg overflow-hidden origin-top left-0 ${open ? "" : "scale-y-0"
+          } ${ulClass}`}
       >
         {optionElems}
       </ul>

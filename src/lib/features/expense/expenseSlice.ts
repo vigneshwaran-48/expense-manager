@@ -1,12 +1,13 @@
-import { Category } from "@/util/AppTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export const NOT_SELECTED_CATEGORY_ID = "not-selected";
 
 type CreationForm = {
   subject: string,
   description: string,
   date: string,
   total: number,
-  category: Category,
+  categoryId: string,
   currency: string
 }
 
@@ -16,7 +17,7 @@ const initialState = {
     description: "",
     date: "2024-07-02",
     total: 0,
-    category: {} as Category,
+    categoryId: NOT_SELECTED_CATEGORY_ID,
     currency: "INR"
   } as CreationForm
 }
