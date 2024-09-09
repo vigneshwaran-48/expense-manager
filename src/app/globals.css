@@ -87,6 +87,8 @@
   --light-background-color: var(--color-light-background-light);
   --other-background-color: var(--color-other-background);
   --other-text-color: var(--color-other-text);
+  
+  color-scheme: white;
 }
 
 .mode-dark {
@@ -96,6 +98,8 @@
   --light-background-color: var(--color-dark-background-light);
   --other-background-color: var(--color-other-background);
   --other-text-color: var(--color-other-text);
+
+  color-scheme: dark;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
