@@ -14,8 +14,8 @@ const ExpenseAttachement = ({ attachments, addAttachment, removeAttachment }: Pr
   console.log(attachments);
 
   return (
-    <div className="w-full md:h-full">
-      <DragNDrop onFileUpload={addAttachment} className="bg-dark-bg" />
+    <div className="w-full md:h-full max-h-[750px] md:p-4">
+      <DragNDrop onFileUpload={addAttachment} className="bg-dark-bg" uploadedFiles={attachments} onRemoveFile={removeAttachment} />
     </div>
   )
 }
