@@ -8,7 +8,8 @@ type CreationForm = {
   date: string,
   total: number,
   categoryId: string,
-  currency: string
+  currency: string,
+  attachments: File[]
 }
 
 const initialState = {
@@ -18,7 +19,8 @@ const initialState = {
     date: "2024-07-02",
     total: 0,
     categoryId: NOT_SELECTED_CATEGORY_ID,
-    currency: "INR"
+    currency: "INR",
+    attachments: []
   } as CreationForm
 }
 
