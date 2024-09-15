@@ -1,26 +1,32 @@
+import { ExpenseType } from "@/util/AppTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export const NOT_SELECTED_CATEGORY_ID = "not-selected";
 
 type CreationForm = {
-  subject: string,
+  name: string,
   description: string,
   date: string,
-  total: number,
+  amount: number,
   categoryId: string,
   currency: string,
-  attachments: File[]
+  attachments: File[],
+  submitting: boolean,
+  familyId?: string,
+  type: ExpenseType
 }
 
 const initialState = {
   creationForm: {
-    subject: "",
+    name: "",
     description: "",
     date: "2024-07-02",
-    total: 0,
+    amount: 0,
     categoryId: NOT_SELECTED_CATEGORY_ID,
     currency: "INR",
-    attachments: []
+    attachments: [],
+    submitting: false,
+    type: "PERSONAL"
   } as CreationForm
 }
 
@@ -30,9 +36,21 @@ const expenseSlice = createSlice({
   reducers: {
     setExpenseCreationForm: (state, action: PayloadAction<CreationForm>) => {
       state.creationForm = action.payload;
+    },
+    resetExpenseForm: (state) => {
+      state.creationForm.name = "";
+      state.creationForm.description = "";
+      state.creationForm.submitting = false;
+      state.creationForm.categoryId = NOT_SELECTED_CATEGORY_ID;
+      state.creationForm.type = "PERSONAL";
+      state.creationForm.familyId = undefined;
+      state.creationForm.date = "2024-07-02";
+      state.creationForm.currency = "INR";
+      state.creationForm.attachments = []
+      state.creationForm.amount = 0;
     }
   }
 })
 
-export const { setExpenseCreationForm } = expenseSlice.actions;
+export const { setExpenseCreationForm, resetExpenseForm } = expenseSlice.actions;
 export default expenseSlice.reducer;

@@ -38,7 +38,7 @@ const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
     <div className="w-full h-full flex flex-col p-2 my-4 overflow-y-scroll hide-scrollbar">
       <div className="w-full flex justify-between items-center my-4">
         <label className="text-[18px] text-light-color-text w-1/4" >Name</label>
-        <input className="outline-none border-none rounded bg-dark-bg p-2 text-[18px] w-3/4" name="subject" value={creationForm.subject} onChange={handleChange} />
+        <input className="outline-none border-none rounded bg-dark-bg p-2 text-[18px] w-3/4" name="name" value={creationForm.name} onChange={handleChange} />
       </div>
       <div className="w-full flex justify-between items-center my-4">
         <label className="text-[18px] text-light-color-text w-1/4" >Date</label>
@@ -47,7 +47,7 @@ const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
       <div className="w-full flex justify-between items-center my-4">
         <label className="text-[18px] text-light-color-text w-1/4" >Amount</label>
         <div className="w-3/4 flex items-center justify-between">
-          <input className="outline-none border-none rounded bg-dark-bg p-2 text-[18px] w-3/4" name="subject" value={creationForm.subject} onChange={handleChange} />
+          <input className="outline-none border-none rounded bg-dark-bg p-2 text-[18px] w-3/4" type="number" name="amount" value={creationForm.amount} onChange={handleChange} />
           <Dropdown
             className={"bg-dark-bg ml-2 p-2 w-[76px]"}
             options={options}

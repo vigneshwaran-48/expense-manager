@@ -1,3 +1,31 @@
+
+export type ExpenseCreationPayload = {
+  name: string,
+  description: string,
+  familyId?: string,
+  amount: number,
+  currency: string,
+  type: ExpenseType,
+  categoryId: string,
+  time: string
+}
+
+export type Expense = {
+  id?: string,
+  name: string,
+  description: string,
+  category: Category,
+  family?: Family,
+  createdBy?: User,
+  amount: number,
+  currency: string,
+  ownerId: string,
+  type: ExpenseType,
+  invoices: string[]
+}
+
+export type ExpenseType = "PERSONAL" | "FAMILY";
+
 export type Category = {
   id?: string;
   name: string;

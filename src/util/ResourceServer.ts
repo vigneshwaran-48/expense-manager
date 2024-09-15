@@ -72,3 +72,17 @@ export const getCategoryRoutes = () => {
 
   return routes;
 };
+
+export const getExpenseRoutes = () => {
+  const serverBase = getServerBase();
+
+  const routes: APIRoutes = {
+    get: `${serverBase}/api/expense`,
+    getOne: (id: string | number) => `${serverBase}/api/expense/${id}`,
+    create: `${serverBase}/api/expense`,
+    update: (id: string) => `${serverBase}/api/expense/${id}`,
+    delete: (id: string | number) => `${serverBase}/api/expense/${id}`,
+  };
+
+  return routes;
+};

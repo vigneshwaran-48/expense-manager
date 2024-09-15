@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Plus from './icon/Plus'
 import File from './icon/File';
 import XIcon from './icon/XIcon';
@@ -20,6 +20,8 @@ const hoverEffect = `bg-light-bg text-other-bg border-other-bg`
 const DragNDrop = ({ onFileUpload, uploadedFiles = [], onRemoveFile, showPreview = true, displayName = "Upload an Attachement", className = "", dragHoverEffect = hoverEffect }: Props) => {
 
   const [dragOver, setDragOver] = useState<boolean>(false);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -60,7 +62,7 @@ const DragNDrop = ({ onFileUpload, uploadedFiles = [], onRemoveFile, showPreview
 
   const uploadFileElems = uploadedFiles.map(file => {
     return (
-      <div className="relative w-fit p-2 group" title={file.name} onClick={() => onRemoveFile(file)} >
+      <div key={`${file.name}-${file.size}`} className="relative w-fit p-2 group" title={file.name} onClick={() => onRemoveFile(file)} >
         <span
           className="absolute top-[-2px] right-[-2px] opacity-0 group-hover:opacity-100 transition duration-500 text-red-500 cursor-pointer">
           <XIcon className="w-[12px]" />
@@ -72,12 +74,25 @@ const DragNDrop = ({ onFileUpload, uploadedFiles = [], onRemoveFile, showPreview
     )
   });
 
+  const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      onFileUpload(e.target.files[0]);
+    }
+  }
+
+  const openFileSelection = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  }
+
   return (
-    <div className={`w-full h-full flex flex-col p-2 bg-dark-bg`}>
+    <div className={`w-full h-full rounded flex flex-col p-2 bg-dark-bg`}>
       <div
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
+        onClick={openFileSelection}
         className={`w-full border-2 border-dashed border-dark-bg flex flex-col justify-center rounded items-center transition duration-500 cursor-pointer ${showPreview && uploadedFiles.length > 0
           ? "h-[calc(100%-50px)]" : "h-full"} text-light-color-text ${className} ${dragOver ? dragHoverEffect : ""} `}>
         <Plus className="w-[30px] h-[30px]" />
@@ -86,6 +101,7 @@ const DragNDrop = ({ onFileUpload, uploadedFiles = [], onRemoveFile, showPreview
       <div className={`w-full overflow-x-scroll hide-scrollbar ${showPreview && uploadedFiles.length > 0 ? "h-[50px]" : ""} flex items-center`}>
         {uploadFileElems}
       </div>
+      <input type="file" ref={fileInputRef} className="hidden" onChange={onFileInputChange} />
     </div>
   )
 }
