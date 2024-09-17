@@ -1,13 +1,13 @@
 "use server";
 
-import { ExpenseCreationPayload } from "@/util/AppTypes";
 import { sendRequest } from "@/util/RequestUtil";
 import { getExpenseRoutes } from "@/util/ResourceServer";
+import FormData from "form-data";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 
-export const createExpense = async (payload: ExpenseCreationPayload) => {
+export const createExpense = async (formData: FormData) => {
 
   const routes = getExpenseRoutes();
 
@@ -15,8 +15,9 @@ export const createExpense = async (payload: ExpenseCreationPayload) => {
     url: routes.create,
     method: "POST",
     includeBody: true,
-    body: JSON.stringify(payload),
-    contentType: "application/json",
+    body: formData,
+    includeContentType: true,
+    contentType: "multipart/form-data"
   });
 
   const data = await response.json();
@@ -24,8 +25,8 @@ export const createExpense = async (payload: ExpenseCreationPayload) => {
     redirect("/auth/signin");
   }
   revalidatePath("/api/expense");
-  if (payload.familyId) {
-    revalidatePath(`/family/${payload.familyId}/expense`);
+  if (formData.get("payload").familyId) {
+    revalidatePath(`/family/${formData.get("payload").familyId}/expense`);
   }
   return data;
 }

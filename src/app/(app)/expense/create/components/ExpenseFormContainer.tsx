@@ -9,21 +9,23 @@ import { createExpense } from '@/app/actions/expense';
 import { addToast, ToastType } from '@/lib/features/toast/toastSlice';
 import { getUniqueId } from '@/util/getUniqueId';
 import { resetExpenseForm, setExpenseCreationForm } from '@/lib/features/expense/expenseSlice';
+import { getExpenseRoutes } from '@/util/ResourceServer';
+import { getSession } from 'next-auth/react';
 
 const ExpenseFormContainer = () => {
-  const [attachments, setAttachments] = useState<File[]>([]);
+  const [invoices, setInvoices] = useState<File[]>([]);
   const expenseCreationForm = useAppSelector(state => state.expenseSlice.creationForm);
   const dispatch = useAppDispatch();
 
-  const addAttachment = (file: File) => {
-    if (attachments.filter(f => f.name === file.name && f.size === file.size).length > 0) {
+  const addInvoice = (file: File) => {
+    if (invoices.filter(f => f.name === file.name && f.size === file.size).length > 0) {
       return;
     }
-    setAttachments(prevAttachments => [...prevAttachments, file]);
+    setInvoices(prevAttachments => [...prevAttachments, file]);
   }
 
-  const removeAttachment = (file: File) => {
-    setAttachments(prevAttachments => prevAttachments.filter(attachment => attachment !== file));
+  const removeInvoice = (file: File) => {
+    setInvoices(prevInvoices => prevInvoices.filter(invoice => invoice !== file));
   }
 
   const handleSubmit = async () => {
@@ -40,7 +42,23 @@ const ExpenseFormContainer = () => {
 
     dispatch(setExpenseCreationForm({ ...expenseCreationForm, "submitting": true }));
 
-    const result = await createExpense(payload);
+    const formData = new FormData();
+    formData.append("payload", JSON.stringify(payload));
+    invoices.forEach(invoice => {
+      formData.append("invoices", invoice);
+    });
+    const session = await getSession();
+    const accessToken = Object.create(session)["access_token"];
+    console.log(accessToken);
+    const routes = getExpenseRoutes();
+    const response = await fetch(routes.create, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Authorization": `Bearer ${accessToken}`
+      }
+    });
+    const result = await response.json();
     if (result.status === 200) {
       dispatch(addToast({ id: getUniqueId(), message: result.message, type: ToastType.SUCCESS }));
       dispatch(resetExpenseForm());
@@ -58,9 +76,9 @@ const ExpenseFormContainer = () => {
         </div>
         <div className="w-full lg:w-1/3 h-full">
           <ExpenseAttachement
-            addAttachment={addAttachment}
-            removeAttachment={removeAttachment}
-            attachments={attachments} />
+            addAttachment={addInvoice}
+            removeAttachment={removeInvoice}
+            attachments={invoices} />
         </div>
       </div>
       <div className="w-full flex justify-end items-center p-2">
