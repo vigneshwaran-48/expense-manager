@@ -2,7 +2,6 @@
 
 import { sendRequest } from "@/util/RequestUtil";
 import { getExpenseRoutes } from "@/util/ResourceServer";
-import FormData from "form-data";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -16,8 +15,7 @@ export const createExpense = async (formData: FormData) => {
     method: "POST",
     includeBody: true,
     body: formData,
-    includeContentType: true,
-    contentType: "multipart/form-data"
+    includeContentType: false,
   });
 
   const data = await response.json();

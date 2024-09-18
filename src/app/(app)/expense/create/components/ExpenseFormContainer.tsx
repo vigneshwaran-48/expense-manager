@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { createExpense } from '@/app/actions/expense';
 import { addToast, ToastType } from '@/lib/features/toast/toastSlice';
 import { getUniqueId } from '@/util/getUniqueId';
-import { resetExpenseForm, setExpenseCreationForm } from '@/lib/features/expense/expenseSlice';
+import { NOT_SELECTED_CATEGORY_ID, resetExpenseForm, setExpenseCreationForm } from '@/lib/features/expense/expenseSlice';
 import { getExpenseRoutes } from '@/util/ResourceServer';
 import { getSession } from 'next-auth/react';
 
@@ -37,8 +37,11 @@ const ExpenseFormContainer = () => {
       time: expenseCreationForm.date,
       familyId: expenseCreationForm.familyId,
       type: expenseCreationForm.type,
-      categoryId: expenseCreationForm.categoryId,
     } as ExpenseCreationPayload
+
+    if (expenseCreationForm.categoryId !== NOT_SELECTED_CATEGORY_ID) {
+      payload.categoryId = expenseCreationForm.categoryId;
+    }
 
     dispatch(setExpenseCreationForm({ ...expenseCreationForm, "submitting": true }));
 
@@ -50,15 +53,16 @@ const ExpenseFormContainer = () => {
     const session = await getSession();
     const accessToken = Object.create(session)["access_token"];
     console.log(accessToken);
-    const routes = getExpenseRoutes();
-    const response = await fetch(routes.create, {
-      method: "POST",
-      body: formData,
-      headers: {
-        "Authorization": `Bearer ${accessToken}`
-      }
-    });
-    const result = await response.json();
+    //    const routes = getExpenseRoutes();
+    //    const response = await fetch(routes.create, {
+    //      method: "POST",
+    //      body: formData,
+    //      headers: {
+    //        "Authorization": `Bearer ${accessToken}`
+    //      }
+    //    });
+    //    const result = await response.json();
+    const result = await createExpense(formData);
     if (result.status === 200) {
       dispatch(addToast({ id: getUniqueId(), message: result.message, type: ToastType.SUCCESS }));
       dispatch(resetExpenseForm());
