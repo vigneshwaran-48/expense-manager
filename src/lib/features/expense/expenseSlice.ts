@@ -10,7 +10,6 @@ type CreationForm = {
   amount: number,
   categoryId: string,
   currency: string,
-  attachments: File[],
   submitting: boolean,
   familyId?: string,
   type: ExpenseType
@@ -24,7 +23,6 @@ const initialState = {
     amount: 0,
     categoryId: NOT_SELECTED_CATEGORY_ID,
     currency: "INR",
-    attachments: [],
     submitting: false,
     type: "PERSONAL"
   } as CreationForm
@@ -46,7 +44,6 @@ const expenseSlice = createSlice({
       state.creationForm.familyId = undefined;
       state.creationForm.date = "2024-07-02";
       state.creationForm.currency = "INR";
-      state.creationForm.attachments = []
       state.creationForm.amount = 0;
     }
   }

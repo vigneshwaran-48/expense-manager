@@ -9,8 +9,6 @@ import { createExpense } from '@/app/actions/expense';
 import { addToast, ToastType } from '@/lib/features/toast/toastSlice';
 import { getUniqueId } from '@/util/getUniqueId';
 import { NOT_SELECTED_CATEGORY_ID, resetExpenseForm, setExpenseCreationForm } from '@/lib/features/expense/expenseSlice';
-import { getExpenseRoutes } from '@/util/ResourceServer';
-import { getSession } from 'next-auth/react';
 
 const ExpenseFormContainer = () => {
   const [invoices, setInvoices] = useState<File[]>([]);
@@ -50,26 +48,15 @@ const ExpenseFormContainer = () => {
     invoices.forEach(invoice => {
       formData.append("invoices", invoice);
     });
-    const session = await getSession();
-    const accessToken = Object.create(session)["access_token"];
-    console.log(accessToken);
-    //    const routes = getExpenseRoutes();
-    //    const response = await fetch(routes.create, {
-    //      method: "POST",
-    //      body: formData,
-    //      headers: {
-    //        "Authorization": `Bearer ${accessToken}`
-    //      }
-    //    });
-    //    const result = await response.json();
     const result = await createExpense(formData);
     if (result.status === 200) {
       dispatch(addToast({ id: getUniqueId(), message: result.message, type: ToastType.SUCCESS }));
+      setInvoices([]);
       dispatch(resetExpenseForm());
     } else {
       dispatch(addToast({ id: getUniqueId(), message: result.error, type: ToastType.ERROR }));
+      dispatch(setExpenseCreationForm({ ...expenseCreationForm, "submitting": false }));
     }
-    dispatch(setExpenseCreationForm({ ...expenseCreationForm, "submitting": false }));
   }
 
   return (

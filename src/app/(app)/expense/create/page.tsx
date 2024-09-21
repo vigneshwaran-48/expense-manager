@@ -1,6 +1,6 @@
 import React from 'react'
 import Title from '../../components/Title'
-import ExpenseFormContainer from './components/ExpenseFormContainer'
+import ExpenseFormContainer from "./components/ExpenseFormContainer";
 
 const page = () => {
 
