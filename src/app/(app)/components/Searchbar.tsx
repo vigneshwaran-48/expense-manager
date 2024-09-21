@@ -9,6 +9,7 @@ interface Props {
   defaultValue?: string;
   placeholder?: string;
   onChange: (query: string) => void;
+  className?: string;
 }
 
 const Searchbar = ({
@@ -17,11 +18,12 @@ const Searchbar = ({
   placeholder = "Search",
   defaultValue = "",
   onChange = () => {},
+  className = "",
 }: Props) => {
   return (
     <label
       htmlFor={id}
-      className="w-fit flex p-2 text-[20px] items-center justify-between rounded border border-gray-50"
+      className={`w-fit flex p-2 text-[20px] items-center justify-between rounded border border-gray-50 ${className}`}
     >
       <SearchIcon className="m-2 cursor-pointer" />
       <input

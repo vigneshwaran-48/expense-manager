@@ -31,7 +31,8 @@ const Navbar = () => {
           <NavLink
             activeClassName={`bg-other-bg text-other-text hover:bg-other-bg`}
             className={`rounded transition-all duration-500 my-1 w-full p-2 flex items-center hover:bg-dark-bg`}
-            href="/expenses"
+            href="/expense"
+            useStartsWith={true}
           >
             <BillIcon />
             <p className="ml-2">Expenses</p>

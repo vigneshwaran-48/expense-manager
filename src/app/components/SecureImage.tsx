@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { getSession } from "next-auth/react";
 import Spinner from "./loader/Spinner";
 import { getImageResource } from "../actions/static";
 
@@ -15,19 +14,6 @@ const SecureImage = ({
 }) => {
   const [src, setSrc] = useState<string | ArrayBuffer | null>("");
   const [loading, setLoading] = useState<boolean>(false);
-
-  const getBase64Image = async (res: Response) => {
-    const blob = await res.blob();
-
-    const reader = new FileReader();
-
-    await new Promise((resolve, reject) => {
-      reader.onload = resolve;
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-    return reader.result;
-  };
 
   useEffect(() => {
     if (
