@@ -48,7 +48,7 @@ const ExpenseFormContainer = () => {
     invoices.forEach(invoice => {
       formData.append("invoices", invoice);
     });
-    const result = await createExpense(formData);
+    const result = await createExpense(formData, expenseCreationForm.familyId);
     if (result.status === 200) {
       dispatch(addToast({ id: getUniqueId(), message: result.message, type: ToastType.SUCCESS }));
       setInvoices([]);

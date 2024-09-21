@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 
-export const createExpense = async (formData: FormData) => {
+export const createExpense = async (formData: FormData, familyId: string | undefined) => {
 
   const routes = getExpenseRoutes();
 
@@ -23,8 +23,8 @@ export const createExpense = async (formData: FormData) => {
     redirect("/auth/signin");
   }
   revalidatePath("/api/expense");
-  if (formData.get("payload").familyId) {
-    revalidatePath(`/family/${formData.get("payload").familyId}/expense`);
+  if (familyId) {
+    revalidatePath(`/family/${familyId}/expense`);
   }
   return data;
 }
