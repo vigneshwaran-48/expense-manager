@@ -47,3 +47,20 @@ export const getAllUsers = async (includeFamilyMembers = true, query = "") => {
   }
   return data.users as User[];
 };
+
+export const getUserById = async (id: string) => {
+  const routes = getUserRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(id)}`,
+    method: "GET",
+    includeBody: false,
+    checkAuthentication: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  return data.user as User;
+};
