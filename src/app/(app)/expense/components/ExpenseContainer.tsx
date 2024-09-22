@@ -104,7 +104,7 @@ const ExpenseContainer = ({ expenses }: { expenses: Expense[] }) => {
 
   return (
     <div className="w-full h-full overflow-y-scroll hide-scrollbar">
-      <table className="border-collapse w-full h-full text-light-color-text">
+      <table className="border-collapse w-full text-light-color-text">
         <thead className="sticky top-0 bg-dark-bg">
           <tr className="text-left">
             <th className="py-2">Name</th>
