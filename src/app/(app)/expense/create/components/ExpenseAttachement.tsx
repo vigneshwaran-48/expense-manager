@@ -11,8 +11,6 @@ interface Props {
 
 const ExpenseAttachement = ({ attachments, addAttachment, removeAttachment }: Props) => {
 
-  console.log(attachments);
-
   return (
     <div className="w-full md:h-full max-h-[750px] md:p-4">
       <DragNDrop onFileUpload={addAttachment} className="bg-dark-bg" uploadedFiles={attachments} onRemoveFile={removeAttachment} />

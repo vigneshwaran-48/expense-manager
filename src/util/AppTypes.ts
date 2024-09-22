@@ -21,7 +21,9 @@ export type Expense = {
   currency: string,
   ownerId: string,
   type: ExpenseType,
-  invoices: string[]
+  invoices: string[],
+  time: string,
+  ownerName?: string
 }
 
 export type ExpenseType = "PERSONAL" | "FAMILY";

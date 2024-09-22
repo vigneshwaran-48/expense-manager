@@ -9,11 +9,13 @@ import { createExpense } from '@/app/actions/expense';
 import { addToast, ToastType } from '@/lib/features/toast/toastSlice';
 import { getUniqueId } from '@/util/getUniqueId';
 import { NOT_SELECTED_CATEGORY_ID, resetExpenseForm, setExpenseCreationForm } from '@/lib/features/expense/expenseSlice';
+import { redirect, useRouter } from 'next/navigation';
 
 const ExpenseFormContainer = () => {
   const [invoices, setInvoices] = useState<File[]>([]);
   const expenseCreationForm = useAppSelector(state => state.expenseSlice.creationForm);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const addInvoice = (file: File) => {
     if (invoices.filter(f => f.name === file.name && f.size === file.size).length > 0) {
@@ -53,6 +55,7 @@ const ExpenseFormContainer = () => {
       dispatch(addToast({ id: getUniqueId(), message: result.message, type: ToastType.SUCCESS }));
       setInvoices([]);
       dispatch(resetExpenseForm());
+      router.push("/expense");
     } else {
       dispatch(addToast({ id: getUniqueId(), message: result.error, type: ToastType.ERROR }));
       dispatch(setExpenseCreationForm({ ...expenseCreationForm, "submitting": false }));

@@ -27,6 +27,8 @@ const config: Config = {
       },
       screens: {
         "extra-lg": { min: "1400px" },
+        "large-md": { min: "1400px" },
+        "max-sm": { max: "500px" },
       },
     },
     borderRadius: {
