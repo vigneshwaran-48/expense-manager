@@ -1,3 +1,12 @@
+export type ExpenseFilter = {
+  isPersonal?: boolean,
+  start?: string,
+  end?: string,
+  query?: string,
+  searchBy?: SearchBy
+}
+
+export type SearchBy = "NAME" | "DESCRIPTION" | "CATEGORY" | "OWNER" | "ALL";
 
 export type ExpenseCreationPayload = {
   name: string,
