@@ -9,7 +9,7 @@ const page = async () => {
   });
   return (
     <div className="w-full h-full bg-dark-bg rounded p-2 my-2">
-      <ExpenseContainer expenses={expenses} />
+      <ExpenseContainer data={expenses} />
     </div>
   )
 }

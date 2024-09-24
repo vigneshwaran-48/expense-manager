@@ -1,7 +1,8 @@
 "use client";
-
 import AngleDown from '@/app/components/icon/AngleDown';
 import TrashIcon from '@/app/components/icon/TrashIcon';
+import { setExpenses } from '@/lib/features/expense/expenseSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { Expense } from '@/util/AppTypes'
 import React, { useEffect, useRef, useState } from 'react'
 
@@ -15,7 +16,7 @@ const getDisplayTime = (date: string) => {
   return `Today ${dateObj.getHours()}:${dateObj.getMinutes()}`;
 }
 
-const ExpenseContainer = ({ expenses }: { expenses: Expense[] }) => {
+const ExpenseContainer = ({ data }: { data: Expense[] }) => {
 
   const [expenseColumns, setExpenseColumns] = useState([
     {
@@ -40,6 +41,16 @@ const ExpenseContainer = ({ expenses }: { expenses: Expense[] }) => {
 
   const [openExpenseColumnDropdown, setOpenExpenseColumnDropdown] = useState<boolean>(false);
 
+  const expenses = useAppSelector(state => state.expenseSlice.expenses);
+
+  const dispatch = useAppDispatch();
+
+  const { query, searchBy } = useAppSelector(state => state.expenseSlice.search);
+
+  useEffect(() => {
+    dispatch(setExpenses(data))
+  }, [data]);
+
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
       if (
@@ -59,7 +70,14 @@ const ExpenseContainer = ({ expenses }: { expenses: Expense[] }) => {
     };
   }, []);
 
-  const expenseElems = expenses && expenses.map(expense => {
+  const expenseElems = expenses && expenses.filter(expense => {
+    if (searchBy === "ALL") {
+      return expense.name.toLowerCase().includes(query.toLowerCase());
+    } else if (searchBy === "OWNER") {
+      return expense.ownerName?.toLowerCase().includes(query.toLowerCase());
+    }
+    return false;
+  }).map(expense => {
     let openColumnValue = getDisplayTime(expense.time);
     switch (expenseColumns.find(column => column.selected === true)?.name) {
       case "Amount":

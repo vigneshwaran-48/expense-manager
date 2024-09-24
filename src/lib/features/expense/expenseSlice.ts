@@ -1,4 +1,4 @@
-import { ExpenseType } from "@/util/AppTypes";
+import { Expense, ExpenseType, SearchBy } from "@/util/AppTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export const NOT_SELECTED_CATEGORY_ID = "not-selected";
@@ -15,7 +15,16 @@ type CreationForm = {
   type: ExpenseType
 }
 
-const initialState = {
+interface State {
+  creationForm: CreationForm,
+  expenses: Expense[],
+  search: {
+    query: string,
+    searchBy: SearchBy
+  }
+}
+
+const initialState: State = {
   creationForm: {
     name: "",
     description: "",
@@ -25,7 +34,12 @@ const initialState = {
     currency: "INR",
     submitting: false,
     type: "PERSONAL"
-  } as CreationForm
+  } as CreationForm,
+  expenses: [],
+  search: {
+    query: "",
+    searchBy: "ALL"
+  }
 }
 
 const expenseSlice = createSlice({
@@ -45,9 +59,18 @@ const expenseSlice = createSlice({
       state.creationForm.date = "2024-07-02";
       state.creationForm.currency = "INR";
       state.creationForm.amount = 0;
+    },
+    setExpenses: (state, action: PayloadAction<Expense[]>) => {
+      state.expenses = action.payload;
+    },
+    setQuery: (state, action: PayloadAction<string>) => {
+      state.search.query = action.payload;
+    },
+    setSearchBy: (state, action: PayloadAction<SearchBy>) => {
+      state.search.searchBy = action.payload;
     }
   }
 })
 
-export const { setExpenseCreationForm, resetExpenseForm } = expenseSlice.actions;
+export const { setExpenseCreationForm, resetExpenseForm, setExpenses, setQuery, setSearchBy } = expenseSlice.actions;
 export default expenseSlice.reducer;

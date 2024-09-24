@@ -56,6 +56,8 @@ export const getAllExpenses = async (filter?: ExpenseFilter) => {
     url = `${url}?${searchParams.toString()}`
   }
 
+  console.log(url);
+
   const response = await sendRequest({
     url: routes.get,
     method: "GET",
