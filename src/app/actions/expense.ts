@@ -39,30 +39,28 @@ export const getAllExpenses = async (filter?: ExpenseFilter) => {
   const searchParams = new URLSearchParams();
   if (filter) {
     if (filter.isPersonal !== undefined) {
-      searchParams.append("isPersonal", filter.isPersonal + "");
+      searchParams.set("isPersonal", filter.isPersonal + "");
     }
     if (filter.start) {
-      searchParams.append("start", filter.start);
+      searchParams.set("start", filter.start);
     }
     if (filter.end) {
-      searchParams.append("end", filter.end);
+      searchParams.set("end", filter.end);
     }
     if (filter.query) {
-      searchParams.append("query", filter.query);
+      searchParams.set("query", filter.query);
     }
     if (filter.searchBy) {
-      searchParams.append("searchBy", filter.searchBy);
+      searchParams.set("searchBy", filter.searchBy);
     }
     url = `${url}?${searchParams.toString()}`
   }
 
-  console.log(url);
 
   const response = await sendRequest({
-    url: routes.get,
+    url,
     method: "GET",
     includeBody: false,
-    includeContentType: false
   });
 
   const data = await response.json();

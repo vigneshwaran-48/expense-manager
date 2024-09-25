@@ -16,7 +16,7 @@ const page = async ({
 }) => {
 
   const filter: ExpenseFilter = {
-    isPersonal: true
+    isPersonal: false
   }
   if (searchParams?.query) {
     filter.query = searchParams.query;
@@ -24,7 +24,6 @@ const page = async ({
   if (searchParams?.searchBy) {
     filter.searchBy = searchParams.searchBy;
   }
-  console.log(filter);
   const expenses = await getAllExpenses(filter);
 
   console.log("Server hit!");
