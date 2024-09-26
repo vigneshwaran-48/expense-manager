@@ -16,13 +16,18 @@ const ExpenseListingHeader = () => {
   const dispatch = useAppDispatch();
   const { query, searchBy } = useAppSelector(state => state.expenseSlice.search);
 
+  useEffect(() => {
+    onEnter();
+  }, [query])
+
   const handleQuery = (query: string) => {
     dispatch(setQuery(query));
   };
 
   const onEnter = () => {
     const queryParams = new URLSearchParams(searchParams);
-    if (query) {
+    console.log(query);
+    if (query && query.trim().length > 0) {
       queryParams.set("query", query);
       queryParams.set("page", "1");
       queryParams.set("searchBy", searchBy);
