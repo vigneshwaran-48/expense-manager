@@ -11,10 +11,11 @@ import { SearchBy } from '@/util/AppTypes';
 
 interface Props {
   query?: string,
-  searchBy?: SearchBy
+  searchBy?: SearchBy,
+  isFamily?: boolean
 }
 
-const ExpenseListingHeader = ({ query: queryParam, searchBy: searchByParam }: Props) => {
+const ExpenseListingHeader = ({ query: queryParam, searchBy: searchByParam, isFamily }: Props) => {
 
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -131,7 +132,7 @@ const ExpenseListingHeader = ({ query: queryParam, searchBy: searchByParam }: Pr
         </div>
       </div>
       <div className=" flex items-center justify-end p-2 border-light-color-text">
-        <NavLink href="/expense/create">
+        <NavLink href={`/expense/create${isFamily ? "?family=true" : ""}`}>
           <button className="py-1 px-2 rounded bg-other-bg text-other-text">Create</button>
         </NavLink>
       </div>

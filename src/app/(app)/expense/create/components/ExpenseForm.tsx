@@ -1,11 +1,12 @@
 "use client";
 
 import Dropdown from '@/app/(app)/components/form/Dropdown';
+import { getUserFamily, getUserRoleInFamily } from '@/app/actions/family';
 import { NOT_SELECTED_CATEGORY_ID, setExpenseCreationForm } from '@/lib/features/expense/expenseSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { Category } from '@/util/AppTypes';
+import { Category, Role } from '@/util/AppTypes';
 import { countries } from '@/util/countries';
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const options = countries.map(country => {
   return {
@@ -20,6 +21,23 @@ const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
   const creationForm = useAppSelector(state => state.expenseSlice.creationForm);
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    if (isFamilyExpense) {
+      (async () => {
+        const response = await getUserFamily();
+        if (response.status !== 200) {
+          console.log(`Response got for family get: ${response.status}`);
+          return;
+        }
+        dispatch(setExpenseCreationForm({ ...creationForm, "familyId": response.family.id }));
+        const role: Role = await getUserRoleInFamily(response.family.id);
+        if (role === "LEADER" || role === "MAINTAINER") {
+          dispatch(setExpenseCreationForm({ ...creationForm, "chooseType": true }))
+        }
+      })();
+    }
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     dispatch(setExpenseCreationForm({ ...creationForm, [name]: value }));
@@ -29,7 +47,8 @@ const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
     dispatch(setExpenseCreationForm({ ...creationForm, [name]: value }));
   }
 
-  const categoryOptions = categories.filter(category => isFamilyExpense || category.type === "PERSONAL")
+  const categoryOptions = categories.filter(category => (isFamilyExpense && category.type === "FAMILY")
+    || (!isFamilyExpense && category.type === "PERSONAL"))
     .map(category => ({ id: category.id as string, displayName: category.name, value: category.name }));
 
   categoryOptions.push({ id: NOT_SELECTED_CATEGORY_ID, displayName: "---", value: "not-selected" })

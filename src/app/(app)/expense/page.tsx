@@ -16,7 +16,7 @@ const page = async ({
 }) => {
 
   const filter: ExpenseFilter = {
-    isPersonal: true
+    isFamily: false
   }
   if (searchParams?.query) {
     filter.query = searchParams.query;

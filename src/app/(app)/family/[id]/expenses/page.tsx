@@ -15,7 +15,7 @@ const page = async ({
   };
 }) => {
   const filter: ExpenseFilter = {
-    isPersonal: false
+    isFamily: true
   }
   if (searchParams?.query) {
     filter.query = searchParams.query;
@@ -28,7 +28,10 @@ const page = async ({
   return (
     <div className="w-full h-full">
       <Title title="Expenses" />
-      <ExpenseListingHeader query={searchParams?.query} searchBy={searchParams?.searchBy} />
+      <ExpenseListingHeader
+        isFamily={true}
+        query={searchParams?.query}
+        searchBy={searchParams?.searchBy} />
       <div className="w-full h-[calc(100%-55px)] rounded p-2 my-2 bg-dark-bg">
         <ExpenseContainer data={expenses} />
       </div>

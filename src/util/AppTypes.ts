@@ -1,5 +1,15 @@
+export type FamilySettings = {
+  id: string,
+  family: Family,
+  inviteAcceptRequestRoles: Role[],
+  familyExpenseRoles: Role[],
+  removeMemberRoles: Role[],
+  updateFamilyRoles: Role[],
+  categoryRoles: Role[]
+}
+
 export type ExpenseFilter = {
-  isPersonal?: boolean,
+  isFamily?: boolean,
   start?: string,
   end?: string,
   query?: string,

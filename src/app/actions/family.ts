@@ -3,6 +3,7 @@
 import {
   Family,
   FamilyMember,
+  FamilySettings,
   Invitation,
   JoinRequest,
   Role,
@@ -280,3 +281,20 @@ export const inviteMember = async (
   revalidatePath(`/family/${familyId}/invites`);
   return data;
 };
+
+export const getFamilySettings = async (id: string) => {
+
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(id)}/settings`,
+    method: "GET",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  return data.settings as FamilySettings;
+}

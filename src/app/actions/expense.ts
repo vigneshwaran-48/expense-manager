@@ -38,8 +38,8 @@ export const getAllExpenses = async (filter?: ExpenseFilter) => {
   let url = routes.get;
   const searchParams = new URLSearchParams();
   if (filter) {
-    if (filter.isPersonal !== undefined) {
-      searchParams.set("isPersonal", filter.isPersonal + "");
+    if (filter.isFamily !== undefined) {
+      searchParams.set("isFamily", filter.isFamily + "");
     }
     if (filter.start) {
       searchParams.set("start", filter.start);
