@@ -9,8 +9,12 @@ import { setQuery, setSearchBy } from '@/lib/features/expense/expenseSlice';
 import MultiLevelDropdown from '../../components/form/MultiLevelDropdown';
 import { SearchBy } from '@/util/AppTypes';
 
+interface Props {
+  query?: string,
+  searchBy?: SearchBy
+}
 
-const ExpenseListingHeader = () => {
+const ExpenseListingHeader = ({ query: queryParam, searchBy: searchByParam }: Props) => {
 
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -23,6 +27,15 @@ const ExpenseListingHeader = () => {
   useEffect(() => {
     onEnter();
   }, [query, searchBy])
+
+  useEffect(() => {
+    if (searchByParam) {
+      dispatch(setSearchBy(searchByParam))
+    }
+    if (queryParam) {
+      dispatch(setQuery(queryParam));
+    }
+  }, [queryParam, searchByParam])
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent | TouchEvent) => {

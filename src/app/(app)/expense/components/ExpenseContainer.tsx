@@ -1,4 +1,5 @@
 "use client";
+
 import AngleDown from '@/app/components/icon/AngleDown';
 import TrashIcon from '@/app/components/icon/TrashIcon';
 import { setExpenses } from '@/lib/features/expense/expenseSlice';
