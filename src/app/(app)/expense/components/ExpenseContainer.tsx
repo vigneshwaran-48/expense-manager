@@ -16,6 +16,7 @@ const getDisplayTime = (date: string) => {
   return `Today ${dateObj.getHours()}:${dateObj.getMinutes()}`;
 }
 
+
 const ExpenseContainer = ({ data }: { data: Expense[] }) => {
 
   const [expenseColumns, setExpenseColumns] = useState([
@@ -75,6 +76,13 @@ const ExpenseContainer = ({ data }: { data: Expense[] }) => {
       return expense.name.toLowerCase().includes(query.toLowerCase());
     } else if (searchBy === "OWNER") {
       return expense.ownerName?.toLowerCase().includes(query.toLowerCase());
+    } else if (searchBy === "CATEGORY") {
+      return expense.category
+        && expense.category.name.toLowerCase().includes(query.toLowerCase());
+    } else if (searchBy === "NAME") {
+      return expense.name.toLowerCase().includes(query.toLowerCase());
+    } else if (searchBy === "DESCRIPTION") {
+      return expense.description.toLowerCase().includes(query.toLowerCase());
     }
     return false;
   }).map(expense => {

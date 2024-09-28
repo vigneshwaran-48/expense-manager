@@ -76,7 +76,10 @@ const ExpenseFormContainer = () => {
         </div>
       </div>
       <div className="w-full flex justify-end items-center p-2">
-        <button className="px-2 py-1 m-2 rounded bg-dark-bg text-light-color-text">Cancel</button>
+        <button
+          className="px-2 py-1 m-2 rounded bg-dark-bg text-light-color-text"
+          onClick={() => router.push("/expense")}
+        >Cancel</button>
         <button
           className={`px-2 py-1 m-2 rounded ${expenseCreationForm.submitting ? "bg-light-bg" : "bg-other-bg"} text-other-text`}
           onClick={handleSubmit}
