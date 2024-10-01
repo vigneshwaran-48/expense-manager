@@ -111,8 +111,8 @@ const ExpenseContainer = ({ data }: { data: Expense[] }) => {
         <td className="py-4 hidden sm:table-cell">{expense.amount}</td>
         <td className="py-4 hidden sm:table-cell">{getDisplayTime(expense.time)}</td>
         <td className="py-4 hidden md:table-cell">{expense.category?.name || "None"}</td>
-        <td className="py-4 hidden large-md:table-cell">{expense.ownerName}</td>
-        <td className="py-4 large-md:hidden">{openColumnValue}</td>
+        <td className="py-4 hidden md:table-cell">{expense.ownerName}</td>
+        <td className="py-4 md:hidden">{openColumnValue}</td>
         <td className="text-red-500 cursor-pointer"><TrashIcon /></td>
       </tr>
     )
@@ -137,8 +137,8 @@ const ExpenseContainer = ({ data }: { data: Expense[] }) => {
             <th className="py-2 hidden sm:table-cell">Amount</th>
             <th className="py-2 hidden sm:table-cell">Date</th>
             <th className="py-2 hidden md:table-cell">Category</th>
-            <th className="py-2 hidden large-md:table-cell">Owner</th>
-            <th className="py-2 relative large-md:hidden min-w-[35px]" ref={expenseColumnRef}>
+            <th className="py-2 hidden md:table-cell">Owner</th>
+            <th className="py-2 relative md:hidden min-w-[35px]" ref={expenseColumnRef}>
               <div
                 className="w-full flex items-center justify-between cursor-pointer max-w-[150px]"
                 onClick={() => setOpenExpenseColumnDropdown(prevValue => !prevValue)}>

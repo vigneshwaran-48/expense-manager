@@ -15,10 +15,26 @@ const options = countries.map(country => {
     value: country.code
   }
 })
+
+const expenseTypeOptions = [
+  {
+    id: "PERSONAL-expense-id",
+    displayName: "Personal",
+    value: "PERSONAL"
+  },
+  {
+    id: "FAMILY-expense-id",
+    displayName: "Family",
+    value: "FAMILY"
+  }
+]
+
 const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
 
   const categories = useAppSelector(state => state.categorySlice.categories);
   const creationForm = useAppSelector(state => state.expenseSlice.creationForm);
+  const familySettings = useAppSelector(state => state.familySlice.settings);
+  const userRole = useAppSelector(state => state.familySlice.role);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -30,13 +46,15 @@ const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
           return;
         }
         dispatch(setExpenseCreationForm({ ...creationForm, "familyId": response.family.id }));
-        const role: Role = await getUserRoleInFamily(response.family.id);
-        if (role === "LEADER" || role === "MAINTAINER") {
+        if (familySettings.familyExpenseRoles.includes(userRole)) {
           dispatch(setExpenseCreationForm({ ...creationForm, "chooseType": true }))
         }
       })();
+    } else {
+      dispatch(setExpenseCreationForm({ ...creationForm, "familyId": undefined }));
+      dispatch(setExpenseCreationForm({ ...creationForm, "chooseType": false }))
     }
-  }, []);
+  }, [isFamilyExpense]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -91,6 +109,20 @@ const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
             />
           </div>
           : <></>
+      }
+      {
+        creationForm.chooseType ?
+          <div className="w-full flex justify-between items-center my-4">
+            <label className="text-[18px] text-light-color-text w-1/4">Type</label>
+            <Dropdown
+              className={"bg-dark-bg w-full flex justify-between max-w-[200px] ml-2 p-2"}
+              options={expenseTypeOptions}
+              selectedOption={`${creationForm.type}-expense-id` || "PERSONAL-expense-id"}
+              onChange={option => handleNewValue("type", option.value)}
+              ulClass={"bg-dark-bg"}
+            />
+          </div>
+          : ""
       }
       <div className="flex w-full justify-between my-4">
         <label htmlFor="expense-description" className="text-[18px] text-light-color-text mr-2 sm:mr-none sm:w-1/4">Description</label>
