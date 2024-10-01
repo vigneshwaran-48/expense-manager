@@ -1,6 +1,6 @@
 "use server";
 
-import { Expense } from "@/util/AppTypes";
+import { Expense, ExpenseFilter } from "@/util/AppTypes";
 import { sendRequest } from "@/util/RequestUtil";
 import { getExpenseRoutes } from "@/util/ResourceServer";
 import { revalidatePath } from "next/cache";
@@ -32,14 +32,35 @@ export const createExpense = async (formData: FormData, familyId: string | undef
   return data;
 }
 
-export const getAllExpenses = async () => {
+export const getAllExpenses = async (filter?: ExpenseFilter) => {
   const routes = getExpenseRoutes();
 
+  let url = routes.get;
+  const searchParams = new URLSearchParams();
+  if (filter) {
+    if (filter.isFamily !== undefined) {
+      searchParams.set("isFamily", filter.isFamily + "");
+    }
+    if (filter.start) {
+      searchParams.set("start", filter.start);
+    }
+    if (filter.end) {
+      searchParams.set("end", filter.end);
+    }
+    if (filter.query) {
+      searchParams.set("query", filter.query);
+    }
+    if (filter.searchBy) {
+      searchParams.set("searchBy", filter.searchBy);
+    }
+    url = `${url}?${searchParams.toString()}`
+  }
+
+
   const response = await sendRequest({
-    url: routes.get,
+    url,
     method: "GET",
     includeBody: false,
-    includeContentType: false
   });
 
   const data = await response.json();

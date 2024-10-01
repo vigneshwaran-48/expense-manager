@@ -1,23 +1,37 @@
 import React from 'react'
 import Title from '../components/Title';
 import { getAllExpenses } from '@/app/actions/expense';
-import { NavLink } from '@/app/components/NavLink';
 import ExpenseContainer from './components/ExpenseContainer';
+import ExpenseListingHeader from './components/ExpenseListingHeader';
+import { ExpenseFilter, SearchBy } from '@/util/AppTypes';
 
-const page = async () => {
+const page = async ({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+    searchBy?: SearchBy
+  };
+}) => {
 
-  const expenses = await getAllExpenses();
+  const filter: ExpenseFilter = {
+    isFamily: false
+  }
+  if (searchParams?.query) {
+    filter.query = searchParams.query;
+  }
+  if (searchParams?.searchBy) {
+    filter.searchBy = searchParams.searchBy;
+  }
+  const expenses = await getAllExpenses(filter);
 
   return (
     <div className="w-full h-full">
       <Title title="Expenses" />
-      <div className="border-b flex items-center justify-end p-2 border-light-color-text">
-        <NavLink href="/expense/create">
-          <button className="py-1 px-2 rounded bg-other-bg text-other-text">Create</button>
-        </NavLink>
-      </div>
+      <ExpenseListingHeader query={searchParams?.query} searchBy={searchParams?.searchBy} />
       <div className="w-full h-[calc(100%-55px)] rounded p-2 my-2 bg-dark-bg">
-        <ExpenseContainer expenses={expenses} />
+        <ExpenseContainer data={expenses} />
       </div>
     </div>
   )

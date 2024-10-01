@@ -1,11 +1,12 @@
 "use client";
 
 import Dropdown from '@/app/(app)/components/form/Dropdown';
+import { getUserFamily, getUserRoleInFamily } from '@/app/actions/family';
 import { NOT_SELECTED_CATEGORY_ID, setExpenseCreationForm } from '@/lib/features/expense/expenseSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { Category } from '@/util/AppTypes';
+import { Category, Role } from '@/util/AppTypes';
 import { countries } from '@/util/countries';
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const options = countries.map(country => {
   return {
@@ -14,11 +15,46 @@ const options = countries.map(country => {
     value: country.code
   }
 })
+
+const expenseTypeOptions = [
+  {
+    id: "PERSONAL-expense-id",
+    displayName: "Personal",
+    value: "PERSONAL"
+  },
+  {
+    id: "FAMILY-expense-id",
+    displayName: "Family",
+    value: "FAMILY"
+  }
+]
+
 const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
 
   const categories = useAppSelector(state => state.categorySlice.categories);
   const creationForm = useAppSelector(state => state.expenseSlice.creationForm);
+  const familySettings = useAppSelector(state => state.familySlice.settings);
+  const userRole = useAppSelector(state => state.familySlice.role);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (isFamilyExpense) {
+      (async () => {
+        const response = await getUserFamily();
+        if (response.status !== 200) {
+          console.log(`Response got for family get: ${response.status}`);
+          return;
+        }
+        dispatch(setExpenseCreationForm({ ...creationForm, "familyId": response.family.id }));
+        if (familySettings.familyExpenseRoles.includes(userRole)) {
+          dispatch(setExpenseCreationForm({ ...creationForm, "chooseType": true }))
+        }
+      })();
+    } else {
+      dispatch(setExpenseCreationForm({ ...creationForm, "familyId": undefined }));
+      dispatch(setExpenseCreationForm({ ...creationForm, "chooseType": false }))
+    }
+  }, [isFamilyExpense]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,7 +65,8 @@ const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
     dispatch(setExpenseCreationForm({ ...creationForm, [name]: value }));
   }
 
-  const categoryOptions = categories.filter(category => isFamilyExpense || category.type === "PERSONAL")
+  const categoryOptions = categories.filter(category => (isFamilyExpense && category.type === "FAMILY")
+    || (!isFamilyExpense && category.type === "PERSONAL"))
     .map(category => ({ id: category.id as string, displayName: category.name, value: category.name }));
 
   categoryOptions.push({ id: NOT_SELECTED_CATEGORY_ID, displayName: "---", value: "not-selected" })
@@ -72,6 +109,20 @@ const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
             />
           </div>
           : <></>
+      }
+      {
+        creationForm.chooseType ?
+          <div className="w-full flex justify-between items-center my-4">
+            <label className="text-[18px] text-light-color-text w-1/4">Type</label>
+            <Dropdown
+              className={"bg-dark-bg w-full flex justify-between max-w-[200px] ml-2 p-2"}
+              options={expenseTypeOptions}
+              selectedOption={`${creationForm.type}-expense-id` || "PERSONAL-expense-id"}
+              onChange={option => handleNewValue("type", option.value)}
+              ulClass={"bg-dark-bg"}
+            />
+          </div>
+          : ""
       }
       <div className="flex w-full justify-between my-4">
         <label htmlFor="expense-description" className="text-[18px] text-light-color-text mr-2 sm:mr-none sm:w-1/4">Description</label>

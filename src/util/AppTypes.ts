@@ -1,3 +1,22 @@
+export type FamilySettings = {
+  id: string,
+  family: Family,
+  inviteAcceptRequestRoles: Role[],
+  familyExpenseRoles: Role[],
+  removeMemberRoles: Role[],
+  updateFamilyRoles: Role[],
+  categoryRoles: Role[]
+}
+
+export type ExpenseFilter = {
+  isFamily?: boolean,
+  start?: string,
+  end?: string,
+  query?: string,
+  searchBy?: SearchBy
+}
+
+export type SearchBy = "NAME" | "DESCRIPTION" | "CATEGORY" | "OWNER" | "ALL";
 
 export type ExpenseCreationPayload = {
   name: string,

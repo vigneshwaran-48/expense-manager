@@ -13,8 +13,6 @@ const FamilyResults = async ({
   const results = await searchFamily(query, page);
   const families: FamilySearch[] = results.results;
 
-  console.log(results);
-
   const familyElems = families.map((family) => (
     <FamilyBar key={family.id} family={family} />
   ));

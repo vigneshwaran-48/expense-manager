@@ -10,6 +10,7 @@ interface Props {
   placeholder?: string;
   onChange: (query: string) => void;
   className?: string;
+  onEnter?: () => void
 }
 
 const Searchbar = ({
@@ -17,9 +18,16 @@ const Searchbar = ({
   name,
   placeholder = "Search",
   defaultValue = "",
-  onChange = () => {},
+  onChange = () => { },
   className = "",
+  onEnter = () => { }
 }: Props) => {
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      onEnter();
+    }
+  }
   return (
     <label
       htmlFor={id}
@@ -33,6 +41,7 @@ const Searchbar = ({
         value={defaultValue}
         className="bg-transparent border-none outline-none w-[calc(100%-20px)] h-full"
         onChange={(e) => onChange(e.target.value)}
+        onKeyDown={onKeyDown}
       />
     </label>
   );

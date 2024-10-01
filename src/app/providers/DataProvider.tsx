@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import { getProfile } from "../actions/user";
 import { useAppDispatch } from "@/lib/hooks";
 import { setUser } from "@/lib/features/user/userSlice";
-import { getMemberOfFamily, getUserFamily } from "../actions/family";
+import { getFamilySettings, getMemberOfFamily, getUserFamily } from "../actions/family";
 import { setFamily } from "@/lib/features/family/familySlice";
 import { getAllCategories } from "../actions/category";
 import { setCategories } from "@/lib/features/category/categorySlice";
@@ -28,15 +28,16 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     dispatch(setUser(user));
 
     if (familyResponse.status === 200) {
-      const familyMember = await getMemberOfFamily(
-        familyResponse.family.id,
-        user.id
+      const [familyMember, familySettings] = await Promise.all([
+        getMemberOfFamily(familyResponse.family.id, user.id),
+        getFamilySettings(familyResponse.family.id)]
       );
       dispatch(
         setFamily({
           family: familyMember.family,
           role: familyMember.role,
           loaded: true,
+          settings: familySettings
         })
       );
     }

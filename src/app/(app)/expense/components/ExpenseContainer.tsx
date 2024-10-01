@@ -2,8 +2,9 @@
 
 import AngleDown from '@/app/components/icon/AngleDown';
 import TrashIcon from '@/app/components/icon/TrashIcon';
+import { setExpenses } from '@/lib/features/expense/expenseSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { Expense } from '@/util/AppTypes'
-import exp from 'constants';
 import React, { useEffect, useRef, useState } from 'react'
 
 
@@ -16,7 +17,8 @@ const getDisplayTime = (date: string) => {
   return `Today ${dateObj.getHours()}:${dateObj.getMinutes()}`;
 }
 
-const ExpenseContainer = ({ expenses }: { expenses: Expense[] }) => {
+
+const ExpenseContainer = ({ data }: { data: Expense[] }) => {
 
   const [expenseColumns, setExpenseColumns] = useState([
     {
@@ -41,6 +43,16 @@ const ExpenseContainer = ({ expenses }: { expenses: Expense[] }) => {
 
   const [openExpenseColumnDropdown, setOpenExpenseColumnDropdown] = useState<boolean>(false);
 
+  const expenses = useAppSelector(state => state.expenseSlice.expenses);
+
+  const dispatch = useAppDispatch();
+
+  const { query, searchBy } = useAppSelector(state => state.expenseSlice.search);
+
+  useEffect(() => {
+    dispatch(setExpenses(data))
+  }, [data]);
+
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
       if (
@@ -60,7 +72,21 @@ const ExpenseContainer = ({ expenses }: { expenses: Expense[] }) => {
     };
   }, []);
 
-  const expenseElems = expenses && expenses.map(expense => {
+  const expenseElems = expenses && expenses.filter(expense => {
+    if (searchBy === "ALL") {
+      return expense.name.toLowerCase().includes(query.toLowerCase());
+    } else if (searchBy === "OWNER") {
+      return expense.ownerName?.toLowerCase().includes(query.toLowerCase());
+    } else if (searchBy === "CATEGORY") {
+      return expense.category
+        && expense.category.name.toLowerCase().includes(query.toLowerCase());
+    } else if (searchBy === "NAME") {
+      return expense.name.toLowerCase().includes(query.toLowerCase());
+    } else if (searchBy === "DESCRIPTION") {
+      return expense.description.toLowerCase().includes(query.toLowerCase());
+    }
+    return false;
+  }).map(expense => {
     let openColumnValue = getDisplayTime(expense.time);
     switch (expenseColumns.find(column => column.selected === true)?.name) {
       case "Amount":
@@ -85,8 +111,8 @@ const ExpenseContainer = ({ expenses }: { expenses: Expense[] }) => {
         <td className="py-4 hidden sm:table-cell">{expense.amount}</td>
         <td className="py-4 hidden sm:table-cell">{getDisplayTime(expense.time)}</td>
         <td className="py-4 hidden md:table-cell">{expense.category?.name || "None"}</td>
-        <td className="py-4 hidden large-md:table-cell">{expense.ownerName}</td>
-        <td className="py-4 large-md:hidden">{openColumnValue}</td>
+        <td className="py-4 hidden md:table-cell">{expense.ownerName}</td>
+        <td className="py-4 md:hidden">{openColumnValue}</td>
         <td className="text-red-500 cursor-pointer"><TrashIcon /></td>
       </tr>
     )
@@ -111,8 +137,8 @@ const ExpenseContainer = ({ expenses }: { expenses: Expense[] }) => {
             <th className="py-2 hidden sm:table-cell">Amount</th>
             <th className="py-2 hidden sm:table-cell">Date</th>
             <th className="py-2 hidden md:table-cell">Category</th>
-            <th className="py-2 hidden large-md:table-cell">Owner</th>
-            <th className="py-2 relative large-md:hidden min-w-[35px]" ref={expenseColumnRef}>
+            <th className="py-2 hidden md:table-cell">Owner</th>
+            <th className="py-2 relative md:hidden min-w-[35px]" ref={expenseColumnRef}>
               <div
                 className="w-full flex items-center justify-between cursor-pointer max-w-[150px]"
                 onClick={() => setOpenExpenseColumnDropdown(prevValue => !prevValue)}>

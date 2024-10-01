@@ -1,30 +1,42 @@
-import { Family, Role } from "@/util/AppTypes";
+import { Family, FamilySettings, Role } from "@/util/AppTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface FamilySlice {
   family: Family;
   role: Role;
   loaded: boolean;
+  settings: FamilySettings;
+}
+
+const family: Family = {
+  id: "testing",
+  image: "/images/family-profile.png",
+  joinType: "ANYONE",
+  name: "Smiths",
+  visibility: "PUBLIC",
+  createdBy: {
+    id: "user-id",
+    age: 19,
+    email: "user@gmail.com",
+    name: "user",
+  },
+  createdTime: "",
+  description: "",
 }
 
 const initialState: FamilySlice = {
-  family: {
-    id: "testing",
-    image: "/images/family-profile.png",
-    joinType: "ANYONE",
-    name: "Smiths",
-    visibility: "PUBLIC",
-    createdBy: {
-      id: "user-id",
-      age: 19,
-      email: "user@gmail.com",
-      name: "user",
-    },
-    createdTime: "",
-    description: "",
-  },
+  family,
   role: "LEADER",
   loaded: false,
+  settings: {
+    id: "unknown",
+    family,
+    inviteAcceptRequestRoles: ["LEADER"],
+    categoryRoles: ["LEADER"],
+    removeMemberRoles: ["LEADER"],
+    updateFamilyRoles: ["LEADER"],
+    familyExpenseRoles: ["LEADER"]
+  }
 };
 
 const familySlice = createSlice({
@@ -35,9 +47,13 @@ const familySlice = createSlice({
       state.family = action.payload.family;
       state.role = action.payload.role;
       state.loaded = action.payload.loaded;
+      state.settings = action.payload.settings;
     },
+    setFamilySettings: (state, action: PayloadAction<FamilySettings>) => {
+      state.settings = action.payload;
+    }
   },
 });
 
-export const { setFamily } = familySlice.actions;
+export const { setFamily, setFamilySettings } = familySlice.actions;
 export default familySlice.reducer;
