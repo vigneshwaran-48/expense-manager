@@ -82,7 +82,7 @@ const ExpenseContainer = ({ data }: { data: Expense[] }) => {
       return expense.description.toLowerCase().includes(query.toLowerCase());
     }
     return false;
-  }).map(expense => <ExpenseRow expense={expense} expenseColumns={expenseColumns} />);
+  }).map(expense => <ExpenseRow key={expense.id} expense={expense} expenseColumns={expenseColumns} />);
 
   const onExpenseColumnSelect = (name: string) => {
     setExpenseColumns(prevColumns => {
