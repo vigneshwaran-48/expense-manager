@@ -45,26 +45,26 @@ export const NavLink = ({
     }
   };
 
-  let pathnameStr = `${pathName}${
-    paramsString.length > 0 ? "?" + paramsString : ""
-  }`;
+  let pathnameStr = `${pathName}${paramsString.length > 0 ? "?" + paramsString : ""
+    }`;
 
   if (replacePlus) {
     pathnameStr = pathnameStr.replaceAll("+", " ");
   }
+  console.log(`Pathname: ${pathName}`);
+  console.log(`Pathname String: ${pathnameStr}`);
 
   return (
     <Link
       href={href}
-      className={`${className} ${
-        useStartsWith
-          ? pathnameStr.startsWith(href)
-            ? activeClassName
-            : ""
-          : pathnameStr === href || decodeURI(pathnameStr) === href
+      className={`${className} ${useStartsWith
+        ? pathnameStr.startsWith(href)
           ? activeClassName
           : ""
-      }`}
+        : pathnameStr === href || decodeURI(pathnameStr) === href || pathName === href
+          ? activeClassName
+          : ""
+        }`}
       onClick={(e) => hanldeLinkClick(href, e)}
       id={href}
     >
