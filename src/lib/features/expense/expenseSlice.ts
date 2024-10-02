@@ -11,7 +11,7 @@ type CreationForm = {
   categoryId: string,
   currency: string,
   submitting: boolean,
-  familyId?: string,
+  familyId: string | null,
   type: ExpenseType,
   chooseType: boolean
 }
@@ -35,7 +35,8 @@ const initialState: State = {
     currency: "INR",
     submitting: false,
     type: "PERSONAL",
-    chooseType: false
+    chooseType: false,
+    familyId: null
   } as CreationForm,
   expenses: [],
   search: {
@@ -57,7 +58,7 @@ const expenseSlice = createSlice({
       state.creationForm.submitting = false;
       state.creationForm.categoryId = NOT_SELECTED_CATEGORY_ID;
       state.creationForm.type = "PERSONAL";
-      state.creationForm.familyId = undefined;
+      state.creationForm.familyId = null;
       state.creationForm.date = "2024-07-02";
       state.creationForm.currency = "INR";
       state.creationForm.amount = 0;

@@ -6,6 +6,7 @@ import { NOT_SELECTED_CATEGORY_ID, setExpenseCreationForm } from '@/lib/features
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { Category, Role } from '@/util/AppTypes';
 import { countries } from '@/util/countries';
+import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 
 const options = countries.map(country => {
@@ -36,6 +37,7 @@ const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
   const familySettings = useAppSelector(state => state.familySlice.settings);
   const userRole = useAppSelector(state => state.familySlice.role);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     if (isFamilyExpense) {
@@ -43,18 +45,22 @@ const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
         const response = await getUserFamily();
         if (response.status !== 200) {
           console.log(`Response got for family get: ${response.status}`);
+          router.replace("/expense/create");
           return;
         }
-        dispatch(setExpenseCreationForm({ ...creationForm, "familyId": response.family.id }));
+        console.log(familySettings.familyExpenseRoles);
+        console.log(userRole);
+        console.log(familySettings.familyExpenseRoles.includes(userRole));
         if (familySettings.familyExpenseRoles.includes(userRole)) {
-          dispatch(setExpenseCreationForm({ ...creationForm, "chooseType": true }))
+          dispatch(setExpenseCreationForm({ ...creationForm, "familyId": response.family.id, "chooseType": true }))
+        } else {
+          dispatch(setExpenseCreationForm({ ...creationForm, "familyId": response.family.id, "chooseType": false }));
         }
       })();
     } else {
-      dispatch(setExpenseCreationForm({ ...creationForm, "familyId": undefined }));
-      dispatch(setExpenseCreationForm({ ...creationForm, "chooseType": false }))
+      dispatch(setExpenseCreationForm({ ...creationForm, "familyId": null, "chooseType": false }));
     }
-  }, [isFamilyExpense]);
+  }, [isFamilyExpense, userRole]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

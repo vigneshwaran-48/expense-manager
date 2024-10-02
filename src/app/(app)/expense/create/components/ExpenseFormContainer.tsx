@@ -55,7 +55,11 @@ const ExpenseFormContainer = ({ isFamily = false }) => {
       dispatch(addToast({ id: getUniqueId(), message: result.message, type: ToastType.SUCCESS }));
       setInvoices([]);
       dispatch(resetExpenseForm());
-      router.push("/expense");
+      if (isFamily) {
+        router.push(`/family/${expenseCreationForm.familyId}/expenses`);
+      } else {
+        router.push("/expense");
+      }
     } else {
       dispatch(addToast({ id: getUniqueId(), message: result.error, type: ToastType.ERROR }));
       dispatch(setExpenseCreationForm({ ...expenseCreationForm, "submitting": false }));
@@ -78,7 +82,8 @@ const ExpenseFormContainer = ({ isFamily = false }) => {
       <div className="w-full flex justify-end items-center p-2">
         <button
           className="px-2 py-1 m-2 rounded bg-dark-bg text-light-color-text"
-          onClick={() => router.push("/expense")}
+          onClick={() => router.push(isFamily
+            ? `/family/${expenseCreationForm.familyId}/expenses` : "/expense")}
         >Cancel</button>
         <button
           className={`px-2 py-1 m-2 rounded ${expenseCreationForm.submitting ? "bg-light-bg" : "bg-other-bg"} text-other-text`}
