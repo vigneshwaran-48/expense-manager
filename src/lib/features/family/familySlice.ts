@@ -26,7 +26,7 @@ const family: Family = {
 
 const initialState: FamilySlice = {
   family,
-  role: "LEADER",
+  role: "MEMBER",
   loaded: false,
   settings: {
     id: "unknown",

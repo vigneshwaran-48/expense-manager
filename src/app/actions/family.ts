@@ -169,6 +169,7 @@ export const requestForJoining = async (familyId: string) => {
     redirect("/auth/signin");
   }
   revalidatePath("/family/search");
+  revalidatePath(`/family/${familyId}/invites`);
   return data;
 };
 

@@ -48,16 +48,19 @@ const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
           router.replace("/expense/create");
           return;
         }
+        console.log(familySettings.familyExpenseRoles);
+        console.log(userRole);
+        console.log(familySettings.familyExpenseRoles.includes(userRole));
         if (familySettings.familyExpenseRoles.includes(userRole)) {
           dispatch(setExpenseCreationForm({ ...creationForm, "familyId": response.family.id, "chooseType": true }))
         } else {
-          dispatch(setExpenseCreationForm({ ...creationForm, "familyId": response.family.id }));
+          dispatch(setExpenseCreationForm({ ...creationForm, "familyId": response.family.id, "chooseType": false }));
         }
       })();
     } else {
       dispatch(setExpenseCreationForm({ ...creationForm, "familyId": null, "chooseType": false }));
     }
-  }, [isFamilyExpense]);
+  }, [isFamilyExpense, userRole]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
