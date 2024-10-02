@@ -1,9 +1,11 @@
-import TrashIcon from "@/app/components/icon/TrashIcon";
+"use client";
+
 import { FamilyMember, Role } from "@/util/AppTypes";
 import Image from "next/image";
 import React from "react";
 import RoleDropdown from "./RoleDropdown";
 import DeleteButton from "./DeleteButton";
+import { useAppSelector } from "@/lib/hooks";
 
 const Member = ({
   member,
@@ -12,6 +14,9 @@ const Member = ({
   member: FamilyMember;
   currentUserRole: Role;
 }) => {
+
+  const { role, settings } = useAppSelector(state => state.familySlice);
+
   return (
     <tr>
       <td className="w-[250px] py-2">
@@ -33,29 +38,32 @@ const Member = ({
       </td>
       <td className="hidden lg:table-cell py-2">May 02, 2024</td>
       <td
-        className={`${
-          currentUserRole === "LEADER" ? "hidden sm:table-cell" : ""
-        }  py-2`}
+        className={`${currentUserRole === "LEADER" ? "hidden sm:table-cell" : ""
+          }  py-2`}
       >
         Aug 11, 2024
       </td>
-      {currentUserRole === "LEADER" ? (
-        <td>
+      <td>
+        {currentUserRole === "LEADER" ? (
           <RoleDropdown
             role={member.role}
             memberId={member.member.id}
             familyId={member.family.id as string}
           />
-        </td>
-      ) : (
-        ""
-      )}
+        ) : (
+          <p>{`${member.role.slice(0, 1).toUpperCase()}${member.role.toLowerCase().slice(1)}`}</p>
+        )}
+      </td>
 
       <td className="px-2 py-2">
-        <DeleteButton
-          familyId={member.family.id as string}
-          memberId={member.member.id}
-        />
+        {
+          settings.removeMemberRoles.includes(role) ?
+            <DeleteButton
+              familyId={member.family.id as string}
+              memberId={member.member.id}
+            />
+            : ""
+        }
       </td>
     </tr>
   );

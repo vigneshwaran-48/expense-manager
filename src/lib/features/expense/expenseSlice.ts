@@ -1,4 +1,5 @@
 import { Expense, ExpenseType, SearchBy } from "@/util/AppTypes";
+import { getCurrentTimeForExpense } from "@/util/timeUtil";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export const NOT_SELECTED_CATEGORY_ID = "not-selected";
@@ -29,7 +30,7 @@ const initialState: State = {
   creationForm: {
     name: "",
     description: "",
-    date: "2024-07-02",
+    date: getCurrentTimeForExpense(),
     amount: 0,
     categoryId: NOT_SELECTED_CATEGORY_ID,
     currency: "INR",
@@ -59,7 +60,7 @@ const expenseSlice = createSlice({
       state.creationForm.categoryId = NOT_SELECTED_CATEGORY_ID;
       state.creationForm.type = "PERSONAL";
       state.creationForm.familyId = null;
-      state.creationForm.date = "2024-07-02";
+      state.creationForm.date = getCurrentTimeForExpense();
       state.creationForm.currency = "INR";
       state.creationForm.amount = 0;
     },
