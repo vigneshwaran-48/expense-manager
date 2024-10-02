@@ -11,7 +11,7 @@ type CreationForm = {
   categoryId: string,
   currency: string,
   submitting: boolean,
-  familyId?: string,
+  familyId: string | null,
   type: ExpenseType,
   chooseType: boolean
 }
@@ -35,7 +35,8 @@ const initialState: State = {
     currency: "INR",
     submitting: false,
     type: "PERSONAL",
-    chooseType: false
+    chooseType: false,
+    familyId: null
   } as CreationForm,
   expenses: [],
   search: {

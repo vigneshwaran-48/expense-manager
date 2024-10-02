@@ -9,7 +9,7 @@ import { getFamilyById } from "./family";
 import { getUserById } from "./user";
 
 
-export const createExpense = async (formData: FormData, familyId: string | undefined) => {
+export const createExpense = async (formData: FormData, familyId: string | null) => {
 
   const routes = getExpenseRoutes();
 
@@ -25,7 +25,7 @@ export const createExpense = async (formData: FormData, familyId: string | undef
   if (response.status === 401) {
     redirect("/auth/signin");
   }
-  revalidatePath("/api/expense");
+  revalidatePath("/expense");
   if (familyId) {
     revalidatePath(`/family/${familyId}/expense`);
   }
@@ -78,4 +78,24 @@ export const getAllExpenses = async (filter?: ExpenseFilter) => {
     }
   }
   return data.expenses as Expense[];
+}
+
+export const deleteExpense = async (id: string, familyId: string | null) => {
+
+  const routes = getExpenseRoutes();
+
+  const response = await sendRequest({
+    url: routes.delete(id),
+    method: "DELETE",
+    includeBody: false,
+  });
+
+  if (response.status == 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath("/expense");
+  if (familyId) {
+    revalidatePath(`/family/${familyId}/expenses`);
+  }
+  return await response.json();
 }

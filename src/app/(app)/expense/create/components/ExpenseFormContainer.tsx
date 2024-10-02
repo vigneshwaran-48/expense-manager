@@ -55,7 +55,11 @@ const ExpenseFormContainer = ({ isFamily = false }) => {
       dispatch(addToast({ id: getUniqueId(), message: result.message, type: ToastType.SUCCESS }));
       setInvoices([]);
       dispatch(resetExpenseForm());
-      router.push("/expense");
+      if (isFamily) {
+        router.push(`/family/${expenseCreationForm.familyId}/expenses`);
+      } else {
+        router.push("/expense");
+      }
     } else {
       dispatch(addToast({ id: getUniqueId(), message: result.error, type: ToastType.ERROR }));
       dispatch(setExpenseCreationForm({ ...expenseCreationForm, "submitting": false }));

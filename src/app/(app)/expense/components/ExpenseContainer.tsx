@@ -6,21 +6,16 @@ import { setExpenses } from '@/lib/features/expense/expenseSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { Expense } from '@/util/AppTypes'
 import React, { useEffect, useRef, useState } from 'react'
+import ExpenseRow from './ExpenseRow';
 
-
-const getDisplayTime = (date: string) => {
-  const dateObj = new Date(date);
-  if (dateObj.toDateString() !== new Date().toDateString()) {
-    const year = new Date().getFullYear() !== dateObj.getFullYear() ? "" : dateObj.getFullYear();
-    return `${dateObj.getDate()} ${dateObj.toLocaleString("en", { "month": "long" })} ${year}`;
-  }
-  return `Today ${dateObj.getHours()}:${dateObj.getMinutes()}`;
+export type ExpenseColumn = {
+  name: string,
+  selected: boolean
 }
-
 
 const ExpenseContainer = ({ data }: { data: Expense[] }) => {
 
-  const [expenseColumns, setExpenseColumns] = useState([
+  const [expenseColumns, setExpenseColumns] = useState<ExpenseColumn[]>([
     {
       name: "Amount",
       selected: false
@@ -72,6 +67,7 @@ const ExpenseContainer = ({ data }: { data: Expense[] }) => {
     };
   }, []);
 
+
   const expenseElems = expenses && expenses.filter(expense => {
     if (searchBy === "ALL") {
       return expense.name.toLowerCase().includes(query.toLowerCase());
@@ -86,37 +82,7 @@ const ExpenseContainer = ({ data }: { data: Expense[] }) => {
       return expense.description.toLowerCase().includes(query.toLowerCase());
     }
     return false;
-  }).map(expense => {
-    let openColumnValue = getDisplayTime(expense.time);
-    switch (expenseColumns.find(column => column.selected === true)?.name) {
-      case "Amount":
-        openColumnValue = expense.amount + "";
-        break;
-      case "Date":
-        openColumnValue = getDisplayTime(expense.time);
-        break;
-      case "Category":
-        openColumnValue = expense.category?.name || "None";
-        break;
-      case "Owner":
-        openColumnValue = expense.ownerName || "";
-        break;
-      default:
-        console.error("No column value matched, Settings default date value");
-        openColumnValue = getDisplayTime(expense.time);
-    }
-    return (
-      <tr key={expense.id} className="even:bg-light-bg">
-        <td className="pl-1 py-4 text-color-text">{expense.name}</td>
-        <td className="py-4 hidden sm:table-cell">{expense.amount}</td>
-        <td className="py-4 hidden sm:table-cell">{getDisplayTime(expense.time)}</td>
-        <td className="py-4 hidden md:table-cell">{expense.category?.name || "None"}</td>
-        <td className="py-4 hidden md:table-cell">{expense.ownerName}</td>
-        <td className="py-4 md:hidden">{openColumnValue}</td>
-        <td className="text-red-500 cursor-pointer"><TrashIcon /></td>
-      </tr>
-    )
-  });
+  }).map(expense => <ExpenseRow expense={expense} expenseColumns={expenseColumns} />);
 
   const onExpenseColumnSelect = (name: string) => {
     setExpenseColumns(prevColumns => {
