@@ -1,5 +1,4 @@
 import React from "react";
-import Category from "./components/Category";
 import { getAllCategories } from "@/app/actions/category";
 import CategoryProvider from "./components/CategoryProvider";
 import CategorySearchBar from "./components/CategorySearchBar";
