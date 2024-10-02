@@ -10,6 +10,7 @@ const activeNavLinkClassName = "text-other-text bg-other-bg";
 
 const Navbar = ({ id }: { id: string }) => {
   const userRole = useAppSelector((state) => state.familySlice.role);
+  const familySettings = useAppSelector(state => state.familySlice.settings);
 
   return (
     <nav className="w-full">
@@ -38,7 +39,7 @@ const Navbar = ({ id }: { id: string }) => {
         >
           <li>Expenses</li>
         </NavLink>
-        {userRole === "LEADER" && (
+        {familySettings.inviteAcceptRequestRoles.includes(userRole) && (
           <NavLink
             href={`/family/${id}/invites`}
             className={navLinkClassName}

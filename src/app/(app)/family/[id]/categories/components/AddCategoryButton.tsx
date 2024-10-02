@@ -6,8 +6,9 @@ import React from "react";
 
 const AddCategoryButton = () => {
   const familyRole = useAppSelector((state) => state.familySlice.role);
+  const categoryRoles = useAppSelector(state => state.familySlice.settings.categoryRoles);
 
-  return familyRole === "LEADER" || familyRole === "MAINTAINER" ? (
+  return categoryRoles.includes(familyRole) ? (
     <ShowCategoryCreationButton />
   ) : (
     ""

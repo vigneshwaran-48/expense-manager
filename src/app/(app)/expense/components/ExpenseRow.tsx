@@ -4,7 +4,7 @@ import { Expense } from '@/util/AppTypes'
 import React, { useState } from 'react'
 import { ExpenseColumn } from './ExpenseContainer';
 import TrashIcon from '@/app/components/icon/TrashIcon';
-import { useAppDispatch } from '@/lib/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { addToast, ToastType } from '@/lib/features/toast/toastSlice';
 import { getUniqueId } from '@/util/getUniqueId';
 import { deleteExpense } from '@/app/actions/expense';
@@ -22,6 +22,9 @@ const ExpenseRow = ({ expense, expenseColumns }: { expense: Expense, expenseColu
 
   const [deleting, setDeleting] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const userId = useAppSelector(state => state.userSlice.id);
+  const familySettings = useAppSelector(state => state.familySlice.settings);
+  const userRole = useAppSelector(state => state.familySlice.role);
 
   const onDeleteExpense = async () => {
     setDeleting(true);
@@ -61,10 +64,15 @@ const ExpenseRow = ({ expense, expenseColumns }: { expense: Expense, expenseColu
       <td className="py-4 hidden md:table-cell">{expense.category?.name || "None"}</td>
       <td className="py-4 hidden md:table-cell">{expense.ownerName}</td>
       <td className="py-4 md:hidden">{openColumnValue}</td>
-      <td
-        onClick={onDeleteExpense}
-        className={`${deleting ? "text-light-text-color" : "text-red-500"} cursor-pointer`}
-      ><TrashIcon /></td>
+      <td>
+        {
+          expense.ownerId === userId || (expense.type === "FAMILY" && familySettings.familyExpenseRoles.includes(userRole)) ?
+            <span onClick={onDeleteExpense} className={`${deleting ? "text-light-text-color" : "text-red-500"} cursor-pointer`}>
+              <TrashIcon />
+            </span>
+            : ""
+        }
+      </td>
     </tr>
   )
 }
