@@ -82,7 +82,12 @@ const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
       </div>
       <div className="w-full flex justify-between items-center my-4">
         <label className="text-[18px] text-light-color-text w-1/4" >Date</label>
-        <input type="datetime-local" name="date" value={creationForm.date} onChange={handleChange} className="bg-dark-bg p-4 rounded w-3/4 max-w-[240px] outline-none" />
+        <input
+          type="datetime-local"
+          name="date"
+          value={creationForm.date}
+          onChange={handleChange}
+          className="bg-dark-bg p-4 rounded w-3/4 max-w-[240px] outline-none" />
       </div>
       <div className="w-full flex justify-between items-center my-4">
         <label className="text-[18px] text-light-color-text w-1/4" >Amount</label>
