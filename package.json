@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@observablehq/plot": "^0.6.16",
     "@reduxjs/toolkit": "^2.2.6",
     "next": "14.2.5",
     "next-auth": "^4.24.7",

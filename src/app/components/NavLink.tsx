@@ -51,8 +51,6 @@ export const NavLink = ({
   if (replacePlus) {
     pathnameStr = pathnameStr.replaceAll("+", " ");
   }
-  console.log(`Pathname: ${pathName}`);
-  console.log(`Pathname String: ${pathnameStr}`);
 
   return (
     <Link

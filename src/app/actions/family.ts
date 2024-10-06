@@ -7,9 +7,10 @@ import {
   Invitation,
   JoinRequest,
   Role,
+  Stats,
 } from "@/util/AppTypes";
 import { sendRequest } from "@/util/RequestUtil";
-import { getFamilyRoutes } from "@/util/ResourceServer";
+import { getExpenseRoutes, getFamilyRoutes } from "@/util/ResourceServer";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -298,4 +299,21 @@ export const getFamilySettings = async (id: string) => {
     redirect("/auth/signin");
   }
   return data.settings as FamilySettings;
+}
+
+export const getFamilyStats = async (id: string) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.getOne(id)}/stats`,
+    method: "GET",
+    includeBody: false,
+    checkAuthentication: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  return data.stats as Stats;
 }

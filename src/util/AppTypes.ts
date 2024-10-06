@@ -1,3 +1,27 @@
+export type Stats = {
+  id: string,
+  ownerId: string,
+  type: "PERSONAL" | "FAMILY",
+  currentWeekTotal: "number",
+  currentMonthTotal: "number",
+  recentExpenses: Expense[],
+  topCategories: CategoryAmount[],
+  topUsers: UserAmount[],
+  amountSpentPerDay: {
+    [key: string]: number
+  }
+}
+
+export type CategoryAmount = {
+  category: Category,
+  amount: number
+}
+
+export type UserAmount = {
+  user: User,
+  amount: number
+}
+
 export type FamilySettings = {
   id: string,
   family: Family,
