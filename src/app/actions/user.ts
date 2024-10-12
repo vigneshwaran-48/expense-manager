@@ -1,6 +1,6 @@
 "use server";
 
-import { User } from "@/util/AppTypes";
+import { Stats, User } from "@/util/AppTypes";
 import { sendRequest } from "@/util/RequestUtil";
 import { getUserRoutes } from "@/util/ResourceServer";
 import { redirect } from "next/navigation";
@@ -64,3 +64,20 @@ export const getUserById = async (id: string) => {
   }
   return data.user as User;
 };
+
+export const getStats = async () => {
+  const routes = getUserRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.get}/stats`,
+    method: "GET",
+    includeBody: false,
+    checkAuthentication: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  return data.stats as Stats;
+}
