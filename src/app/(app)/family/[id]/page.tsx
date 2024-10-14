@@ -1,17 +1,18 @@
-import { getFamilyStats, getUserFamily } from '@/app/actions/family';
+import { getUserFamily } from '@/app/actions/family';
+import { getFamilyStats } from '@/app/actions/stats';
 import React from 'react'
-import AmountSpentPlot from './components/AmountSpentPlot';
+import WeekPlot from './components/WeekPlot';
 
 const page = async () => {
 
   const family = (await getUserFamily()).family;
-  const stats = await getFamilyStats(family.id);
+  const stats = await getFamilyStats();
   console.log("Family stats");
   console.log(stats);
 
   return (
-    <div>
-      <AmountSpentPlot amountSpentPerDay={stats.amountSpentPerDay} />
+    <div className="flex flex-wrap">
+      <WeekPlot weekData={stats.weekAmount} />
     </div>
   )
 }

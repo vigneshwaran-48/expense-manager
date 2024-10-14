@@ -25,7 +25,7 @@ const AmountSpentPlot = ({ amountSpentPerDay }: { amountSpentPerDay: { [key: str
         grid: true
       },
       marks: [
-        Plot.rectY(data, { x: "date", y: "amount", fill: otherColor })
+        Plot.rectY(data, { x: "date", y: "amount", fill: otherColor, strokeWidth: 1, insetLeft: 70, insetRight: 70 })
       ]
     })
 
@@ -38,7 +38,7 @@ const AmountSpentPlot = ({ amountSpentPerDay }: { amountSpentPerDay: { [key: str
 
 
   return (
-    <div className="p-2 w-[400px] h-[400px] flex flex-col justify-around items-center">
+    <div className="p-2 md:max-w-[400px] md:h-[400px] flex flex-col justify-around items-center">
       <h2 className="font-bold text-2xl p-2">Amount Spent Per Day</h2>
       <div className="w-full h-[calc(100%-35px)] flex items-center justify-center">
         {
