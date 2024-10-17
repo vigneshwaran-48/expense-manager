@@ -19,7 +19,7 @@ const page = async () => {
         </div>
         <div className="w-full p-2">
           <div className="w-full md:w-1/3">
-            <RecenetExpenses expenses={stats.recentExpenses} />
+            <RecenetExpenses expenses={stats.recentExpenses.reverse()} />
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { WeekDay } from '@/util/AppTypes';
+import { nivoTheme } from '@/util/nivoTheme';
 import { ResponsiveLine } from '@nivo/line';
 import React, { useEffect, useRef } from 'react'
 
@@ -30,7 +31,7 @@ const WeekPlot = ({ weekData }: { weekData: Record<WeekDay, number> }) => {
       <div className="w-full h-[calc(100%-50px)]">
         <ResponsiveLine
           data={data}
-          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+          margin={{ top: 10, right: 20, bottom: 30, left: 20 }}
           xScale={{ type: 'point' }}
           yScale={{
             type: 'linear',
@@ -42,6 +43,9 @@ const WeekPlot = ({ weekData }: { weekData: Record<WeekDay, number> }) => {
           yFormat=" >-.2f"
           axisTop={null}
           axisRight={null}
+          curve="catmullRom"
+          enableGridX={false}
+          enableArea={true}
           axisBottom={{
             tickSize: 5,
             tickPadding: 5,
@@ -58,42 +62,18 @@ const WeekPlot = ({ weekData }: { weekData: Record<WeekDay, number> }) => {
             legend: 'count',
             legendOffset: -40,
             legendPosition: 'middle',
-            truncateTickAt: 0
+            truncateTickAt: 0,
           }}
           pointSize={10}
-          pointColor={{ theme: 'background' }}
+          pointColor={{ from: "color", modifiers: [] }}
           pointBorderWidth={2}
           pointBorderColor={{ from: 'serieColor' }}
           pointLabel="data.yFormatted"
           pointLabelYOffset={-12}
           enableTouchCrosshair={true}
           useMesh={true}
-          legends={[
-            {
-              anchor: 'bottom-right',
-              direction: 'column',
-              justify: false,
-              translateX: 100,
-              translateY: 0,
-              itemsSpacing: 0,
-              itemDirection: 'left-to-right',
-              itemWidth: 80,
-              itemHeight: 20,
-              itemOpacity: 0.75,
-              symbolSize: 12,
-              symbolShape: 'circle',
-              symbolBorderColor: 'rgba(0, 0, 0, .5)',
-              effects: [
-                {
-                  on: 'hover',
-                  style: {
-                    itemBackground: 'rgba(0, 0, 0, .03)',
-                    itemOpacity: 1
-                  }
-                }
-              ]
-            }
-          ]}
+          legends={[]}
+          theme={nivoTheme()}
         />
       </div>
     </div>
