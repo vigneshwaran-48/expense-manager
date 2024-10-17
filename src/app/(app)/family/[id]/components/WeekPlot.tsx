@@ -31,7 +31,7 @@ const WeekPlot = ({ weekData }: { weekData: Record<WeekDay, number> }) => {
       <div className="w-full h-[calc(100%-50px)]">
         <ResponsiveLine
           data={data}
-          margin={{ top: 10, right: 20, bottom: 30, left: 20 }}
+          margin={{ top: 10, right: 20, bottom: 30, left: 25 }}
           xScale={{ type: 'point' }}
           yScale={{
             type: 'linear',
