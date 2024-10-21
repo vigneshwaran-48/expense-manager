@@ -1,14 +1,12 @@
-import { getUserFamily } from '@/app/actions/family';
 import { getFamilyStats } from '@/app/actions/stats';
 import React from 'react'
 import WeekPlot from './components/WeekPlot';
 import RecenetExpenses from './components/RecenetExpenses';
+import CategoryPieChart from './components/CategoryPieChart';
 
 const page = async () => {
 
-  const family = (await getUserFamily()).family;
   const stats = await getFamilyStats();
-  console.log("Family stats");
   console.log(stats);
 
   return (
@@ -16,6 +14,7 @@ const page = async () => {
       <div className="w-full flex flex-wrap">
         <div className="w-full md:w-1/2">
           <WeekPlot weekData={stats.weekAmount} />
+          <CategoryPieChart categoryAmount={stats.categoryAmount} />
         </div>
         <div className="w-full p-2">
           <div className="w-full md:w-1/3">

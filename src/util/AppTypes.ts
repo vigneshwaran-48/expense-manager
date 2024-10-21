@@ -5,8 +5,8 @@ export type Stats = {
   currentWeekTotal: number,
   currentMonthTotal: number,
   recentExpenses: Expense[],
-  topCategories: CategoryAmount[],
-  topUsers: UserAmount[],
+  categoryAmount: Record<string, number>,
+  userAmount: Record<string, number>,
   weekAmount: Record<WeekDay, number>
 }
 
