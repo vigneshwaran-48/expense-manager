@@ -17,9 +17,9 @@ const RecenetExpenses = ({ expenses }: { expenses: Expense[] }) => {
   })
 
   return (
-    <div className="w-full">
+    <div className="w-full m-2">
       <h2 className="font-bold text-2xl p-2">Recent Expenses</h2>
-      <div>
+      <div className="p-2">
         {expenseElems}
       </div>
     </div>

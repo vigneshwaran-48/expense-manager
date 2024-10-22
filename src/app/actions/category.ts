@@ -60,3 +60,4 @@ export const deleteCategory = async (id: string) => {
   revalidatePath(`/family/[id]/categories`, "page");
   return data;
 };
+

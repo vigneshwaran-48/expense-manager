@@ -24,7 +24,7 @@ const WeekPlot = ({ weekData }: { weekData: Record<WeekDay, number> }) => {
   ]
 
   return (
-    <div className="p-2 w-full h-[400px] flex flex-col justify-around items-center">
+    <div className="m-2 p-2 w-full flex-shrink-0 large-md:max-w-[500px] h-[400px] flex flex-col justify-around items-center">
       <div className="w-full">
         <h2 className="font-bold text-2xl p-2">This Week</h2>
       </div>
