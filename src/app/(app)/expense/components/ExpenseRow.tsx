@@ -8,15 +8,8 @@ import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { addToast, ToastType } from '@/lib/features/toast/toastSlice';
 import { getUniqueId } from '@/util/getUniqueId';
 import { deleteExpense } from '@/app/actions/expense';
+import { getDisplayTime } from '@/util/timeUtil';
 
-const getDisplayTime = (date: string) => {
-  const dateObj = new Date(date);
-  if (dateObj.toDateString() !== new Date().toDateString()) {
-    const year = new Date().getFullYear() !== dateObj.getFullYear() ? "" : dateObj.getFullYear();
-    return `${dateObj.getDate()} ${dateObj.toLocaleString("en", { "month": "long" })} ${year}`;
-  }
-  return `Today ${dateObj.getHours()}:${dateObj.getMinutes()}`;
-}
 
 const ExpenseRow = ({ expense, expenseColumns }: { expense: Expense, expenseColumns: ExpenseColumn[] }) => {
 

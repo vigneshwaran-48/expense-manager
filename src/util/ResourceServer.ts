@@ -86,3 +86,17 @@ export const getExpenseRoutes = () => {
 
   return routes;
 };
+
+export const getStatsRoutes = () => {
+  const serverBase = getServerBase();
+
+  const routes: APIRoutes = {
+    get: `${serverBase}/api/stats`,
+    getOne: (id: string | number) => `${serverBase}/api/stats`,
+    create: `${serverBase}/api/stats`,
+    update: (id: string) => `${serverBase}/api/stats/${id}`,
+    delete: (id: string | number) => `${serverBase}/api/stats/${id}`,
+  };
+
+  return routes;
+}

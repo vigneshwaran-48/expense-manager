@@ -21,6 +21,9 @@
 
     --sidebar-width: 200px;
   }
+.MuiChartsAxis-line {
+  stroke: var(--dark-text-color);
+}
 }
 
 @layer utilities {
@@ -101,6 +104,7 @@
 
   color-scheme: dark;
 }
+
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
