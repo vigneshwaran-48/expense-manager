@@ -2,15 +2,15 @@ export type Stats = {
   id: string,
   ownerId: string,
   type: "PERSONAL" | "FAMILY",
-  currentWeekTotal: "number",
-  currentMonthTotal: "number",
+  currentWeekTotal: number,
+  currentMonthTotal: number,
   recentExpenses: Expense[],
-  topCategories: CategoryAmount[],
-  topUsers: UserAmount[],
-  amountSpentPerDay: {
-    [key: string]: number
-  }
+  categoryAmount: Record<string, number>,
+  userAmount: Record<string, number>,
+  weekAmount: Record<WeekDay, number>
 }
+
+export type WeekDay = "SUNDAY" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY";
 
 export type CategoryAmount = {
   category: Category,

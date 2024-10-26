@@ -301,19 +301,3 @@ export const getFamilySettings = async (id: string) => {
   return data.settings as FamilySettings;
 }
 
-export const getFamilyStats = async (id: string) => {
-  const routes = getFamilyRoutes();
-
-  const response = await sendRequest({
-    url: `${routes.getOne(id)}/stats`,
-    method: "GET",
-    includeBody: false,
-    checkAuthentication: false,
-  });
-
-  const data = await response.json();
-  if (response.status === 401) {
-    redirect("/auth/signin");
-  }
-  return data.stats as Stats;
-}
