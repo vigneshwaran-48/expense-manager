@@ -10,7 +10,6 @@ import { getUniqueId } from '@/util/getUniqueId';
 import { deleteExpense } from '@/app/actions/expense';
 import { getDisplayTime } from '@/util/timeUtil';
 
-
 const ExpenseRow = ({ expense, expenseColumns }: { expense: Expense, expenseColumns: ExpenseColumn[] }) => {
 
   const [deleting, setDeleting] = useState<boolean>(false);
@@ -49,8 +48,13 @@ const ExpenseRow = ({ expense, expenseColumns }: { expense: Expense, expenseColu
       console.error("No column value matched, Settings default date value");
       openColumnValue = getDisplayTime(expense.time);
   }
+
+  const showExpense = () => {
+
+  }
+
   return (
-    <tr key={expense.id} className="even:bg-light-bg">
+    <tr onClick={showExpense} key={expense.id} className="even:bg-light-bg cursor-pointer">
       <td className="pl-1 py-4 text-color-text">{expense.name}</td>
       <td className="py-4 hidden sm:table-cell">{expense.amount}</td>
       <td className="py-4 hidden sm:table-cell">{getDisplayTime(expense.time)}</td>
