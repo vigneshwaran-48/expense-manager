@@ -9,6 +9,7 @@ import { addToast, ToastType } from '@/lib/features/toast/toastSlice';
 import { getUniqueId } from '@/util/getUniqueId';
 import { deleteExpense } from '@/app/actions/expense';
 import { getDisplayTime } from '@/util/timeUtil';
+import { setExpensePopup, setShowExpensePopup } from '@/lib/features/expense/expenseSlice';
 
 const ExpenseRow = ({ expense, expenseColumns }: { expense: Expense, expenseColumns: ExpenseColumn[] }) => {
 
@@ -50,7 +51,10 @@ const ExpenseRow = ({ expense, expenseColumns }: { expense: Expense, expenseColu
   }
 
   const showExpense = () => {
-
+    dispatch(setExpensePopup({
+      expense,
+      show: true
+    }))
   }
 
   return (
