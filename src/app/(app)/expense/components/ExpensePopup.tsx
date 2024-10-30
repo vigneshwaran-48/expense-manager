@@ -34,6 +34,18 @@ const ExpensePopup = () => {
           <p className="text-[18px] text-light-color-text w-2/4 sm:w-1/4 px-2" >Amount</p>
           <p className="rounded p-2 text-[18px] w-2/4 sm:w-3/4 font-bold">{(expense?.amount || "0") + " " + (expense?.currency || "USD")}</p>
         </div>
+        <div className="w-full flex justify-between items-center my-4">
+          <p className="text-[18px] text-light-color-text w-2/4 sm:w-1/4 px-2" >Time</p>
+          <p className="rounded p-2 text-[18px] w-2/4 sm:w-3/4 font-bold">{expense?.time || "0"}</p>
+        </div>
+        <div className="w-full flex justify-between items-center my-4">
+          <p className="text-[18px] text-light-color-text w-2/4 sm:w-1/4 px-2" >Owner</p>
+          <p className="rounded p-2 text-[18px] w-2/4 sm:w-3/4 font-bold">{expense?.ownerName || "None"}</p>
+        </div>
+        <div className="w-full flex justify-between items-center my-4">
+          <p className="text-[18px] text-light-color-text w-2/4 sm:w-1/4 px-2" >Category</p>
+          <p className="rounded p-2 text-[18px] w-2/4 sm:w-3/4 font-bold">{expense?.category ? expense.category.name : "None"}</p>
+        </div>
       </div>
     </div>
   )
