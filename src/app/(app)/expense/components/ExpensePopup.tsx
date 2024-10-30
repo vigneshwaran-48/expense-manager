@@ -1,17 +1,23 @@
 "use client"
 
-import XIcon from '@/app/components/icon/XIcon';
 import { setExpensePopup } from '@/lib/features/expense/expenseSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
+import { useRouter } from 'next/navigation';
 import React from 'react'
 
 const ExpensePopup = () => {
 
   const { show, expense } = useAppSelector(state => state.expenseSlice.expensePopup);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const closePopup = () => {
     dispatch(setExpensePopup({ show: false, expense }));
+  }
+
+  const editExpense = () => {
+    router.push(`/expense/${expense?.id}/edit`)
+    closePopup();
   }
 
   return (
@@ -19,9 +25,6 @@ const ExpensePopup = () => {
       <div className="w-full h-full bg-black opacity-[0.7] absolute">
       </div>
       <div className="max-w-[600px] w-[95%] bg-light-bg absolute p-2 rounded">
-        <span className="absolute top-1 right-1 p-2 cursor-pointer" onClick={closePopup}>
-          <XIcon />
-        </span>
         <div className="w-full flex justify-between items-center my-4">
           <p className="text-[18px] text-light-color-text w-2/4 sm:w-1/4 px-2" >Name</p>
           <p className="rounded p-2 w-2/4 sm:w-3/4 font-bold sm:text-[18px]">{expense?.name || "Taxi"}</p>
@@ -45,6 +48,10 @@ const ExpensePopup = () => {
         <div className="w-full flex justify-between items-center my-4">
           <p className="text-[18px] text-light-color-text w-2/4 sm:w-1/4 px-2" >Category</p>
           <p className="rounded p-2 text-[18px] w-2/4 sm:w-3/4 font-bold">{expense?.category ? expense.category.name : "None"}</p>
+        </div>
+        <div className="w-full flex items-center my-4 justify-end">
+          <button className="bg-other-bg text-other-text px-4 py-1 rounded mx-2 outline-none" onClick={editExpense}>Edit</button>
+          <button className="px-2 py-1 rounded text-light-color-text border-dark-bg border mx-2 outline-none" onClick={closePopup}>Cancel</button>
         </div>
       </div>
     </div>

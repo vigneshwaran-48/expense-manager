@@ -5,13 +5,13 @@ import ExpenseForm from './ExpenseForm'
 import ExpenseAttachement from './ExpenseAttachement'
 import { ExpenseCreationPayload } from '@/util/AppTypes';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { createExpense } from '@/app/actions/expense';
+import { createExpense, editExpense } from '@/app/actions/expense';
 import { addToast, ToastType } from '@/lib/features/toast/toastSlice';
 import { getUniqueId } from '@/util/getUniqueId';
 import { NOT_SELECTED_CATEGORY_ID, resetExpenseForm, setExpenseCreationForm } from '@/lib/features/expense/expenseSlice';
 import { useRouter } from 'next/navigation';
 
-const ExpenseFormContainer = ({ isFamily = false }) => {
+const ExpenseFormContainer = ({ isFamily = false, isEdit = false, expenseId = "" }) => {
   const [invoices, setInvoices] = useState<File[]>([]);
   const expenseCreationForm = useAppSelector(state => state.expenseSlice.creationForm);
   const dispatch = useAppDispatch();
@@ -50,7 +50,7 @@ const ExpenseFormContainer = ({ isFamily = false }) => {
     invoices.forEach(invoice => {
       formData.append("invoices", invoice);
     });
-    const result = await createExpense(formData, expenseCreationForm.familyId);
+    const result = isEdit ? await editExpense(expenseId, formData, expenseCreationForm.familyId) : await createExpense(formData, expenseCreationForm.familyId);
     if (result.status === 200) {
       dispatch(addToast({ id: getUniqueId(), message: result.message, type: ToastType.SUCCESS }));
       setInvoices([]);
@@ -89,7 +89,7 @@ const ExpenseFormContainer = ({ isFamily = false }) => {
           className={`px-2 py-1 m-2 rounded ${expenseCreationForm.submitting ? "bg-light-bg" : "bg-other-bg"} text-other-text`}
           onClick={handleSubmit}
           disabled={expenseCreationForm.submitting}
-        >{expenseCreationForm.submitting ? "Creating" : "Create"}</button>
+        >{expenseCreationForm.submitting ? isEdit ? "Editing" : "Creating" : isEdit ? "Edit" : "Create"}</button>
       </div>
     </div>
   )
