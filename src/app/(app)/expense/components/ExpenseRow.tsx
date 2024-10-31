@@ -9,7 +9,7 @@ import { addToast, ToastType } from '@/lib/features/toast/toastSlice';
 import { getUniqueId } from '@/util/getUniqueId';
 import { deleteExpense } from '@/app/actions/expense';
 import { getDisplayTime } from '@/util/timeUtil';
-import { setExpensePopup, setShowExpensePopup } from '@/lib/features/expense/expenseSlice';
+import { setExpensePopup } from '@/lib/features/expense/expenseSlice';
 
 const ExpenseRow = ({ expense, expenseColumns }: { expense: Expense, expenseColumns: ExpenseColumn[] }) => {
 
@@ -50,10 +50,13 @@ const ExpenseRow = ({ expense, expenseColumns }: { expense: Expense, expenseColu
       openColumnValue = getDisplayTime(expense.time);
   }
 
+
   const showExpense = () => {
+    const canEdit = expense.ownerId === userId || (expense.type === "FAMILY" && familySettings.familyExpenseRoles.includes(userRole));
     dispatch(setExpensePopup({
       expense,
-      show: true
+      show: true,
+      canEdit
     }))
   }
 

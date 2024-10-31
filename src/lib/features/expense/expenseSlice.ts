@@ -19,7 +19,8 @@ type CreationForm = {
 
 interface ExpensePopup {
   show: boolean,
-  expense?: Expense
+  expense?: Expense,
+  canEdit: boolean
 }
 
 interface State {
@@ -52,6 +53,7 @@ const initialState: State = {
   },
   expensePopup: {
     show: false,
+    canEdit: false
   }
 }
 

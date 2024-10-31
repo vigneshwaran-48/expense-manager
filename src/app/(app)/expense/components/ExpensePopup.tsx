@@ -7,12 +7,12 @@ import React from 'react'
 
 const ExpensePopup = () => {
 
-  const { show, expense } = useAppSelector(state => state.expenseSlice.expensePopup);
+  const { show, expense, canEdit } = useAppSelector(state => state.expenseSlice.expensePopup);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
   const closePopup = () => {
-    dispatch(setExpensePopup({ show: false, expense }));
+    dispatch(setExpensePopup({ show: false, expense, canEdit: false }));
   }
 
   const editExpense = () => {
@@ -50,7 +50,11 @@ const ExpensePopup = () => {
           <p className="rounded p-2 text-[18px] w-2/4 sm:w-3/4 font-bold">{expense?.category ? expense.category.name : "None"}</p>
         </div>
         <div className="w-full flex items-center my-4 justify-end">
-          <button className="bg-other-bg text-other-text px-4 py-1 rounded mx-2 outline-none" onClick={editExpense}>Edit</button>
+          {
+            canEdit ?
+              <button className="bg-other-bg text-other-text px-4 py-1 rounded mx-2 outline-none" onClick={editExpense}>Edit</button>
+              : ""
+          }
           <button className="px-2 py-1 rounded text-light-color-text border-dark-bg border mx-2 outline-none" onClick={closePopup}>Cancel</button>
         </div>
       </div>
