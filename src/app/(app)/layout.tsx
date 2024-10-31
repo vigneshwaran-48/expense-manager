@@ -8,6 +8,7 @@ import DataProvider from "../providers/DataProvider";
 import Body from "./components/Body";
 import ToastContainer from "./components/toast/ToastContainer";
 import CategoryCreationPage from "./categories/components/CategoryCreationPage";
+import ExpensePopup from "./expense/components/ExpensePopup";
 
 export const metadata: Metadata = {
   title: "Expense Manager",
@@ -48,6 +49,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
             <Sidebar />
             <ToastContainer />
             <CategoryCreationPage />
+            <ExpensePopup />
             <Body>{children}</Body>
           </DataProvider>
         </StoreProvider>

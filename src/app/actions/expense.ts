@@ -99,3 +99,45 @@ export const deleteExpense = async (id: string, familyId: string | null) => {
   }
   return await response.json();
 }
+
+export const editExpense = async (id: string, formData: FormData, familyId: string | null) => {
+
+  const routes = getExpenseRoutes();
+
+  const response = await sendRequest({
+    url: routes.getOne(id),
+    method: "PATCH",
+    includeBody: true,
+    body: formData,
+    includeContentType: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath("/expense");
+  if (familyId) {
+    revalidatePath(`/family/${familyId}/expenses`);
+  }
+  return data;
+}
+
+export const getExpense = async (id: string) => {
+  const routes = getExpenseRoutes();
+
+  const response = await sendRequest({
+    url: routes.getOne(id),
+    method: "GET",
+    includeBody: false,
+  });
+
+  if (response.status == 401) {
+    redirect("/auth/signin");
+  }
+  const data = await response.json();
+  if (data.status === 200) {
+    return data.expense;
+  }
+  return data;
+}

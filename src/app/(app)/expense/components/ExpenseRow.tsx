@@ -9,7 +9,7 @@ import { addToast, ToastType } from '@/lib/features/toast/toastSlice';
 import { getUniqueId } from '@/util/getUniqueId';
 import { deleteExpense } from '@/app/actions/expense';
 import { getDisplayTime } from '@/util/timeUtil';
-
+import { setExpensePopup } from '@/lib/features/expense/expenseSlice';
 
 const ExpenseRow = ({ expense, expenseColumns }: { expense: Expense, expenseColumns: ExpenseColumn[] }) => {
 
@@ -49,8 +49,19 @@ const ExpenseRow = ({ expense, expenseColumns }: { expense: Expense, expenseColu
       console.error("No column value matched, Settings default date value");
       openColumnValue = getDisplayTime(expense.time);
   }
+
+
+  const showExpense = () => {
+    const canEdit = expense.ownerId === userId || (expense.type === "FAMILY" && familySettings.familyExpenseRoles.includes(userRole));
+    dispatch(setExpensePopup({
+      expense,
+      show: true,
+      canEdit
+    }))
+  }
+
   return (
-    <tr key={expense.id} className="even:bg-light-bg">
+    <tr onClick={showExpense} key={expense.id} className="even:bg-light-bg cursor-pointer">
       <td className="pl-1 py-4 text-color-text">{expense.name}</td>
       <td className="py-4 hidden sm:table-cell">{expense.amount}</td>
       <td className="py-4 hidden sm:table-cell">{getDisplayTime(expense.time)}</td>

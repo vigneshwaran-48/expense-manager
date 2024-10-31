@@ -17,13 +17,20 @@ type CreationForm = {
   chooseType: boolean
 }
 
+interface ExpensePopup {
+  show: boolean,
+  expense?: Expense,
+  canEdit: boolean
+}
+
 interface State {
   creationForm: CreationForm,
   expenses: Expense[],
   search: {
     query: string,
     searchBy: SearchBy
-  }
+  },
+  expensePopup: ExpensePopup
 }
 
 const initialState: State = {
@@ -43,6 +50,10 @@ const initialState: State = {
   search: {
     query: "",
     searchBy: "ALL"
+  },
+  expensePopup: {
+    show: false,
+    canEdit: false
   }
 }
 
@@ -51,6 +62,7 @@ const expenseSlice = createSlice({
   initialState,
   reducers: {
     setExpenseCreationForm: (state, action: PayloadAction<CreationForm>) => {
+      console.log("Hello");
       state.creationForm = action.payload;
     },
     resetExpenseForm: (state) => {
@@ -72,9 +84,12 @@ const expenseSlice = createSlice({
     },
     setSearchBy: (state, action: PayloadAction<SearchBy>) => {
       state.search.searchBy = action.payload;
+    },
+    setExpensePopup: (state, action: PayloadAction<ExpensePopup>) => {
+      state.expensePopup = action.payload;
     }
   }
 })
 
-export const { setExpenseCreationForm, resetExpenseForm, setExpenses, setQuery, setSearchBy } = expenseSlice.actions;
+export const { setExpenseCreationForm, resetExpenseForm, setExpenses, setQuery, setSearchBy, setExpensePopup } = expenseSlice.actions;
 export default expenseSlice.reducer;

@@ -3,15 +3,15 @@
 import React, { useState } from 'react'
 import ExpenseForm from './ExpenseForm'
 import ExpenseAttachement from './ExpenseAttachement'
-import { ExpenseCreationPayload } from '@/util/AppTypes';
+import { Expense, ExpenseCreationPayload } from '@/util/AppTypes';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { createExpense } from '@/app/actions/expense';
+import { createExpense, editExpense } from '@/app/actions/expense';
 import { addToast, ToastType } from '@/lib/features/toast/toastSlice';
 import { getUniqueId } from '@/util/getUniqueId';
 import { NOT_SELECTED_CATEGORY_ID, resetExpenseForm, setExpenseCreationForm } from '@/lib/features/expense/expenseSlice';
 import { useRouter } from 'next/navigation';
 
-const ExpenseFormContainer = ({ isFamily = false }) => {
+const ExpenseFormContainer = ({ isFamily = false, isEdit = false, expense }: { expense?: Expense, isEdit?: boolean, isFamily?: boolean }) => {
   const [invoices, setInvoices] = useState<File[]>([]);
   const expenseCreationForm = useAppSelector(state => state.expenseSlice.creationForm);
   const dispatch = useAppDispatch();
@@ -29,6 +29,9 @@ const ExpenseFormContainer = ({ isFamily = false }) => {
   }
 
   const handleSubmit = async () => {
+    if (isEdit && !expense) {
+      throw new Error("expense should be present in a edit form!");
+    }
     const payload = {
       name: expenseCreationForm.name,
       description: expenseCreationForm.description,
@@ -50,7 +53,7 @@ const ExpenseFormContainer = ({ isFamily = false }) => {
     invoices.forEach(invoice => {
       formData.append("invoices", invoice);
     });
-    const result = await createExpense(formData, expenseCreationForm.familyId);
+    const result = isEdit ? await editExpense(expense?.id || "null", formData, expenseCreationForm.familyId) : await createExpense(formData, expenseCreationForm.familyId);
     if (result.status === 200) {
       dispatch(addToast({ id: getUniqueId(), message: result.message, type: ToastType.SUCCESS }));
       setInvoices([]);
@@ -70,7 +73,7 @@ const ExpenseFormContainer = ({ isFamily = false }) => {
     <div className="w-full h-full flex flex-col justify-around overflow-y-scroll hide-scrollbar">
       <div className="w-full h-[calc(100%-40px)] flex flex-col lg:flex-row">
         <div className="w-full lg:w-2/3 h-full flex flex-col">
-          <ExpenseForm isFamilyExpense={isFamily} />
+          <ExpenseForm isFamilyExpense={isFamily} isEdit={isEdit} expense={expense} />
         </div>
         <div className="w-full lg:w-1/3 h-full">
           <ExpenseAttachement
@@ -89,7 +92,7 @@ const ExpenseFormContainer = ({ isFamily = false }) => {
           className={`px-2 py-1 m-2 rounded ${expenseCreationForm.submitting ? "bg-light-bg" : "bg-other-bg"} text-other-text`}
           onClick={handleSubmit}
           disabled={expenseCreationForm.submitting}
-        >{expenseCreationForm.submitting ? "Creating" : "Create"}</button>
+        >{expenseCreationForm.submitting ? isEdit ? "Editing" : "Creating" : isEdit ? "Edit" : "Create"}</button>
       </div>
     </div>
   )

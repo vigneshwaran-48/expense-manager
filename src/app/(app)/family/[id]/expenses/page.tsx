@@ -27,7 +27,6 @@ const page = async ({
 
   return (
     <div className="w-full h-full">
-      <Title title="Expenses" />
       <ExpenseListingHeader
         isFamily={true}
         query={searchParams?.query}
