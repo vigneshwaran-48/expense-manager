@@ -4,7 +4,7 @@ import Dropdown from '@/app/(app)/components/form/Dropdown';
 import { getUserFamily, getUserRoleInFamily } from '@/app/actions/family';
 import { NOT_SELECTED_CATEGORY_ID, setExpenseCreationForm } from '@/lib/features/expense/expenseSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { Category, Role } from '@/util/AppTypes';
+import { Category, Expense, Role } from '@/util/AppTypes';
 import { countries } from '@/util/countries';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
@@ -30,7 +30,7 @@ const expenseTypeOptions = [
   }
 ]
 
-const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
+const ExpenseForm = ({ isFamilyExpense, isEdit, expense }: { isFamilyExpense: boolean, isEdit?: boolean, expense?: Expense }) => {
 
   const categories = useAppSelector(state => state.categorySlice.categories);
   const creationForm = useAppSelector(state => state.expenseSlice.creationForm);
@@ -58,6 +58,28 @@ const ExpenseForm = ({ isFamilyExpense }: { isFamilyExpense: boolean }) => {
       dispatch(setExpenseCreationForm({ ...creationForm, "familyId": null, "chooseType": false }));
     }
   }, [isFamilyExpense, userRole]);
+
+  useEffect(() => {
+
+    if (isEdit) {
+      if (!expense) {
+        throw new Error("expense should be present in a edit form!");
+      }
+      dispatch(setExpenseCreationForm({
+        name: expense.name,
+        familyId: expense.family?.id || null,
+        date: expense.time,
+        type: expense.type,
+        amount: expense.amount,
+        currency: expense.currency,
+        categoryId: expense.category?.id || NOT_SELECTED_CATEGORY_ID,
+        chooseType: false,
+        submitting: false,
+        description: expense.description
+      }))
+    }
+
+  }, [isEdit, expense]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

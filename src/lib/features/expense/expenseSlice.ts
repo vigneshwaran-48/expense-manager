@@ -60,6 +60,7 @@ const expenseSlice = createSlice({
   initialState,
   reducers: {
     setExpenseCreationForm: (state, action: PayloadAction<CreationForm>) => {
+      console.log("Hello");
       state.creationForm = action.payload;
     },
     resetExpenseForm: (state) => {
