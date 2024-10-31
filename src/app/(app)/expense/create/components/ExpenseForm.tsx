@@ -40,6 +40,9 @@ const ExpenseForm = ({ isFamilyExpense, isEdit, expense }: { isFamilyExpense: bo
   const router = useRouter();
 
   useEffect(() => {
+    if (isEdit) {
+      return;
+    }
     if (isFamilyExpense) {
       (async () => {
         const response = await getUserFamily();

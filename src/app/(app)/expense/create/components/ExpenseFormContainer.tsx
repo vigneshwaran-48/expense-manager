@@ -56,6 +56,9 @@ const ExpenseFormContainer = ({ isFamily = false, isEdit = false, expense }: { e
     const result = isEdit ? await editExpense(expense?.id || "null", formData, expenseCreationForm.familyId) : await createExpense(formData, expenseCreationForm.familyId);
     if (result.status === 200) {
       dispatch(addToast({ id: getUniqueId(), message: result.message, type: ToastType.SUCCESS }));
+      if (isEdit) {
+        return;
+      }
       setInvoices([]);
       dispatch(resetExpenseForm());
       if (isFamily) {
