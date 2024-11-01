@@ -1,8 +1,12 @@
 import React from 'react'
+import PermissionSection from './components/PermissionSection';
+
 
 const page = () => {
   return (
-    <div>Settings</div>
+    <div>
+      <PermissionSection />
+    </div>
   )
 }
 
