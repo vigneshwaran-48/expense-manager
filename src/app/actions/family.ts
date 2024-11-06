@@ -301,3 +301,21 @@ export const getFamilySettings = async (id: string) => {
   return data.settings as FamilySettings;
 }
 
+export const updateFamilySettings = async (familyId: string, settings: FamilySettings) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.update(familyId)}/settings`,
+    method: "PUT",
+    includeBody: true,
+    body: JSON.stringify(settings),
+    contentType: "application/json",
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  return data.settings as FamilySettings;
+}
+
