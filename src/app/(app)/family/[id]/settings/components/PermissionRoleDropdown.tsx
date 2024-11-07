@@ -1,7 +1,11 @@
 "use client";
 
 import Dropdown, { Option } from '@/app/(app)/components/form/Dropdown'
-import { Role } from '@/util/AppTypes';
+import { updateRole } from '@/app/actions/family';
+import { addToast, ToastType } from '@/lib/features/toast/toastSlice';
+import { useAppDispatch } from '@/lib/hooks';
+import { FamilyRoleSettings, Role } from '@/util/AppTypes';
+import { getUniqueId } from '@/util/getUniqueId';
 import React, { useState } from 'react'
 
 const roleOptions = [
@@ -32,12 +36,30 @@ const getLeastRole = (roles: Role[]): Role => {
   }
 }
 
-const PermissionRoleDropdown = ({ inviteAcceptRequestRoles, displayName }: { inviteAcceptRequestRoles: Role[], displayName: string }) => {
+const PermissionRoleDropdown = ({ familyId, roles, displayName, settingRole, onChange }:
+  { familyId: string, roles: Role[], displayName: string, settingRole: FamilyRoleSettings, onChange: (roles: Role[]) => void }) => {
 
   const [loading, setLoading] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
-  const handleRoleChange = (option: Option) => {
-
+  const handleRoleChange = async (option: Option) => {
+    setLoading(true);
+    if (option.value === "MEMBER") {
+      roles = ["LEADER", "MAINTAINER", "MEMBER"];
+    } else if (option.value === "MAINTAINER") {
+      roles = ["LEADER", "MAINTAINER"];
+    } else if (option.value === "LEADER") {
+      roles = ["LEADER"];
+    } else {
+      throw new Error("Unknown role option!");
+    }
+    const response = await updateRole(familyId, settingRole, roles);
+    if (response.status === 200) {
+      dispatch(addToast({ id: getUniqueId(), message: response.message, type: ToastType.SUCCESS }));
+    } else {
+      dispatch(addToast({ id: getUniqueId(), message: response.error, type: ToastType.ERROR }));
+    }
+    setLoading(false);
   }
 
   return (
@@ -46,7 +68,7 @@ const PermissionRoleDropdown = ({ inviteAcceptRequestRoles, displayName }: { inv
       <Dropdown
         className={"bg-dark-bg w-full flex justify-between max-w-[200px] ml-2 p-2"}
         options={roleOptions}
-        selectedOption={`${getLeastRole(inviteAcceptRequestRoles)}-id`}
+        selectedOption={`${getLeastRole(roles)}-id`}
         onChange={handleRoleChange}
         ulClass={"bg-dark-bg"}
         listHoverBg={"hover:border-b hover:border-light-text"}

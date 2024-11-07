@@ -3,6 +3,7 @@
 import {
   Family,
   FamilyMember,
+  FamilyRoleSettings,
   FamilySettings,
   Invitation,
   JoinRequest,
@@ -301,21 +302,22 @@ export const getFamilySettings = async (id: string) => {
   return data.settings as FamilySettings;
 }
 
-export const updateFamilySettings = async (familyId: string, settings: FamilySettings) => {
+export const updateRole = async (familyId: string, roleSetting: FamilyRoleSettings, roles: Role[]) => {
+
   const routes = getFamilyRoutes();
 
   const response = await sendRequest({
-    url: `${routes.update(familyId)}/settings`,
-    method: "PUT",
-    includeBody: true,
-    body: JSON.stringify(settings),
-    contentType: "application/json",
+    url: `${routes.getOne(familyId)}/settings/roles?roleSetting=${roleSetting}&roles=${roles.join(",")}`,
+    method: "PATCH",
+    includeBody: false,
   });
 
   const data = await response.json();
   if (response.status === 401) {
     redirect("/auth/signin");
   }
-  return data.settings as FamilySettings;
+  revalidatePath(`/family/${familyId}/settings`);
+  return data;
+
 }
 

@@ -1,3 +1,6 @@
+
+export type FamilyRoleSettings = "INVITE_ACCEPT_ROLE" | "FAMILY_EXPENSE_ROLE" | "CATEGORY_ROLE" | "REMOVE_MEMBER_ROLE" | "UPDATE_FAMILY_ROLE";
+
 export type Stats = {
   id: string,
   ownerId: string,
