@@ -13,7 +13,7 @@ interface Props {
   listHoverBg?: string
 }
 
-interface Option {
+export interface Option {
   id: string;
   displayName: string;
   value: string;

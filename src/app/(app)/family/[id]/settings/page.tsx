@@ -1,8 +1,14 @@
 import React from 'react'
+import PermissionSection from './components/PermissionSection';
+import FamilyEditSection from './components/FamilyEditSection';
+
 
 const page = () => {
   return (
-    <div>Settings</div>
+    <div className="w-full h-full overflow-y-scroll hide-scrollbar">
+      <FamilyEditSection />
+      <PermissionSection />
+    </div>
   )
 }
 
