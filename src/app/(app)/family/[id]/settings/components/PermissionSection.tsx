@@ -13,7 +13,7 @@ const PermissionSection = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <section className="w-full max-w-[500px] p-2">
+    <section className="w-full max-w-[500px] p-4 my-4 border-b">
       <h2 className="text-2xl font-bold">Permissions</h2>
       <PermissionRoleDropdown
         displayName={"Invite Access"}

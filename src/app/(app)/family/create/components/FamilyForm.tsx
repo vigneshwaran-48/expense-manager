@@ -8,19 +8,19 @@ import TextInput from "@/app/(app)/components/form/TextInput";
 import { createFamily } from "@/app/actions/family";
 import { uploadImage } from "@/app/actions/static";
 import { addToast, ToastType } from "@/lib/features/toast/toastSlice";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { Family } from "@/util/AppTypes";
 import { getUniqueId } from "@/util/getUniqueId";
 import { getStaticResourceRoutes } from "@/util/ResourceServer";
 import { redirect } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface ErrorField {
   field: string;
   message: string;
 }
 
-const FamilyForm = () => {
+const FamilyForm = ({ isEdit = false }) => {
   const dispatch = useAppDispatch();
 
   const [family, setFamily] = useState<Family>({
@@ -29,6 +29,19 @@ const FamilyForm = () => {
     visibility: "PUBLIC",
     joinType: "ANYONE",
   });
+
+  const familyDetails = useAppSelector(state => state.familySlice.family);
+
+  useEffect(() => {
+    if (isEdit) {
+      setFamily({
+        name: familyDetails.name,
+        image: familyDetails.image,
+        visibility: familyDetails.visibility,
+        joinType: familyDetails.joinType
+      })
+    }
+  }, [familyDetails]);
 
   const [errors, setErrors] = useState<ErrorField[]>([]);
 
@@ -86,7 +99,7 @@ const FamilyForm = () => {
     form.append("resource", e.target.files[0]);
     setUploadingImage(true);
     const resourceResponse = await uploadImage(form);
-    console.log(resourceResponse);
+
     if (resourceResponse.status !== 200 && resourceResponse.status !== 201) {
       dispatch(
         addToast({
@@ -98,14 +111,12 @@ const FamilyForm = () => {
       return;
     }
     const image = getStaticResourceRoutes().getOne(resourceResponse.resourceId);
-    console.log(image);
     setFamily((prevFamily) => ({ ...prevFamily, image }));
     setUploadingImage(false);
   };
 
   const handleSubmit = async () => {
     const response = await createFamily(family);
-    console.log(response);
     if (response.status === 200) {
       dispatch(
         addToast({
@@ -184,7 +195,7 @@ const FamilyForm = () => {
           type="button"
           onClick={handleSubmit}
         >
-          Create
+          {isEdit ? "Edit" : "Create"}
         </button>
       </div>
     </div>
