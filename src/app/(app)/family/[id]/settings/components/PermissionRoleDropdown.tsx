@@ -59,11 +59,12 @@ const PermissionRoleDropdown = ({ familyId, roles, displayName, settingRole, onC
     } else {
       dispatch(addToast({ id: getUniqueId(), message: response.error, type: ToastType.ERROR }));
     }
+    onChange(roles);
     setLoading(false);
   }
 
   return (
-    <div className="flex w-full justify-between items-center p-2">
+    <div className="flex w-full justify-between items-center p-2 my-2">
       <b><label>{displayName}</label></b>
       <Dropdown
         className={"bg-dark-bg w-full flex justify-between max-w-[200px] ml-2 p-2"}
