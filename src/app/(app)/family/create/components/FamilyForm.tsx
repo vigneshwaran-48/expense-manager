@@ -5,8 +5,9 @@ import { RadioButtonModel } from "@/app/(app)/components/form/RadioButton";
 import RadioGroup from "@/app/(app)/components/form/RadioGroup";
 import TextAreaInput from "@/app/(app)/components/form/TextAreaInput";
 import TextInput from "@/app/(app)/components/form/TextInput";
-import { createFamily } from "@/app/actions/family";
+import { createFamily, updateFamily } from "@/app/actions/family";
 import { uploadImage } from "@/app/actions/static";
+import { setFamilyDetails } from "@/lib/features/family/familySlice";
 import { addToast, ToastType } from "@/lib/features/toast/toastSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { Family } from "@/util/AppTypes";
@@ -115,8 +116,33 @@ const FamilyForm = ({ isEdit = false }) => {
     setUploadingImage(false);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
+    if (!isEdit) {
+      handleCreateFamily();
+    } else {
+      handleEditFamily();
+    }
+  };
+
+  const handleEditFamily = async () => {
+    if (!familyDetails.id) {
+      throw new Error("Id not found in the family to edit!");
+    }
+    const response = await updateFamily(familyDetails.id, family);
+    handleResponse(response);
+    if (response.status === 200) {
+      dispatch(setFamilyDetails(response.family as Family));
+    }
+    console.log(response)
+  }
+
+  const handleCreateFamily = async () => {
     const response = await createFamily(family);
+    handleResponse(response);
+    redirect("/family");
+  }
+
+  const handleResponse = (response: any) => {
     if (response.status === 200) {
       dispatch(
         addToast({
@@ -135,8 +161,7 @@ const FamilyForm = ({ isEdit = false }) => {
       );
       return;
     }
-    redirect("/family");
-  };
+  }
 
   const getError = (field: string) => {
     return errors.find((error) => error.field === field);

@@ -321,3 +321,25 @@ export const updateRole = async (familyId: string, roleSetting: FamilyRoleSettin
 
 }
 
+export const updateFamily = async (familyId: string, family: Family) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: routes.update(familyId),
+    method: "PATCH",
+    includeBody: true,
+    body: JSON.stringify(family),
+    contentType: "application/json",
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath("/families/search");
+  revalidatePath(`/family/${familyId}`);
+  revalidatePath(`/family/${familyId}/settings`);
+  revalidatePath("/");
+  return data;
+}
+

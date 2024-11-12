@@ -160,5 +160,5 @@ export type APIRoutes = {
   create: string;
   getOne: (id: string | number) => string;
   delete: (id: string | number) => string;
-  update: (id: string) => void;
+  update: (id: string) => string;
 };

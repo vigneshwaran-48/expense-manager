@@ -16,6 +16,7 @@ const SecureImage = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    console.log(url);
     if (
       !url.startsWith(process.env.NEXT_PUBLIC_RESOURCE_SERVER_URL as string)
     ) {
