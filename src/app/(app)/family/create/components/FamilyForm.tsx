@@ -31,6 +31,8 @@ const FamilyForm = ({ isEdit = false }) => {
     joinType: "ANYONE",
   });
 
+  const [submitting, setSubmitting] = useState<boolean>(false);
+
   const familyDetails = useAppSelector(state => state.familySlice.family);
 
   useEffect(() => {
@@ -117,11 +119,13 @@ const FamilyForm = ({ isEdit = false }) => {
   };
 
   const handleSubmit = () => {
+    setSubmitting(true);
     if (!isEdit) {
       handleCreateFamily();
     } else {
       handleEditFamily();
     }
+    setSubmitting(false);
   };
 
   const handleEditFamily = async () => {
@@ -133,7 +137,6 @@ const FamilyForm = ({ isEdit = false }) => {
     if (response.status === 200) {
       dispatch(setFamilyDetails(response.family as Family));
     }
-    console.log(response)
   }
 
   const handleCreateFamily = async () => {
@@ -215,13 +218,24 @@ const FamilyForm = ({ isEdit = false }) => {
         className="my-6"
       />
       <div className="w-full text-right">
-        <button
-          className="button bg-other-bg text-other-text"
-          type="button"
-          onClick={handleSubmit}
-        >
-          {isEdit ? "Edit" : "Create"}
-        </button>
+        {
+          submitting ?
+            <button
+              className="p-2 rounded bg-other-bg text-other-text"
+              type="button"
+              disabled={true}
+            >
+              {isEdit ? "Editing" : "Creating"}
+            </button>
+            :
+            <button
+              className="button bg-other-bg text-other-text"
+              type="button"
+              onClick={handleSubmit}
+            >
+              {isEdit ? "Edit" : "Create"}
+            </button>
+        }
       </div>
     </div>
   );
