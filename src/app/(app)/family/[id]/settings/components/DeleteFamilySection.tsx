@@ -28,7 +28,7 @@ const DeleteFamilySection = () => {
   return (
     <section className="w-full max-w-[500px] p-4 my-4 border-b">
       <h2 className="text-2xl font-bold">Delete Family</h2>
-      <b><p className="text-light-color-text mt-2">This action can't be reverted!</p></b>
+      <b><p className="text-light-color-text mt-2">This action can&apos;t be reverted!</p></b>
       <button
         className="bg-red-500 p-2 rounded my-4"
         disabled={deleting}

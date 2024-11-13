@@ -1,8 +1,11 @@
 import React from 'react'
+import Title from '../components/Title';
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <Title title={"Settings"} />
+    </div>
   )
 }
 
