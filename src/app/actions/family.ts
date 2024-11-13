@@ -343,3 +343,21 @@ export const updateFamily = async (familyId: string, family: Family) => {
   return data;
 }
 
+export const deleteFamily = async (familyId: string) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.delete(familyId)}`,
+    method: "DELETE",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath(`/family/${familyId}/settings`);
+  revalidatePath(`/family/${familyId}`);
+  revalidatePath("/families/search");
+  return data;
+}
