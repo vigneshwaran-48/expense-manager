@@ -22,7 +22,7 @@ const Member = ({
       <td className="w-[250px] py-2">
         <div className="flex items-center">
           <Image
-            src={member.member.image || "/person.jpg"}
+            src={member.member.image || "/images/person.jpg"}
             width={30}
             height={30}
             alt={`${member.member.name}'s image`}

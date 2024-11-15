@@ -51,9 +51,12 @@ const familySlice = createSlice({
     },
     setFamilySettings: (state, action: PayloadAction<FamilySettings>) => {
       state.settings = action.payload;
+    },
+    setFamilyDetails: (state, action: PayloadAction<Family>) => {
+      state.family = action.payload;
     }
   },
 });
 
-export const { setFamily, setFamilySettings } = familySlice.actions;
+export const { setFamily, setFamilySettings, setFamilyDetails } = familySlice.actions;
 export default familySlice.reducer;

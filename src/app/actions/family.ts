@@ -8,10 +8,9 @@ import {
   Invitation,
   JoinRequest,
   Role,
-  Stats,
 } from "@/util/AppTypes";
 import { sendRequest } from "@/util/RequestUtil";
-import { getExpenseRoutes, getFamilyRoutes } from "@/util/ResourceServer";
+import { getFamilyRoutes } from "@/util/ResourceServer";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -321,3 +320,43 @@ export const updateRole = async (familyId: string, roleSetting: FamilyRoleSettin
 
 }
 
+export const updateFamily = async (familyId: string, family: Family) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: routes.update(familyId),
+    method: "PATCH",
+    includeBody: true,
+    body: JSON.stringify(family),
+    contentType: "application/json",
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath("/families/search");
+  revalidatePath(`/family/${familyId}`);
+  revalidatePath(`/family/${familyId}/settings`);
+  revalidatePath("/");
+  return data;
+}
+
+export const deleteFamily = async (familyId: string) => {
+  const routes = getFamilyRoutes();
+
+  const response = await sendRequest({
+    url: `${routes.delete(familyId)}`,
+    method: "DELETE",
+    includeBody: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath(`/family/${familyId}/settings`);
+  revalidatePath(`/family/${familyId}`);
+  revalidatePath("/families/search");
+  return data;
+}

@@ -18,14 +18,9 @@ export const generateMetadata = async () => {
 
 const page = async () => {
   const response = await getUserFamily();
-
-  console.log(response);
-
   const hasFamily = response.status === 200;
 
   const title = hasFamily ? response.family.name : "Family";
-
-  console.log(`Title => ${title}`);
 
   if (hasFamily) {
     redirect(`/family/${response.family.id}`);

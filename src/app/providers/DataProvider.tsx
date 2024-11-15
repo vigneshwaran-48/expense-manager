@@ -9,6 +9,7 @@ import { getFamilySettings, getMemberOfFamily, getUserFamily } from "../actions/
 import { setFamily } from "@/lib/features/family/familySlice";
 import { getAllCategories } from "../actions/category";
 import { setCategories } from "@/lib/features/category/categorySlice";
+import { setPersonalInfo } from "@/lib/features/settings/settingsSlice";
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
@@ -26,6 +27,13 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     user.showLoginPopup = false;
     user.isLoggedIn = true;
     dispatch(setUser(user));
+    dispatch(setPersonalInfo({
+      firstName: user.firstName || "",
+      lastName: user.lastName || "",
+      name: user.name || "",
+      age: user.age || 18,
+      image: user.image || "/images/person.jpg"
+    }))
 
     if (familyResponse.status === 200) {
       const [familyMember, familySettings] = await Promise.all([

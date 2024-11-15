@@ -29,7 +29,7 @@ const SecureImage = ({
       setSrc(imageStr);
       setLoading(false);
     })();
-  }, []);
+  }, [url]);
 
   return loading ? (
     <Spinner className={className} />

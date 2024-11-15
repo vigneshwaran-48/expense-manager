@@ -3,6 +3,7 @@
 import { Stats, User } from "@/util/AppTypes";
 import { sendRequest } from "@/util/RequestUtil";
 import { getUserRoutes } from "@/util/ResourceServer";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export const getProfile = async () => {
@@ -80,4 +81,25 @@ export const getStats = async () => {
     redirect("/auth/signin");
   }
   return data.stats as Stats;
+}
+
+export const updateUser = async (id: string, user: User) => {
+
+  const routes = getUserRoutes();
+
+  const response = await sendRequest({
+    url: routes.update(id),
+    method: "PATCH",
+    includeBody: true,
+    body: JSON.stringify(user),
+    contentType: "application/json",
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  revalidatePath("/settings");
+  revalidatePath("/");
+  return data;
 }
