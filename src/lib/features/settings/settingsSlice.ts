@@ -4,8 +4,8 @@ interface PersonalForm {
   name: string,
   firstName: string,
   lastName: string,
-  email: string,
-  image: string
+  image: string,
+  age: number
 }
 
 interface State {
@@ -17,8 +17,8 @@ const initialState: State = {
     name: "User",
     firstName: "User",
     lastName: "U",
-    email: "user@user.com",
-    image: "/person.jpg"
+    image: "/images/person.jpg",
+    age: 18
   }
 }
 

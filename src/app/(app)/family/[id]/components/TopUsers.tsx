@@ -16,7 +16,7 @@ const TopUsers = async ({ topUsers }: { topUsers: Record<string, number> }) => {
   const userTopElems = users.map(user => {
     return (
       <div key={user.id} className="w-full p-2 flex justify-between items-center">
-        <Image src={user.image || "/person.jpg"} width={50} height={50} alt="User image" className="rounded-full m-2" />
+        <Image src={user.image || "/images/person.jpg"} width={50} height={50} alt="User image" className="rounded-full m-2" />
         <div className="flex-grow flex-col">
           <p className="font-bold">{user.name}</p>
           <p className="text-[14px] text-color-light-text">{user.email}</p>
