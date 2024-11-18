@@ -8,8 +8,14 @@ interface PersonalForm {
   age: number
 }
 
+interface Preferences {
+  isDark: boolean,
+  theme: string
+}
+
 interface State {
-  personalInfo: PersonalForm
+  personalInfo: PersonalForm,
+  preferences: Preferences
 }
 
 const initialState: State = {
@@ -19,6 +25,10 @@ const initialState: State = {
     lastName: "U",
     image: "/images/person.jpg",
     age: 18
+  },
+  preferences: {
+    isDark: true,
+    theme: "blue"
   }
 }
 
@@ -28,9 +38,12 @@ const settingsSlice = createSlice({
   reducers: {
     setPersonalInfo: (state, action: PayloadAction<PersonalForm>) => {
       state.personalInfo = action.payload;
+    },
+    setPreferences: (state, action: PayloadAction<Preferences>) => {
+      state.preferences = action.payload;
     }
   }
 });
 
-export const { setPersonalInfo } = settingsSlice.actions;
+export const { setPersonalInfo, setPreferences } = settingsSlice.actions;
 export default settingsSlice.reducer;
