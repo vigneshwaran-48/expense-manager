@@ -22,9 +22,9 @@ const ToggleInput = ({
   return (
     <label
       htmlFor={id}
-      className={`rounded-[14px] ${className} bg-dark-bg w-[50px] flex items-center`}
+      className={`rounded-[14px] ${className} bg-dark-bg w-[50px] flex items-center cursor-pointer`}
     >
-      <span className={`w-[20px] h-[20px] rounded-full bg-other-bg inline-block transition ${checked ? "translate-x-[30px]" : "translate-x-[0px]"} duration-500`}></span>
+      <span className={`w-[20px] h-[20px] rounded-full  inline-block transition ${checked ? "translate-x-[30px] bg-other-bg" : "translate-x-[0px] bg-white"} duration-500`}></span>
       <input
         id={id}
         type="checkbox"
