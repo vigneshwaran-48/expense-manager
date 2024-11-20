@@ -1,6 +1,6 @@
 "use client";
 
-import { Category, User } from "@/util/AppTypes";
+import { Category, Settings, User } from "@/util/AppTypes";
 import React, { useEffect } from "react";
 import { getProfile } from "../actions/user";
 import { useAppDispatch } from "@/lib/hooks";
@@ -9,7 +9,8 @@ import { getFamilySettings, getMemberOfFamily, getUserFamily } from "../actions/
 import { setFamily } from "@/lib/features/family/familySlice";
 import { getAllCategories } from "../actions/category";
 import { setCategories } from "@/lib/features/category/categorySlice";
-import { setPersonalInfo } from "@/lib/features/settings/settingsSlice";
+import { setPersonalInfo, setPreferences } from "@/lib/features/settings/settingsSlice";
+import { getSettings } from "../actions/settings";
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
@@ -19,13 +20,16 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const fetchAndSetUser = async () => {
-    const [user, familyResponse, categories]: [User, any, Category[]] = await Promise.all([
+    const [user, familyResponse, categories, settings]: [User, any, Category[], Settings] = await Promise.all([
       getProfile(),
       getUserFamily(),
-      getAllCategories()
+      getAllCategories(),
+      getSettings()
     ]);
     user.showLoginPopup = false;
     user.isLoggedIn = true;
+
+    dispatch(setPreferences(settings))
     dispatch(setUser(user));
     dispatch(setPersonalInfo({
       firstName: user.firstName || "",
