@@ -23,7 +23,7 @@ const initialState: State = {
     age: 18
   },
   preferences: {
-    isDarkMode: true,
+    darkMode: false,
     theme: "BLUE"
   }
 }

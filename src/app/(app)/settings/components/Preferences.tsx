@@ -14,14 +14,12 @@ const Preferences = () => {
   const dispatch = useAppDispatch();
 
   const handleChange = async (name: string, value: any) => {
-    const oldValue = preferences[name];
     dispatch(setPreferences({ ...preferences, [name]: value }));
-    const response = await updateSettings(preferences);
+    const response = await updateSettings({ ...preferences, [name]: value });
     if (response.status == 200) {
       dispatch(addToast({ id: getUniqueId(), message: response.message, type: ToastType.SUCCESS }))
     } else {
       dispatch(addToast({ id: getUniqueId(), message: response.error, type: ToastType.ERROR }))
-      dispatch(setPreferences({ ...preferences, [name]: oldValue }))
     }
 
   };
@@ -31,7 +29,7 @@ const Preferences = () => {
       <h2 className="text-xl font-semibold">Preferences</h2>
       <div className="w-full flex justify-between max-w-[250px] p-2 my-2">
         <p>Dark Theme</p>
-        <ToggleInput name="isDarkMode" checked={preferences.isDarkMode} onChange={checked => handleChange("isDarkMode", checked)} id="is-dark-id" />
+        <ToggleInput name="darkMode" checked={preferences.darkMode} onChange={checked => handleChange("darkMode", checked)} id="is-dark-id" />
       </div>
     </div>
   )

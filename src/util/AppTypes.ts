@@ -2,7 +2,7 @@
 export type Settings = {
   id?: string,
   theme: Theme
-  isDarkMode: boolean
+  darkMode: boolean
 }
 
 export type Theme = "BLUE" | "RED" | "GREEN";

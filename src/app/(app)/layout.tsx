@@ -9,6 +9,7 @@ import Body from "./components/Body";
 import ToastContainer from "./components/toast/ToastContainer";
 import CategoryCreationPage from "./categories/components/CategoryCreationPage";
 import ExpensePopup from "./expense/components/ExpensePopup";
+import ThemeProvider from "../providers/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Expense Manager",
@@ -43,14 +44,16 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
         />
         <link rel="manifest" href="/favicon_io/site.webmanifest" />
       </head>
-      <body className="w-full h-full flex mode-dark bg-dark-bg text-color-text p-2 justify-around sm:p-4 relative">
+      <body className="w-full h-full">
         <StoreProvider>
           <DataProvider>
-            <Sidebar />
-            <ToastContainer />
-            <CategoryCreationPage />
-            <ExpensePopup />
-            <Body>{children}</Body>
+            <ThemeProvider>
+              <ToastContainer />
+              <CategoryCreationPage />
+              <ExpensePopup />
+              <Sidebar />
+              <Body>{children}</Body>
+            </ThemeProvider>
           </DataProvider>
         </StoreProvider>
       </body>

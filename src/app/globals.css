@@ -4,17 +4,17 @@
 
 @layer base {
   :root {
-    --color-light-background-dark: #3337a6;
-    --color-light-background-light: #eef9ff;
+    --color-light-background: #F5F2F1;
+    --color-light-background-light: #FFFFFF;
 
-    --color-light-light-text: black;
+    --color-light-light-text: #888888;
     --color-dark-light-text: white;
 
-    --color-dark-background-dark: #000000;
+    --color-dark-background: #000000;
     --color-dark-background-light: #1B1B1B;
 
-    --color-light-dark-text: #888888;
-    --color-dark-dark-text: white;
+    --color-light-text: black;
+    --color-dark-text: white;
 
     --color-other-background: #59aac5;
     --color-other-text: white;
@@ -85,8 +85,8 @@
 
 .mode-light {
   --light-text-color: var(--color-light-light-text);
-  --dark-text-color: var(--color-light-dark-text);
-  --background-color: var(--color-light-background-dark);
+  --dark-text-color: var(--color-light-text);
+  --background-color: var(--color-light-background);
   --light-background-color: var(--color-light-background-light);
   --other-background-color: var(--color-other-background);
   --other-text-color: var(--color-other-text);
@@ -96,8 +96,8 @@
 
 .mode-dark {
   --light-text-color: var(--color-light-dark-text);
-  --dark-text-color: var(--color-dark-dark-text);
-  --background-color: var(--color-dark-background-dark);
+  --dark-text-color: var(--color-dark-text);
+  --background-color: var(--color-dark-background);
   --light-background-color: var(--color-dark-background-light);
   --other-background-color: var(--color-other-background);
   --other-text-color: var(--color-other-text);
