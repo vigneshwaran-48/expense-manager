@@ -5,10 +5,10 @@ import Preferences from './components/Preferences';
 
 const page = () => {
   return (
-    <div>
+    <div className="w-full h-full overflow-y-scroll hide-scrollbar">
       <Title title={"Settings"} />
-      <PersonalInfoForm />
-      <Preferences />
+        <PersonalInfoForm />
+        <Preferences />
     </div>
   )
 }
