@@ -100,3 +100,17 @@ export const getStatsRoutes = () => {
 
   return routes;
 }
+
+export const getSettingRoutes = () => {
+  const serverBase = getServerBase();
+
+  const routes: APIRoutes = {
+    get: `${serverBase}/api/settings`,
+    getOne: (id: string | number) => `${serverBase}/api/settings`,
+    create: `${serverBase}/api/settings`,
+    update: (id: string) => `${serverBase}/api/settings/${id}`,
+    delete: (id: string | number) => `${serverBase}/api/settings/${id}`,
+  };
+
+  return routes;
+}

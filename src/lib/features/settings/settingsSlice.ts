@@ -1,3 +1,4 @@
+import { Settings } from "@/util/AppTypes"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface PersonalForm {
@@ -9,7 +10,8 @@ interface PersonalForm {
 }
 
 interface State {
-  personalInfo: PersonalForm
+  personalInfo: PersonalForm,
+  preferences: Settings
 }
 
 const initialState: State = {
@@ -19,6 +21,10 @@ const initialState: State = {
     lastName: "U",
     image: "/images/person.jpg",
     age: 18
+  },
+  preferences: {
+    darkMode: false,
+    theme: "BLUE"
   }
 }
 
@@ -28,9 +34,12 @@ const settingsSlice = createSlice({
   reducers: {
     setPersonalInfo: (state, action: PayloadAction<PersonalForm>) => {
       state.personalInfo = action.payload;
+    },
+    setPreferences: (state, action: PayloadAction<Settings>) => {
+      state.preferences = action.payload;
     }
   }
 });
 
-export const { setPersonalInfo } = settingsSlice.actions;
+export const { setPersonalInfo, setPreferences } = settingsSlice.actions;
 export default settingsSlice.reducer;

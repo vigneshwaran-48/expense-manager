@@ -1,4 +1,12 @@
 
+export type Settings = {
+  id?: string,
+  theme: Theme
+  darkMode: boolean
+}
+
+export type Theme = "BLUE" | "RED" | "GREEN";
+
 export type FamilyRoleSettings = "INVITE_ACCEPT_ROLE" | "FAMILY_EXPENSE_ROLE" | "CATEGORY_ROLE" | "REMOVE_MEMBER_ROLE" | "UPDATE_FAMILY_ROLE";
 
 export type Stats = {

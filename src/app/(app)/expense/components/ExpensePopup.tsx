@@ -21,7 +21,7 @@ const ExpensePopup = () => {
   }
 
   return (
-    <div className={`fixed w-full h-full  z-30 justify-center items-center ${show ? "flex" : "hidden"}`}>
+    <div className={`fixed w-full h-full z-40 justify-center items-center ${show ? "flex" : "hidden"}`}>
       <div className="w-full h-full bg-black opacity-[0.7] absolute">
       </div>
       <div className="max-w-[600px] w-[95%] bg-light-bg absolute p-2 rounded">
