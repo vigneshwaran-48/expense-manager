@@ -97,6 +97,9 @@ const ExpenseForm = ({ isFamilyExpense, isEdit, expense }: { isFamilyExpense: bo
     || (!isFamilyExpense && category.type === "PERSONAL"))
     .map(category => ({ id: category.id as string, displayName: category.name, value: category.name }));
 
+  console.log(categories)
+  console.log(categoryOptions)
+
   categoryOptions.push({ id: NOT_SELECTED_CATEGORY_ID, displayName: "---", value: "not-selected" })
 
   return (

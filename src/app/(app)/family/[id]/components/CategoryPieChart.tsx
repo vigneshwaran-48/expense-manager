@@ -1,19 +1,18 @@
+"use client"
+
 import React from 'react'
 import CategoryChartContainer from './CategoryChartContainer'
-import { Category } from '@/util/AppTypes'
+import { useAppSelector } from '@/lib/hooks'
+import Image from 'next/image'
 
 const CategoryPieChart = ({ categoryAmount }: { categoryAmount: Record<string, number> }) => {
 
-  const categoryPromises: Promise<Category>[] = [];
-
-//  Object.keys(categoryAmount).forEach(id => {
-//    categoryPromises.push(getCate)
-//  })
+  const categories = useAppSelector(state => state.categorySlice.categories);
 
   const pieData = Object.entries(categoryAmount).map(([key, value]) => {
     return {
       id: key,
-      label: key,
+      label: categories.find(category => category.id === key)?.name,
       value
     }
   })
@@ -21,7 +20,20 @@ const CategoryPieChart = ({ categoryAmount }: { categoryAmount: Record<string, n
   return (
     <div className="m-2 w-full large-md:max-w-[calc(100%-540px)] h-[400px] flex-shrink-0">
       <h2 className="font-bold text-2xl p-2 text-center">Top Categories</h2>
-      <CategoryChartContainer data={pieData} />
+      {
+        pieData.length === 0 ?
+          <div className="flex flex-col font-bold justify-center items-center">
+            <Image
+              src="/images/empty.png"
+              alt="No categories illustration"
+              width={150}
+              height={150}
+              className="h-[150px] w-[150px] md:h-[250px] md:w-[250px]"
+            />
+          </div>
+          :
+          <CategoryChartContainer data={pieData} />
+      }
     </div>
   )
 }
