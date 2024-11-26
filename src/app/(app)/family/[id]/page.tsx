@@ -8,7 +8,6 @@ import TopUsers from './components/TopUsers';
 const page = async () => {
 
   const stats = await getFamilyStats();
-  console.log(stats);
 
   return (
     <div className="flex flex-wrap w-full h-full overflow-y-scroll hide-scrollbar">

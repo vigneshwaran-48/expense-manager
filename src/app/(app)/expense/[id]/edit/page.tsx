@@ -6,10 +6,11 @@ import { Expense } from '@/util/AppTypes';
 
 const page = async ({ params: { id } }: { params: { id: string } }) => {
   const expense: Expense = await getExpense(id);
+  console.log(expense.family)
   return (
     <div className="w-full h-full flex">
       <Title title="Edit Expense" />
-      <ExpenseFormContainer isFamily={expense.family !== undefined} isEdit expense={expense} />
+      <ExpenseFormContainer isFamily={expense.family !== undefined && expense.family !== null} isEdit expense={expense} />
     </div>
   )
 }
