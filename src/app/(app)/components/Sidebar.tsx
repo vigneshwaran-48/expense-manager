@@ -8,11 +8,17 @@ import HamburgerIcon from "@/app/components/icon/HamburgerIcon";
 import XIcon from "@/app/components/icon/XIcon";
 import LogoutIcon from "@/app/components/icon/LogoutIcon";
 import SecureImage from "@/app/components/SecureImage";
+import { logout } from "@/app/actions/user";
 
 const Sidebar = () => {
   const { name, image } = useAppSelector((state) => state.userSlice);
   const isSideNavOpen = useAppSelector((state) => state.appSlice.isSideNavOpen);
   const dispatch = useAppDispatch();
+
+  const handleLogout = async () => {
+    const response = await logout()
+    console.log(response)
+  }
 
   return (
     <div
@@ -40,7 +46,7 @@ const Sidebar = () => {
         </b>
       </div>
       <Navbar />
-      <button className="flex items-center justify-between w-full max-w-[100px] bg-red-600 text-white p-2 my-2 rounded">
+      <button onClick={handleLogout} className="flex items-center justify-between w-full max-w-[100px] bg-red-600 text-white p-2 my-2 rounded">
         <LogoutIcon />
         <p>Logout</p>
       </button>
