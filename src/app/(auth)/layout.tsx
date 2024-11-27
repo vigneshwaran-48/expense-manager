@@ -30,7 +30,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         />
         <link rel="manifest" href="/favicon_io/site.webmanifest" />
       </head>
-      <body className="w-full h-full mode-light bg-neutral-bg">{children}</body>
+      <body className="w-full h-full mode-dark bg-dark-bg">{children}</body>
     </html>
   );
 };

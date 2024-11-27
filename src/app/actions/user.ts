@@ -103,3 +103,19 @@ export const updateUser = async (id: string, user: User) => {
   revalidatePath("/");
   return data;
 }
+
+export const logout = async () => {
+  const routes = getUserRoutes()
+  const response = await sendRequest({
+    url: `${routes.get}/logout`,
+    method: "POST",
+    includeBody: false,
+    checkAuthentication: false,
+  });
+
+  const data = await response.json();
+  if (response.status === 401) {
+    redirect("/auth/signin");
+  }
+  return data;
+}

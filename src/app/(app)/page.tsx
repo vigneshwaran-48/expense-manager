@@ -7,12 +7,6 @@ import Title from "./components/Title";
 
 const page = async () => {
 
-  await new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve("")
-    }, 3000)
-  })
-
   const stats = await getPersonalStats();
 
   return (
