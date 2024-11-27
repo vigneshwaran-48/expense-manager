@@ -5,7 +5,7 @@ import { RadioButtonModel } from "@/app/(app)/components/form/RadioButton";
 import RadioGroup from "@/app/(app)/components/form/RadioGroup";
 import TextAreaInput from "@/app/(app)/components/form/TextAreaInput";
 import TextInput from "@/app/(app)/components/form/TextInput";
-import { createFamily, updateFamily } from "@/app/actions/family";
+import { createFamily, getFamilySettings, getMemberOfFamily, updateFamily } from "@/app/actions/family";
 import { uploadImage } from "@/app/actions/static";
 import { setFamilyDetails } from "@/lib/features/family/familySlice";
 import { addToast, ToastType } from "@/lib/features/toast/toastSlice";
@@ -15,6 +15,7 @@ import { getUniqueId } from "@/util/getUniqueId";
 import { getStaticResourceRoutes } from "@/util/ResourceServer";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { setFamily as setFamilySlice } from "@/lib/features/family/familySlice"
 
 interface ErrorField {
   field: string;
@@ -30,6 +31,8 @@ const FamilyForm = ({ isEdit = false }) => {
     visibility: "PUBLIC",
     joinType: "ANYONE",
   });
+
+  const userId = useAppSelector(state => state.userSlice.id)
 
   const [submitting, setSubmitting] = useState<boolean>(false);
 
@@ -142,6 +145,18 @@ const FamilyForm = ({ isEdit = false }) => {
   const handleCreateFamily = async () => {
     const response = await createFamily(family);
     handleResponse(response);
+    const [familyMember, familySettings] = await Promise.all([
+      getMemberOfFamily(response.family.id, userId),
+      getFamilySettings(response.family.id)]
+    );
+    dispatch(
+      setFamilySlice({
+        family: familyMember.family,
+        role: familyMember.role,
+        loaded: true,
+        settings: familySettings
+      })
+    );
     redirect("/family");
   }
 

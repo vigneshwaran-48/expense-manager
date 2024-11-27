@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { Expense } from '@/util/AppTypes'
 import React, { useEffect, useRef, useState } from 'react'
 import ExpenseRow from './ExpenseRow';
+import Loader from '@/app/components/loader/Loader';
+import Image from 'next/image';
 
 export type ExpenseColumn = {
   name: string,
@@ -95,37 +97,51 @@ const ExpenseContainer = ({ data }: { data: Expense[] }) => {
 
   return (
     <div className="w-full h-full overflow-y-scroll hide-scrollbar">
-      <table className="border-collapse w-full text-light-color-text">
-        <thead className="sticky top-0 bg-dark-bg">
-          <tr className="text-left">
-            <th className="py-2">Name</th>
-            <th className="py-2 hidden sm:table-cell">Amount</th>
-            <th className="py-2 hidden sm:table-cell">Date</th>
-            <th className="py-2 hidden md:table-cell">Category</th>
-            <th className="py-2 hidden md:table-cell">Owner</th>
-            <th className="py-2 relative md:hidden min-w-[35px]" ref={expenseColumnRef}>
-              <div
-                className="w-full flex items-center justify-between cursor-pointer max-w-[150px]"
-                onClick={() => setOpenExpenseColumnDropdown(prevValue => !prevValue)}>
-                <p>{expenseColumns.find(expense => expense.selected === true)?.name}</p>
-                <AngleDown />
-              </div>
-              <ul className={`max-w-[150px] w-fit sm:w-full max-sm:right-0 transition origin-top bg-light-bg duration-500 absolute top-[107%] ${openExpenseColumnDropdown ? "" : "scale-y-0"}`}>
-                {expenseColumns.filter(column => column.selected === false)
-                  .map(column => <li
-                    className="p-2 hover:bg-dark-bg hover:text-color-text cursor-pointer"
-                    key={column.name}
-                    onClick={() => onExpenseColumnSelect(column.name)}
-                  >{column.name}</li>)}
-              </ul>
-            </th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {expenseElems}
-        </tbody>
-      </table>
+      {
+        expenseElems && expenseElems.length > 0 ?
+          <table className="border-collapse w-full text-light-color-text">
+            <thead className="sticky top-0 bg-dark-bg">
+              <tr className="text-left">
+                <th className="py-2">Name</th>
+                <th className="py-2 hidden sm:table-cell">Amount</th>
+                <th className="py-2 hidden sm:table-cell">Date</th>
+                <th className="py-2 hidden md:table-cell">Category</th>
+                <th className="py-2 hidden md:table-cell">Owner</th>
+                <th className="py-2 relative md:hidden min-w-[35px]" ref={expenseColumnRef}>
+                  <div
+                    className="w-full flex items-center justify-between cursor-pointer max-w-[150px]"
+                    onClick={() => setOpenExpenseColumnDropdown(prevValue => !prevValue)}>
+                    <p>{expenseColumns.find(expense => expense.selected === true)?.name}</p>
+                    <AngleDown />
+                  </div>
+                  <ul className={`max-w-[150px] w-fit sm:w-full max-sm:right-0 transition origin-top bg-light-bg duration-500 absolute top-[107%] ${openExpenseColumnDropdown ? "" : "scale-y-0"}`}>
+                    {expenseColumns.filter(column => column.selected === false)
+                      .map(column => <li
+                        className="p-2 hover:bg-dark-bg hover:text-color-text cursor-pointer"
+                        key={column.name}
+                        onClick={() => onExpenseColumnSelect(column.name)}
+                      >{column.name}</li>)}
+                  </ul>
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {expenseElems}
+            </tbody>
+          </table>
+          :
+          <div className="w-full h-full flex flex-col font-bold justify-center items-center">
+            <Image
+              src="/images/empty.png"
+              alt="No categories illustration"
+              width={150}
+              height={150}
+              className="h-[150px] w-[150px] md:h-[250px] md:w-[250px]"
+            />
+            <h3 className="font-bold">No expenses!</h3>
+          </div>
+      }
     </div>
   )
 }

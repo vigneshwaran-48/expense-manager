@@ -19,7 +19,8 @@ const ExpenseRow = ({ expense, expenseColumns }: { expense: Expense, expenseColu
   const familySettings = useAppSelector(state => state.familySlice.settings);
   const userRole = useAppSelector(state => state.familySlice.role);
 
-  const onDeleteExpense = async () => {
+  const onDeleteExpense = async (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    e.stopPropagation();
     setDeleting(true);
     const response = await deleteExpense(expense.id as string, expense.family?.id || null);
 
