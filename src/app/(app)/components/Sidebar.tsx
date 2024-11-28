@@ -9,6 +9,7 @@ import XIcon from "@/app/components/icon/XIcon";
 import LogoutIcon from "@/app/components/icon/LogoutIcon";
 import SecureImage from "@/app/components/SecureImage";
 import { logout } from "@/app/actions/user";
+import { signOut } from "next-auth/react";
 
 const Sidebar = () => {
   const { name, image } = useAppSelector((state) => state.userSlice);
@@ -18,6 +19,7 @@ const Sidebar = () => {
   const handleLogout = async () => {
     const response = await logout()
     console.log(response)
+    signOut()
   }
 
   return (
